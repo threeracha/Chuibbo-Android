@@ -9,19 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fab_Bottom_app_bar">
-
-        <activity android:name=".main.MainActivity">
+        <activity android:name=".camera.CameraActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".camera.ConfirmActivity" />
     </application>
 
-    <!-- 카메라 권한 설정 -->
+<!--    카메라 관련 권한 설정-->
     <uses-permission android:name="android.permission.CAMERA" />
-    <!-- 저장 권한 설정 (이미지나 동영상을 기기의 외부 장치에 저장할경우) -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 카메라기능이 무조건적으로 필요하지 않을 경우 -->
+    <uses-feature android:name="android.hardware.camera.any" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 </manifest>
