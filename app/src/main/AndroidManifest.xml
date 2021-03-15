@@ -8,15 +8,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Chuibboandroid" />
+        android:theme="@style/Theme.Fab_Bottom_app_bar">
 
-<!--     카메라 권한 설정-->
+        <activity android:name=".main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+    <!-- 카메라 권한 설정 -->
     <uses-permission android:name="android.permission.CAMERA" />
-
-<!--    저장 권한 설정 (이미지나 동영상을 기기의 외부 장치에 저장할경우)-->
+    <!-- 저장 권한 설정 (이미지나 동영상을 기기의 외부 장치에 저장할경우) -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-<!--    카메라기능이 무조건적으로 필요하지 않을 경우-->
+    <!-- 카메라기능이 무조건적으로 필요하지 않을 경우 -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
-
-    </manifest>
+</manifest>
