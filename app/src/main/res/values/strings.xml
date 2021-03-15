@@ -3,4 +3,8 @@
     <string name="home_text">HOME</string>
     <string name="camera_text">CAMERA</string>
     <string name="mypage_text">MYPAGE</string>
+    <string name="login_text">Login</string>
+    <string name="email_text_korean">이메일</string>
+    <string name="password_text_korean">비밀번호</string>
+    <string name="login_text_korean">로그인</string>
 </resources>
