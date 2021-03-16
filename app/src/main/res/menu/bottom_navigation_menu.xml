@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home_item"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/ic_home"
         android:checked="true"
         android:enabled="true"
         android:title="@string/home_text" />
@@ -12,7 +12,7 @@
         android:title="@string/home_text" />
     <item
         android:id="@+id/mypage_item"
-        android:icon="@drawable/ic_baseline_person_24"
+        android:icon="@drawable/ic_mypage"
         android:enabled="true"
         android:title="@string/home_text" />
 </menu>
