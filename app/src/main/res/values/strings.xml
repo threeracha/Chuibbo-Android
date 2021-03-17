@@ -3,4 +3,13 @@
     <string name="home_text">HOME</string>
     <string name="camera_text">CAMERA</string>
     <string name="mypage_text">MYPAGE</string>
+    <string name="login_text">Login</string>
+    <string name="email_text_korean">이메일</string>
+    <string name="password_text_korean">비밀번호</string>
+    <string name="login_text_korean">로그인</string>
+    <string name="nickname_text_korean">닉네임</string>
+    <string name="password_check_text_korean">비밀번호 재확인</string>
+    <string name="create_account_text_korean">계정생성하기</string>
+    <string name="login_failure_text_korean">로그인에 실패하였습니다.</string>
+    <string name="OK">확인</string>
 </resources>
