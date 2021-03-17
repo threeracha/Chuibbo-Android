@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
@@ -26,6 +27,24 @@ import java.util.*
 class CameraFragment : Fragment() {
     private lateinit var currentPhotoPath: String
 
+    private val requestCameraActivity = registerForActivityResult(
+        StartActivityForResult()
+    ) { activityResult ->
+        setFragmentResult("requestKey", bundleOf("bundleKey" to currentPhotoPath))
+        val transaction = activity?.supportFragmentManager!!.beginTransaction()
+        transaction.replace(R.id.frameLayout, ConfirmFragment())
+        transaction.commit()
+    }
+
+    private val requestGalleryActivity = registerForActivityResult(
+        StartActivityForResult()
+    ) { activityResult ->
+        setFragmentResult("requestKey", bundleOf("bundleKeyUri" to activityResult.data!!.data))
+        val transaction = activity?.supportFragmentManager!!.beginTransaction()
+        transaction.replace(R.id.frameLayout, ConfirmFragment())
+        transaction.commit()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,8 +54,8 @@ class CameraFragment : Fragment() {
         return inflater.inflate(R.layout.camera_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         gallery_capture_button.setOnClickListener { galleryAddPic() }
         camera_capture_button.setOnClickListener { dispatchTakePictureIntent() }
     }
@@ -58,7 +77,7 @@ class CameraFragment : Fragment() {
                         photoURI = FileProvider.getUriForFile(it, "com.example.chuibbo_android.camera", photoFile)
                     }
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_CAMERA)
+                    requestCameraActivity.launch(takePictureIntent)
                 }
             }
         }
@@ -79,23 +98,8 @@ class CameraFragment : Fragment() {
                     photoURI = FileProvider.getUriForFile(it, "com.example.chuibbo_android.camera", photoFile)
                 }
                 mediaScanIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-                startActivityForResult(mediaScanIntent, CHOOSE_IMAGE)
+                requestGalleryActivity.launch(mediaScanIntent)
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CAMERA && resultCode == AppCompatActivity.RESULT_OK) {
-            setFragmentResult("requestKey", bundleOf("bundleKey" to currentPhotoPath))
-            val transaction = activity?.supportFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.frameLayout, ConfirmFragment())
-            transaction.commit()
-        }
-        else if(requestCode == CHOOSE_IMAGE && resultCode == AppCompatActivity.RESULT_OK) {
-            setFragmentResult("requestKey", bundleOf("bundleKeyUri" to data!!.data))
-            val transaction = activity?.supportFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.frameLayout, ConfirmFragment())
-            transaction.commit()
         }
     }
 
@@ -113,14 +117,5 @@ class CameraFragment : Fragment() {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.absolutePath
         return image
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    companion object {
-        private const val REQUEST_CAMERA = 100
-        private const val CHOOSE_IMAGE = 1001
     }
 }
