@@ -1,6 +1,7 @@
 package com.example.chuibbo_android.login
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
