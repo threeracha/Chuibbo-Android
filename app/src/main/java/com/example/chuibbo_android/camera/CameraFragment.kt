@@ -1,7 +1,6 @@
 package com.example.chuibbo_android.camera
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -10,13 +9,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.appcompat.app.AppCompatActivity
-import android.R.id
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.setFragmentResult
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.camera_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
@@ -34,6 +32,7 @@ class CameraFragment : Fragment() {
         setFragmentResult("requestKey", bundleOf("bundleKey" to currentPhotoPath))
         val transaction = activity?.supportFragmentManager!!.beginTransaction()
         transaction.replace(R.id.frameLayout, ConfirmFragment())
+        clearBackStack()
         transaction.commit()
     }
 
@@ -43,7 +42,15 @@ class CameraFragment : Fragment() {
         setFragmentResult("requestKey", bundleOf("bundleKeyUri" to activityResult.data!!.data))
         val transaction = activity?.supportFragmentManager!!.beginTransaction()
         transaction.replace(R.id.frameLayout, ConfirmFragment())
+        clearBackStack()
         transaction.commit()
+    }
+
+    private fun clearBackStack() {
+        val fragmentManager: FragmentManager = activity?.supportFragmentManager!!
+        while (fragmentManager.backStackEntryCount !== 0) {
+            fragmentManager.popBackStackImmediate()
+        }
     }
 
     override fun onCreateView(
