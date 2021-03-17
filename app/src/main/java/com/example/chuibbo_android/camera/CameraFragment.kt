@@ -78,7 +78,6 @@ class CameraFragment : Fragment() {
                 activity?.also {
                     photoURI = FileProvider.getUriForFile(it, "com.example.chuibbo_android.camera", photoFile)
                 }
-                //mediaScanIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                 mediaScanIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
                 startActivityForResult(mediaScanIntent, CHOOSE_IMAGE)
             }
