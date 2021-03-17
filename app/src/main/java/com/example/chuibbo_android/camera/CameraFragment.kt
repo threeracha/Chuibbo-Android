@@ -13,12 +13,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import android.R.id
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.*
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.camera_fragment.*
-import kotlinx.android.synthetic.main.confirm_fragment.*
+import kotlinx.android.synthetic.main.main_activity.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -56,6 +57,7 @@ class CameraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.toolbar!!.setTitle("옵션 선택")
         gallery_capture_button.setOnClickListener { galleryAddPic() }
         camera_capture_button.setOnClickListener { dispatchTakePictureIntent() }
     }

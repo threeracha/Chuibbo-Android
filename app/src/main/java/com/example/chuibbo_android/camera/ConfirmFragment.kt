@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.confirm_fragment.*
+import kotlinx.android.synthetic.main.main_activity.*
 
 class ConfirmFragment : Fragment() {
     override fun onCreateView(
@@ -36,7 +37,12 @@ class ConfirmFragment : Fragment() {
         return inflater.inflate(R.layout.confirm_fragment, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.toolbar!!.setTitle("사진 선택")
+    }
 
+    // TODO: 이미지 resize 할 size 정하기 & 함수 적용
     // ImageView에 사진을 넣는 메소드
     private fun setPic(photoPath : String){
         var img : ImageView = img_preview

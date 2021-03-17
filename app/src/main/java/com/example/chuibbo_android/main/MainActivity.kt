@@ -22,6 +22,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         bottomNavigationView.selectedItemId = R.id.home_item
 
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_previous)
+
         // TODO: 카메라 탭 클릭 시, 카메라 탭 활성화 및 다른 탭 비활성화
         camera_fab.setOnClickListener(object: View.OnClickListener {
             override fun onClick(v: View?) {
