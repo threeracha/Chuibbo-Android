@@ -36,6 +36,7 @@ class ConfirmFragment : Fragment() {
         return inflater.inflate(R.layout.confirm_fragment, container, false)
     }
 
+
     // ImageView에 사진을 넣는 메소드
     private fun setPic(photoPath : String){
         var img : ImageView = img_preview
