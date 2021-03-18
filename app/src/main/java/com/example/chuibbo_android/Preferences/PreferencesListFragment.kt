@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.preference.PreferenceFragment
 import com.example.chuibbo_android.R
 
-class PreferncesListFragment: PreferenceFragment() {
+class PreferencesListFragment: PreferenceFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
