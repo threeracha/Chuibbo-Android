@@ -1,14 +1,14 @@
-package com.example.chuibbo_android.settings
+package com.example.chuibbo_android.Preferences
 
 import android.os.Bundle
 import android.preference.PreferenceFragment
 import com.example.chuibbo_android.R
 
-class SettingsListFragment: PreferenceFragment() {
+class PreferncesListFragment: PreferenceFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        addPreferencesFromResource(R.xml.settings_list)
+        addPreferencesFromResource(R.xml.preferences_list)
     }
 }

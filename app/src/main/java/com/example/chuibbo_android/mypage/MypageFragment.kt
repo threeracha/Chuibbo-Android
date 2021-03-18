@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.login.LoginFragment
-import com.example.chuibbo_android.settings.SettingsFragment
+import com.example.chuibbo_android.Preferences.PreferencesFragment
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
 
 class MypageFragment : Fragment() {
@@ -27,7 +27,7 @@ class MypageFragment : Fragment() {
 
         view.settings_button.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, SettingsFragment())
+                replace(R.id.frameLayout, PreferencesFragment())
                 addToBackStack(null)
             }?.commit()
         }
