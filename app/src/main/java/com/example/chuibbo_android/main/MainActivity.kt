@@ -3,16 +3,11 @@ package com.example.chuibbo_android.main
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.camera.CameraFragment
 import com.example.chuibbo_android.home.HomeFragment
-import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.mypage.MypageFragment
-import com.example.chuibbo_android.signup.SignupFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 
@@ -56,7 +51,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.mypage_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, LoginFragment()) // 원래는 MypageFragment()
+                transaction.replace(R.id.frameLayout, MypageFragment())
                 transaction.addToBackStack(null)
                 transaction.commit()
                 return true
