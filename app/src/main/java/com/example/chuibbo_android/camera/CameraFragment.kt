@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.guideline.FirstFragment
 import kotlinx.android.synthetic.main.camera_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import java.io.File
@@ -66,7 +67,12 @@ class CameraFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.toolbar!!.setTitle("옵션 선택")
         gallery_capture_button.setOnClickListener { galleryAddPic() }
-        camera_capture_button.setOnClickListener { dispatchTakePictureIntent() }
+        camera_capture_button.setOnClickListener {
+            val transaction = activity?.supportFragmentManager!!.beginTransaction()
+            transaction.replace(R.id.frameLayout, FirstFragment())
+            transaction.commit()
+        }
+        //camera_capture_button.setOnClickListener { dispatchTakePictureIntent() }
     }
 
     private fun dispatchTakePictureIntent() {
