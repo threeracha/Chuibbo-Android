@@ -19,8 +19,8 @@
         android:layout_height="10dp"
         android:layout_marginBottom="85dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:ci_drawable="@color/main_blue"
-        app:ci_drawable_unselected="@color/white_200"
+        app:ci_drawable="@drawable/guideline_indicator"
+        app:ci_drawable_unselected="@drawable/guideline_indicator_unselected"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:flow_horizontalAlign="center">
