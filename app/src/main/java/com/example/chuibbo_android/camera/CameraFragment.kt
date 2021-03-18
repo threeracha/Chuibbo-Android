@@ -1,5 +1,6 @@
 package com.example.chuibbo_android.camera
 
+import ScreenSlidePagerActivity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -66,7 +67,14 @@ class CameraFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.toolbar!!.setTitle("옵션 선택")
         gallery_capture_button.setOnClickListener { galleryAddPic() }
-        camera_capture_button.setOnClickListener { dispatchTakePictureIntent() }
+        //camera_capture_button.setOnClickListener {}
+        camera_capture_button.setOnClickListener {
+            val transaction = activity?.supportFragmentManager!!.beginTransaction()
+            transaction.replace(R.id.frameLayout, ScreenSlidePagerActivity())
+            transaction.addToBackStack(null)
+            transaction.commit()
+            //dispatchTakePictureIntent()
+        }
     }
 
     private fun dispatchTakePictureIntent() {
