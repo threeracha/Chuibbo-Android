@@ -1,8 +1,16 @@
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.RelativeLayout
+import android.widget.RelativeLayout.BELOW
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.guideline_fragment_contents.*
@@ -20,7 +28,7 @@ class GuidelineContentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
             when(it.getInt(ARGS_PAGER_POSITION)) {
-                0 -> {
+                0 ->{
                     img_guide1.setImageResource(R.drawable.guideline_first)
                     tv_title.text = "1. 선택한 헤어와 유사하게 연출해 주세요."
                     tv_subtitle.text="올림머리를 선택하셨다면 머리를 묶어주세요"
@@ -39,6 +47,18 @@ class GuidelineContentsFragment : Fragment() {
                     img_guide1.setImageResource(R.drawable.guideline_forth)
                     tv_title.text="4. 목을 드러낼 수 있는 옷을 입고 찍어주세요."
                     tv_subtitle.text="후드티나 목 위로 올라오는 옷은 피해주세요"
+
+                    var btn : Button = Button(activity)
+                    btn.setBackgroundResource(R.drawable.button_shape)
+                    btn.setText("생성")
+                    btn.setTextColor(Color.WHITE)
+                    var params : RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    )
+                    params.addRule(RelativeLayout.CENTER_HORIZONTAL)
+                    btn.layoutParams = params
+                    cardview.addView(btn)
                 }
             }
         }
