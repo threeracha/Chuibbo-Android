@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     android:elevation="0dp">
 
+    <TextView
+        android:id="@+id/tv_choose_face_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="얼굴형 선택" />
+
+    <TextView
+        android:id="@+id/tv_choose_hairstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="헤어스타일 선택" />
+
+    <TextView
+        android:id="@+id/tv_choose_suit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="정장 선택" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
@@ -19,7 +37,6 @@
         app:tabPaddingTop="15dp">
 
     </com.google.android.material.tabs.TabLayout>
-
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

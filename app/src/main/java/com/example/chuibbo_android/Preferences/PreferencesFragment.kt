@@ -8,10 +8,9 @@ import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 
 class PreferencesFragment: Fragment() {
-
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.preferences_fragment, container, false)
     }

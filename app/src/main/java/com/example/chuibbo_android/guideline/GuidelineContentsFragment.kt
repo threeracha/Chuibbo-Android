@@ -1,21 +1,24 @@
-import android.content.Intent
+import android.app.ActionBar
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.RelativeLayout
-import android.widget.RelativeLayout.BELOW
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
-import androidx.core.content.ContextCompat
+import android.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.camera.CameraFragment
+import com.example.chuibbo_android.camera.ConfirmFragment
 import kotlinx.android.synthetic.main.guideline_fragment_contents.*
+import kotlinx.android.synthetic.main.main_activity.*
+
 
 class GuidelineContentsFragment : Fragment() {
+    private lateinit var btn : Button
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -26,6 +29,7 @@ class GuidelineContentsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         arguments?.let {
             when(it.getInt(ARGS_PAGER_POSITION)) {
                 0 ->{
@@ -48,17 +52,33 @@ class GuidelineContentsFragment : Fragment() {
                     tv_title.text="4. 목을 드러낼 수 있는 옷을 입고 찍어주세요."
                     tv_subtitle.text="후드티나 목 위로 올라오는 옷은 피해주세요"
 
-                    var btn : Button = Button(activity)
-                    btn.setBackgroundResource(R.drawable.button_shape)
-                    btn.setText("생성")
-                    btn.setTextColor(Color.WHITE)
-                    var params : RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.WRAP_CONTENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    )
-                    params.addRule(RelativeLayout.CENTER_HORIZONTAL)
-                    btn.layoutParams = params
-                    cardview.addView(btn)
+                    // this is for next button on the last page
+                    btn = Button(context)
+                    btn.setText("next >")
+                    val l3 =
+                        androidx.appcompat.widget.Toolbar.LayoutParams(
+                            Toolbar.LayoutParams.WRAP_CONTENT,
+                            Toolbar.LayoutParams.WRAP_CONTENT
+                        )
+                    btn.setBackgroundColor(Color.WHITE)
+                    btn.setTextColor(resources.getColor(R.color.main_blue))
+                    btn.layoutParams = l3
+                    btn.setBackground(null)
+                    btn.isAllCaps = false
+                    btn.textSize = 20.0f
+                    btn.setOnClickListener {
+                        val transaction = activity?.supportFragmentManager!!.beginTransaction()
+                        transaction.replace(R.id.frameLayout, CameraFragment())
+                        transaction.commit()
+                    }
+                    activity?.toolbar!!.addView(btn)
+                    // This is how to set layout_gravity properties to Button
+                    // must be put this code after put button view on the activity
+                    (btn.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams)?.apply {
+                        this.gravity = Gravity.RIGHT
+                    }
+                }
+                else -> {
                 }
             }
         }
