@@ -1,70 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:elevation="0dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_choose_face_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="얼굴형 선택" />
-
-    <TextView
-        android:id="@+id/tv_choose_hairstyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="헤어스타일 선택" />
-
-    <TextView
-        android:id="@+id/tv_choose_suit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="정장 선택" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/dark_gray"
-        android:paddingBottom="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabMode="fixed"
-        app:tabPaddingTop="15dp">
+        android:layout_height="match_parent"
+        android:elevation="0dp">
 
-    </com.google.android.material.tabs.TabLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabMode="fixed"></com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/optionViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
-    <Button
-        android:id="@+id/camera_capture_button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:elevation="2dp"
-        android:scaleType="fitCenter"
-        android:text="Take Photo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        <Button
+            android:id="@+id/gallery_capture_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="15dp"
+            android:text="Fetch From Gallery"
+            app:layout_constraintTop_toBottomOf="@id/optionViewPager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
-    <Button
-        android:id="@+id/gallery_capture_button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:elevation="2dp"
-        android:scaleType="fitCenter"
-        android:text="Fetch From Gallery"
-        app:layout_constraintBottom_toTopOf="@id/camera_capture_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        <Button
+            android:id="@+id/camera_capture_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            android:text="Take Photo"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/gallery_capture_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
