@@ -60,6 +60,7 @@
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_camera"
         android:tintMode="@color/white"
+        app:backgroundTint="@color/main_blue"
         app:layout_anchor="@id/bottomAppBar"
         app:maxImageSize="37dp" />
 
