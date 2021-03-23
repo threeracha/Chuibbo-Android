@@ -3,6 +3,7 @@
     <style name="Theme.Fab_Bottom_app_bar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/main_blue</item>
+        <item name="colorSecondary">@color/white</item>
         <item name="colorPrimaryVariant">@color/main_blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Status bar color. -->
@@ -11,5 +12,13 @@
         <item name="colorControlActivated">@color/main_blue</item>
         <item name="android:textColorHighlight">@color/main_blue_transparent</item>
         <item name="android:textCursorDrawable">@drawable/input_text_cursor</item>
+    </style>
+    <style name="Widget.AppCompat.Button.myButton" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="background">@color/main_blue</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="strokeWidth">@dimen/btn_stroke_width</item>
     </style>
 </resources>
