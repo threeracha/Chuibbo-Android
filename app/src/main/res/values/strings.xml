@@ -14,4 +14,11 @@
     <string name="OK">확인</string>
     <string name="email_error_text_korean">올바른 이메일 형식으로 입력해주세요.</string>
     <string name="password_error_text_korean">비밀번호가 일치하지 않습니다.</string>
+    <string name="complete_user_info_modeification">정보 수정 완료</string>
+    <string name="withdrawal">회원탈퇴</string>
+    <string name="inquiry">문의하기</string>
+    <string name="submission_text_korean">제출하기</string>
+    <string name="continue_text_korean">계속</string>
+    <string name="forgot_password">비밀번호를 잊으셨나요?</string>
+    <string name="faq_text_korean">자주 묻는 질문</string>
 </resources>

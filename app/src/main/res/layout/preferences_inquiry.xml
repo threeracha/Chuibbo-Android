@@ -2,38 +2,44 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name=".mypage.MypageFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:id="@+id/mypage_text"
+        android:id="@+id/inquiry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/mypage_text"
+        android:text="@string/inquiry"
+        android:layout_marginLeft="53dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="100sp" />
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/inquiry_contents"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scrollbars="vertical"
+        android:scrollbarFadeDuration="0"
+        android:text=""
+        android:background="@color/gray"
+        android:layout_marginLeft="53dp"
+        android:layout_marginRight="53dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintStart_toStartOf="@id/inquiry"
+        app:layout_constraintTop_toBottomOf="@+id/inquiry"
+        tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/inquiry_button"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:background="@drawable/main_button"
-        android:text="@string/login_text_korean"
+        android:text="@string/submission_text_korean"
         android:layout_marginLeft="67dp"
         android:layout_marginRight="67dp"
-        app:layout_constraintTop_toBottomOf="@+id/mypage_text"
-        tools:ignore="MissingConstraints" />
-    <Button
-        android:id="@+id/settings_button"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@drawable/main_button"
-        android:text="환경설정 버튼"
-        android:layout_marginLeft="67dp"
-        android:layout_marginRight="67dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
+        android:layout_marginTop="59dp"
+        app:layout_constraintTop_toBottomOf="@+id/inquiry_contents"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

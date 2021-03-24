@@ -7,7 +7,6 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.signup_fragment.*
@@ -33,7 +32,7 @@ class SignupFragment : Fragment() {
                     email_edit_text.setBackgroundResource(R.drawable.input_text_red) // 적색 테두리 적용
                     email_text_error.visibility = View.VISIBLE
                 } else {
-                    email_edit_text.setBackgroundResource(R.drawable.input_text) // 기본 테두리 적용
+                    email_edit_text.setBackgroundResource(R.drawable.main_button) // 기본 테두리 적용
                     email_text_error.visibility = View.INVISIBLE
                 }
             }
@@ -46,7 +45,7 @@ class SignupFragment : Fragment() {
                     password_check_edit_text.setBackgroundResource(R.drawable.input_text_red) // 적색 테두리 적용
                     password_check_text_error.visibility = View.VISIBLE
                 } else {
-                    password_check_edit_text.setBackgroundResource(R.drawable.input_text) // 기본 테두리 적용
+                    password_check_edit_text.setBackgroundResource(R.drawable.main_button) // 기본 테두리 적용
                     password_check_text_error.visibility = View.INVISIBLE
                 }
             }
