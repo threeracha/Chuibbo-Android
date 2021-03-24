@@ -21,4 +21,5 @@
     <string name="continue_text_korean">계속</string>
     <string name="forgot_password">비밀번호를 잊으셨나요?</string>
     <string name="faq_text_korean">자주 묻는 질문</string>
+    <string name="certification_text_korean">인증</string>
 </resources>

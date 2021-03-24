@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.preferences.MySettingsActivity
-import com.example.chuibbo_android.preferences.PreferencesFragment
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
 
 class MypageFragment : Fragment() {

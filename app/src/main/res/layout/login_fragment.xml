@@ -3,17 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="67dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/login_text"
+    <ImageView
+        android:id="@+id/login_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/login_text"
-        android:textColor="@color/black"
-        android:textSize="30sp"
+        android:layout_height="115dp"
+        android:src="@drawable/female_short_hair"
         android:layout_marginTop="40dp"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
@@ -25,10 +23,8 @@
         android:text="@string/email_text_korean"
         android:textSize="15sp"
         android:textColor="@color/black"
-        android:layout_marginLeft="67dp"
-        android:layout_marginRight="67dp"
-        android:layout_marginTop="110dp"
-        app:layout_constraintTop_toBottomOf="@+id/login_text"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/login_image"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -36,8 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:inputType="textEmailAddress"
-        android:layout_marginLeft="67dp"
-        android:layout_marginRight="67dp"
         android:paddingLeft="15dp"
         app:layout_constraintTop_toBottomOf="@+id/email_text"
         app:layout_constraintStart_toStartOf="@id/email_text"
@@ -50,8 +44,6 @@
         android:text="@string/password_text_korean"
         android:textSize="15sp"
         android:textColor="@color/black"
-        android:layout_marginLeft="67dp"
-        android:layout_marginRight="67dp"
         android:layout_marginTop="25dp"
         app:layout_constraintTop_toBottomOf="@+id/email_edit_text"
         app:layout_constraintStart_toStartOf="@id/email_text"
@@ -62,8 +54,6 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:inputType="textPassword"
-        android:layout_marginLeft="67dp"
-        android:layout_marginRight="67dp"
         android:paddingLeft="15dp"
         app:layout_constraintTop_toBottomOf="@+id/password_text"
         app:layout_constraintStart_toStartOf="@id/email_text"
@@ -73,40 +63,10 @@
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@drawable/main_button"
+        android:background="@drawable/button_shape"
         android:text="@string/login_text_korean"
-        android:layout_marginLeft="67dp"
-        android:layout_marginRight="67dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/password_edit_text"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/question_account_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="계정이 없으신가요?"
-        android:textSize="9sp"
-        android:textColor="@color/black"
-        android:layout_marginLeft="100dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/make_account_text"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/make_account_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="계정만들기"
-        android:textSize="9sp"
-        android:layout_marginRight="100dp"
-        android:textColor="@color/main_blue"
-        app:layout_constraintLeft_toRightOf="@id/question_account_text"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -118,8 +78,38 @@
         android:text="비밀번호를 잊으셨나요?"
         android:textSize="9sp"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/question_account_text"
+        app:layout_constraintTop_toBottomOf="@+id/login_button"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/question_account_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="계정이 없으신가요?"
+        android:textSize="9sp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/make_account_text"
+        app:layout_constraintTop_toBottomOf="@+id/question_password_text"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/make_account_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="계정만들기"
+        android:textSize="9sp"
+        android:layout_marginRight="40dp"
+        android:textColor="@color/main_blue"
+        app:layout_constraintLeft_toRightOf="@id/question_account_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question_password_text"
+        tools:ignore="MissingConstraints" />
+
+
 
     <ImageView
         android:id="@+id/kakaotalk_sosial_login_image"
@@ -128,7 +118,7 @@
         android:src="@drawable/social_login_kakaotalk"
         android:layout_marginRight="40dp"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/question_password_text"
+        app:layout_constraintTop_toBottomOf="@+id/question_account_text"
         app:layout_constraintEnd_toStartOf="@id/naver_social_login_image"
         tools:ignore="ContentDescription, MissingConstraints" />
 
@@ -138,7 +128,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/social_login_naver"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/question_password_text"
+        app:layout_constraintTop_toBottomOf="@+id/question_account_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:ignore="ContentDescription, MissingConstraints" />
@@ -150,7 +140,7 @@
         android:src="@drawable/social_login_google"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/question_password_text"
+        app:layout_constraintTop_toBottomOf="@+id/question_account_text"
         app:layout_constraintStart_toEndOf="@id/naver_social_login_image"
         tools:ignore="ContentDescription, MissingConstraints" />
 
