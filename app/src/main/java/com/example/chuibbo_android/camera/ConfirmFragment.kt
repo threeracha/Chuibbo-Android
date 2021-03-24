@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
@@ -20,6 +21,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.chuibbo_android.R
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.confirm_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import java.io.File
@@ -71,13 +74,13 @@ class ConfirmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.toolbar!!.setTitle("사진 선택")
-        // TODO: 2021/03/24 여기서 뒤로가기 버튼 누르면 앱이 종료됨
+        // FIXME: 2021/03/25 여기서 뒤로가기 버튼 누르면 앱이 종료됨
 
         btn_cancel.setOnClickListener {
             galleryAddPic()
         }
         btn_confirm.setOnClickListener {
-            // TODO: 2021/03/24 이미지 서버로 보내고 로딩 페이지 띄우기 서버로부터 이미지 받으면
+            // TODO: 2021/03/24 이미지 서버로 보내고 로딩 페이지 띄우기. 서버로부터 이미지 받으면 SysthesisConfirmFragment 띄우기
             var intent = Intent(activity, LoadingActivity::class.java)
             startActivity(intent)
         }
@@ -118,8 +121,6 @@ class ConfirmFragment : Fragment() {
         //currentPhotoPath = image.absolutePath
         return image
     }
-
-    // TODO: 뒤로가기 누르면 이전 액티비티 시행
 
    // TODO: 이미지 resize 할 size 정하기 & 함수 적용
     // ImageView에 사진을 넣는 메소드
