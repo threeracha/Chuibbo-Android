@@ -17,6 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".camera.LoadingActivity"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.chuibbo_android.camera"

@@ -1,7 +1,6 @@
 package com.example.chuibbo_android.camera
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -74,6 +73,11 @@ class ConfirmFragment : Fragment() {
 
         btn_cancel.setOnClickListener {
             galleryAddPic()
+        }
+        btn_confirm.setOnClickListener {
+            var intent = Intent(activity, LoadingActivity::class.java)
+            println("btn_confirm clicked")
+            startActivity(intent)
         }
     }
 
