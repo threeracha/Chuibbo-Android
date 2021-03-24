@@ -1,5 +1,6 @@
 package com.example.chuibbo_android.main
 
+import GuidelineFragment
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         camera_fab.setOnClickListener(object: View.OnClickListener {
             override fun onClick(v: View?) {
                 val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, CameraFragment())
+                transaction.replace(R.id.frameLayout, GuidelineFragment())
                 transaction.addToBackStack(null)
                 transaction.commit()
             }

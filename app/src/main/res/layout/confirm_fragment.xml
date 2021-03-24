@@ -6,50 +6,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_200">
+
+        <ImageView
+            android:id="@+id/img_preview"
+            android:layout_width="217dp"
+            android:layout_height="290dp"
+            android:layout_marginTop="87dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/Widget.AppCompat.Button.myButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/dark_gray">
+            android:background="@drawable/button_shape_white"
+            android:text="갤러리에서 다시 선택"
+            android:textSize="11sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="80dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="45dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_confirm"
+            app:layout_constraintTop_toBottomOf="@+id/img_preview"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <ImageView
-                android:id="@+id/img_preview"
-                android:layout_width="217dp"
-                android:layout_height="290dp"
-                android:layout_marginTop="57dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </ImageView>
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_shape"
+            android:text="이 사진으로 선택"
+            android:textSize="11sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginBottom="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_cancel"
+            app:layout_constraintTop_toBottomOf="@+id/img_preview"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <Button
-                android:id="@+id/btn_confirm"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:text="이 사진으로 선택"
-                android:textSize="15sp"
-                app:cornerRadius="7dp"
-                app:layout_constraintEnd_toEndOf="@+id/img_preview"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/img_preview"
-                app:layout_constraintTop_toBottomOf="@id/img_preview" />
-
-            <Button
-                android:id="@+id/btn_cancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="100dp"
-                android:text="갤러리에서 다시 선택"
-                android:textSize="15sp"
-                app:cornerRadius="7dp"
-                app:layout_constraintEnd_toEndOf="@+id/img_preview"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/img_preview"
-                app:layout_constraintTop_toBottomOf="@+id/btn_confirm"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -1,6 +1,7 @@
 package com.example.chuibbo_android.camera
 
-import ScreenSlidePagerActivity
+import com.example.chuibbo_android.camera.CameraOptionsFragment.Companion.newIntent
+import GuidelineFragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,7 +17,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.chuibbo_android.R
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.camera_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import java.io.File
@@ -24,8 +28,11 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+private const val NUM_PAGES = 2
+
 class CameraFragment : Fragment() {
     private lateinit var currentPhotoPath: String
+    private lateinit var optionsViewPager : ViewPager2
 
     private val requestCameraActivity = registerForActivityResult(
         StartActivityForResult()
@@ -66,15 +73,25 @@ class CameraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.toolbar!!.setTitle("옵션 선택")
+
+        optionsViewPager = optionViewPager
+        val pagerAdapter2 = GenderSlidePagerAdapter(this)
+        optionsViewPager.adapter = pagerAdapter2
+
+        val tabLayout = tabLayout
+        TabLayoutMediator(tabLayout,  optionViewPager) { tab, position ->
+            when(position) {
+                0 -> {
+                    tab.text = "여자"
+                }
+                1 -> {
+                    tab.text = "남자"
+                }
+            }
+        }.attach()
+
         gallery_capture_button.setOnClickListener { galleryAddPic() }
-        //camera_capture_button.setOnClickListener {}
-        camera_capture_button.setOnClickListener {
-            val transaction = activity?.supportFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.frameLayout, ScreenSlidePagerActivity())
-            transaction.addToBackStack(null)
-            transaction.commit()
-            //dispatchTakePictureIntent()
-        }
+        camera_capture_button.setOnClickListener { dispatchTakePictureIntent() }
     }
 
     private fun dispatchTakePictureIntent() {
@@ -134,5 +151,16 @@ class CameraFragment : Fragment() {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.absolutePath
         return image
+    }
+
+    /**
+     * A pager adapter that represents 4 ScreenSlidePageFragment objects, in
+     * sequence.
+     */
+    private class GenderSlidePagerAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = NUM_PAGES
+
+        override fun createFragment(position: Int): Fragment =
+            newIntent(position)
     }
 }

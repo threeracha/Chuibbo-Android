@@ -15,7 +15,7 @@ import me.relex.circleindicator.CircleIndicator3
 
 private const val NUM_PAGES = 4
 
-class ScreenSlidePagerActivity : Fragment() {
+class GuidelineFragment : Fragment() {
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
