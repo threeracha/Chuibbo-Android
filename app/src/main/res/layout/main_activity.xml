@@ -7,20 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".main.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        android:elevation="20dp"
+        android:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextColor="@color/black">
-    </androidx.appcompat.widget.Toolbar>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            app:title="홈"
+            app:titleTextColor="@color/black">
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:background="@color/white_150"
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <!-- TODO: 아이콘 크기 변경 및 위치 조정-->
-
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
@@ -31,7 +41,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
-
     </FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar

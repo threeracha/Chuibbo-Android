@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.guideline_fragment.*
 import kotlinx.android.synthetic.main.guideline_fragment_contents.*
+import kotlinx.android.synthetic.main.main_activity.*
 import me.relex.circleindicator.CircleIndicator3
 
 private const val NUM_PAGES = 4
@@ -29,12 +30,14 @@ class GuidelineFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewPager = pager!!
         val pagerAdapter = ScreenSlidePagerAdapter(this)
         viewPager.adapter = pagerAdapter
         indicator.setViewPager(viewPager)
         pagerAdapter.registerAdapterDataObserver(indicator.adapterDataObserver)
-        super.onViewCreated(view, savedInstanceState)
+
+        activity?.toolbar!!.setTitle("촬영 가이드라인")
     }
 
     override fun onAttach(context: Context) {
@@ -70,5 +73,4 @@ class GuidelineFragment : Fragment() {
         override fun createFragment(position: Int): Fragment =
                 newIntent(position)
     }
-
 }

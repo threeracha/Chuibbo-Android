@@ -2,6 +2,7 @@ package com.example.chuibbo_android.camera
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -70,13 +71,14 @@ class ConfirmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.toolbar!!.setTitle("사진 선택")
+        // TODO: 2021/03/24 여기서 뒤로가기 버튼 누르면 앱이 종료됨
 
         btn_cancel.setOnClickListener {
             galleryAddPic()
         }
         btn_confirm.setOnClickListener {
+            // TODO: 2021/03/24 이미지 서버로 보내고 로딩 페이지 띄우기 서버로부터 이미지 받으면
             var intent = Intent(activity, LoadingActivity::class.java)
-            println("btn_confirm clicked")
             startActivity(intent)
         }
     }

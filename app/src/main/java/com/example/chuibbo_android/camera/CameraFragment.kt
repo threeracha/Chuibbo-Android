@@ -90,8 +90,13 @@ class CameraFragment : Fragment() {
             }
         }.attach()
 
-        gallery_capture_button.setOnClickListener { galleryAddPic() }
-        camera_capture_button.setOnClickListener { dispatchTakePictureIntent() }
+        gallery_capture_button.setOnClickListener {
+            // TODO: 2021/03/24 갤러리 접근 권한 요청
+            galleryAddPic() }
+        camera_capture_button.setOnClickListener {
+            // TODO: 2021/03/24 카메라 접근 권한 요청
+            dispatchTakePictureIntent()
+        }
     }
 
     private fun dispatchTakePictureIntent() {

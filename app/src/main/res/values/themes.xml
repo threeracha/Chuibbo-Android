@@ -12,6 +12,7 @@
         <item name="colorControlActivated">@color/main_blue</item>
         <item name="android:textColorHighlight">@color/main_blue_transparent</item>
         <item name="android:textCursorDrawable">@drawable/input_text_cursor</item>
+        <item name="android:windowContentOverlay">@drawable/action_bar_divider</item>
     </style>
     <style name="Widget.AppCompat.Button.myButton" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/white</item>
