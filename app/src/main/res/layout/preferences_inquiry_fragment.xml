@@ -32,10 +32,14 @@
 
     <Button
         android:id="@+id/inquiry_button"
+        style="@style/Widget.AppCompat.Button.myButton"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@drawable/main_button"
+        android:enabled="false"
+        android:clickable="false"
+        android:background="@drawable/button_shape_disabled"
         android:text="@string/submission_text_korean"
+        android:textColor="@color/dark_gray"
         android:layout_marginLeft="67dp"
         android:layout_marginRight="67dp"
         android:layout_marginTop="59dp"

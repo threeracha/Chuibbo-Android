@@ -30,9 +30,9 @@ class PreferencesFragment: Fragment(), PreferenceFragmentCompat.OnPreferenceStar
         // Replace the existing Fragment with the new Fragment
         fragment?.let {
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.frameLayout, it)
-                ?.addToBackStack(null)
-                ?.commit()
+                    ?.replace(R.id.frameLayout, it)
+                    ?.addToBackStack(null)
+                    ?.commit()
         }
         return true
     }
