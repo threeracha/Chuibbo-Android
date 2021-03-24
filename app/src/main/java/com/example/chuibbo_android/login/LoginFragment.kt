@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.preferences.PreferencesPasswordForgetFragment
 import com.example.chuibbo_android.signup.SignupFragment
 import kotlinx.android.synthetic.main.login_fragment.*
 
@@ -27,6 +28,13 @@ class LoginFragment : Fragment() {
 
         login_button.setOnClickListener {
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "Login Failure") }
+        }
+
+        question_password_text.setOnClickListener{
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, PreferencesPasswordForgetFragment())
+                addToBackStack(null)
+            }?.commit()
         }
 
         make_account_text.setOnClickListener{

@@ -14,6 +14,6 @@ class LoadingActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.loading_activity)
     }
-    // TODO: 2021/03/24 이미지 데이터 변경 요청 처리 함수
+    // TODO: 2021/03/24 이미지 데이터 변경 요청 처리 함수 (이미지 처리 완료 후 다른 액티비티로 변경
 
 }

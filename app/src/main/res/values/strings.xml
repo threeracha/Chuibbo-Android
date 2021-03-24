@@ -26,4 +26,5 @@
     <string name="guideline_not_protected">이미지에 가이드라인 위배사항이 포함되었습니다.</string>
     <string name="several_people_detected">사람이 둘 이상 감지되었습니다.</string>
     <string name="take_picture_again">사진 다시 선택/촬영하기</string>
+    <string name="certification_text_korean">인증</string>
 </resources>
