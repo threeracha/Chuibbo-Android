@@ -68,6 +68,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'androidx.preference:preference-ktx:1.1.0'
+    implementation 'gun0912.ted:tedpermission:2.2.3' //권한 요청을 위한 팝업을 쉽게 구성하기 위해
 
 
 }
