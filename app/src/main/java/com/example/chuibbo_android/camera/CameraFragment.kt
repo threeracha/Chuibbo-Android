@@ -147,21 +147,8 @@ class CameraFragment : Fragment() {
 
     private fun galleryAddPic() {
         Intent(Intent.ACTION_PICK).also { mediaScanIntent ->
-            val photoFile: File? = try {
-                createImageFile()
-            } catch (ex: IOException) {
-                // Error occurred while creating the File
-                Log.d("test", "error: $ex")
-                null
-            }
-            var photoURI : Uri? = null
-            photoFile?.also {
-                activity?.also {
-                    photoURI = FileProvider.getUriForFile(it, "com.example.chuibbo_android.camera", photoFile)
-                }
-                mediaScanIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-                requestGalleryActivity.launch(mediaScanIntent)
-            }
+            mediaScanIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+            requestGalleryActivity.launch(mediaScanIntent)
         }
     }
 

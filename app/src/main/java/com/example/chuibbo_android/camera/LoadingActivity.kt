@@ -10,10 +10,9 @@ import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.loading_activity.*
 
 class LoadingActivity: AppCompatActivity() {
+    // TODO: 2021/03/24 서버로부터의 합성된 이미지를 받아올 때 까지 로딩 화면 띄우기
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.loading_activity)
     }
-    // TODO: 2021/03/24 이미지 데이터 변경 요청 처리 함수 (이미지 처리 완료 후 다른 액티비티로 변경
-
 }
