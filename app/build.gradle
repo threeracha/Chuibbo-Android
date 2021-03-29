@@ -59,6 +59,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation 'com.android.support:preference-v7:28.0.0'
     implementation 'androidx.preference:preference:1.1.0-alpha04'
+    implementation "com.github.skydoves:colorpickerview:2.2.3" // color palette
 
     def fragment_version = "1.3.0-alpha06"
     // Java language implementation

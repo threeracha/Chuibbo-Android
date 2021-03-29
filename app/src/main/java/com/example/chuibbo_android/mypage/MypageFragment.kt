@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.preferences.MySettingsActivity
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
@@ -23,6 +24,13 @@ class MypageFragment : Fragment() {
         view.login_button.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, LoginFragment())
+                addToBackStack(null)
+            }?.commit()
+        }
+
+        view.background_synthesis_image_button.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, BackgroundSynthesisFragment())
                 addToBackStack(null)
             }?.commit()
         }
