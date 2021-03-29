@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
@@ -21,6 +22,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.chuibbo_android.R
 import com.google.android.material.tabs.TabLayoutMediator
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.camera_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import java.io.File
@@ -90,8 +93,33 @@ class CameraFragment : Fragment() {
             }
         }.attach()
 
-        gallery_capture_button.setOnClickListener { galleryAddPic() }
-        camera_capture_button.setOnClickListener { dispatchTakePictureIntent() }
+        setPermission() // 카메라 및 갤러리 접근 권한 요청
+
+        gallery_capture_button.setOnClickListener {
+            galleryAddPic() }
+        camera_capture_button.setOnClickListener {
+            dispatchTakePictureIntent()
+        }
+    }
+
+    //테드 퍼미션 설정 (카메라 사용시 권한 설정 팝업을 쉽게 구현하기 위해 사용)
+    private fun setPermission() {
+        val permission = object : PermissionListener {
+            override fun onPermissionGranted() {//설정해 놓은 위험권한(카메라 접근 등)이 허용된 경우 이곳을 실행
+                Toast.makeText(activity,"요청하신 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {//설정해 놓은 위험권한이 거부된 경우 이곳을 실행
+                Toast.makeText(activity,"요청하신 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        TedPermission.with(activity)
+                .setPermissionListener(permission)
+                .setRationaleMessage("카메라 앱을 사용하시려면 권한을 허용해주세요.")
+                .setDeniedMessage("권한을 거부하셨습니다.앱을 사용하시려면 [앱 설정]-[권한] 항목에서 권한을 허용해주세요.")
+                .setPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA)
+                .check()
     }
 
     private fun dispatchTakePictureIntent() {

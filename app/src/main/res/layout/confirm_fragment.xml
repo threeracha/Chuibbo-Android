@@ -25,17 +25,19 @@
             style="@style/Widget.AppCompat.Button.myButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="80dp"
             android:background="@drawable/button_shape_white"
             android:text="갤러리에서 다시 선택"
+            android:textColor="@drawable/button_text_color"
+            android:textColorLink="#FFFFFFFF"
             android:textSize="11sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="80dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="45dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_confirm"
-            app:layout_constraintTop_toBottomOf="@+id/img_preview"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_preview" />
 
         <Button
             android:id="@+id/btn_confirm"
