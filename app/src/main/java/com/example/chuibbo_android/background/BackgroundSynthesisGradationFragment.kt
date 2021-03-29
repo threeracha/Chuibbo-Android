@@ -30,6 +30,7 @@ class BackgroundSynthesisGradationFragment: Fragment() {
         color_blue_gradation.setOnClickListener { setFragmentResult("Picked Color", bundleOf("color" to "809ED1FF")) }
         color_yellow_gradation.setOnClickListener { setFragmentResult("Picked Color", bundleOf("color" to "80FFD6AF")) }
         color_pink_gradation.setOnClickListener { setFragmentResult("Picked Color", bundleOf("color" to "80FFD1D1")) }
+        // TODO: Dialog에 선택한 최종 색 나타내기 & Dialog Custom
         color_picker_gradation.setOnClickListener {
             var colorPickerView = ColorPickerDialog.Builder(context)
                 .setTitle("그라데이션 배경 색상 선택")

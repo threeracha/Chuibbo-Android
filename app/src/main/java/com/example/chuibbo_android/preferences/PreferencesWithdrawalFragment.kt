@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
-import kotlinx.android.synthetic.main.preferences_withdrawal_fragment.*
+import kotlinx.android.synthetic.main.preferences_withdrawal_fragment.view.*
 
 class PreferencesWithdrawalFragment: Fragment() {
     @SuppressLint("ResourceAsColor")
@@ -16,25 +16,25 @@ class PreferencesWithdrawalFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var v: View = inflater.inflate(R.layout.preferences_withdrawal_fragment, container, false)
+        var view: View = inflater.inflate(R.layout.preferences_withdrawal_fragment, container, false)
 
-        withdrawal_contents.setMovementMethod(ScrollingMovementMethod())
+        view.withdrawal_contents.movementMethod = ScrollingMovementMethod()
 
-        withdrawal_checkbox.setOnCheckedChangeListener { buttonView, isChecked -> // 체크박스 선택시 버튼 활성화
+        view.withdrawal_checkbox.setOnCheckedChangeListener { buttonView, isChecked -> // 체크박스 선택시 버튼 활성화
             // TODO: 버튼 크기가 변경됨, 일관성 있게 만들기
-            if (withdrawal_checkbox.isChecked) {
-                withdrawal_button.isEnabled = true
-                withdrawal_button.isClickable = true
-                withdrawal_button.setBackgroundResource(R.drawable.button_shape)
-                withdrawal_button.setTextColor(R.color.black) // TODO: textColor white로 바꾸기
+            if (view.withdrawal_checkbox.isChecked) {
+                view.withdrawal_button.isEnabled = true
+                view.withdrawal_button.isClickable = true
+                view.withdrawal_button.setBackgroundResource(R.drawable.button_shape)
+                view.withdrawal_button.setTextColor(R.color.black) // TODO: textColor white로 바꾸기
             } else {
-                withdrawal_button.isEnabled = false
-                withdrawal_button.isClickable = false
-                withdrawal_button.setBackgroundResource(R.drawable.button_shape_disabled)
-                withdrawal_button.setTextColor(R.color.dark_gray)
+                view.withdrawal_button.isEnabled = false
+                view.withdrawal_button.isClickable = false
+                view.withdrawal_button.setBackgroundResource(R.drawable.button_shape_disabled)
+                view.withdrawal_button.setTextColor(R.color.dark_gray)
             }
         }
 
-        return v
+        return view
     }
 }

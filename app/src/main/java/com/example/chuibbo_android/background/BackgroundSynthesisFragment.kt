@@ -1,5 +1,6 @@
 package com.example.chuibbo_android.background
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.background_synthesis_fragment.*
 
 class BackgroundSynthesisFragment: Fragment() {
 
+    @SuppressLint("ResourceAsColor")
     private fun changeView(index: Int) {
         when (index) {
             0 -> {
@@ -40,6 +42,7 @@ class BackgroundSynthesisFragment: Fragment() {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -60,6 +63,7 @@ class BackgroundSynthesisFragment: Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 var pos = tab.getPosition()
                 changeView(pos)
+                // TODO: tab 선택시 폰트 크기 증가, bold, 높이 증가
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {

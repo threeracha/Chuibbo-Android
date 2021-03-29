@@ -5,35 +5,53 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.replace
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.example.chuibbo_android.R
+import kotlinx.android.synthetic.main.preferences_fragment.view.*
 
-class PreferencesFragment: Fragment(), PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+class PreferencesFragment: Fragment() {
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.preferences_fragment, container, false)
-    }
 
-    override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
-        // Instantiate the new Fragment
-        val args = pref.extras
-        val fragment = activity?.supportFragmentManager?.fragmentFactory?.instantiate(
-                ClassLoader.getSystemClassLoader(),
-                pref.fragment)
-        fragment?.arguments = args
-        fragment?.setTargetFragment(caller, 0)
-        // Replace the existing Fragment with the new Fragment
-        fragment?.let {
-            activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.frameLayout, it)
-                    ?.addToBackStack(null)
-                    ?.commit()
+        var view = inflater.inflate(R.layout.preferences_fragment, container, false)
+
+        view.preferences_user_info_modification_button?.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, PreferencesUserInfoModificationFragmentFragment())
+                addToBackStack(null)
+            }?.commit()
         }
-        return true
+
+//        view.preferences_notice_button?.setOnClickListener {
+//            activity?.supportFragmentManager?.beginTransaction()?.apply {
+//                replace(R.id.frameLayout, PreferencesNoticeFragment())
+//                addToBackStack(null)
+//            }?.commit()
+//        }
+//
+//        view.preferences_faq_button?.setOnClickListener {
+//            activity?.supportFragmentManager?.beginTransaction()?.apply {
+//                replace(R.id.frameLayout, PreferencesFaqFragment())
+//                addToBackStack(null)
+//            }?.commit()
+//        }
+
+        view.preferences_inquiry_button?.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, PreferencesInquiry())
+                addToBackStack(null)
+            }?.commit()
+        }
+
+        view.preferences_withdrawal_button?.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, PreferencesWithdrawalFragment())
+                addToBackStack(null)
+            }?.commit()
+        }
+
+        return view
     }
 }
