@@ -13,7 +13,7 @@
             android:id="@+id/img_synthesis"
             android:layout_width="217dp"
             android:layout_height="290dp"
-            android:layout_marginTop="87dp"
+            android:layout_marginTop="47dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

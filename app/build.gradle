@@ -68,6 +68,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.0-alpha04'
     implementation "androidx.fragment:fragment:$rootProject.fragmentVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
+    implementation "com.github.skydoves:colorpickerview:2.2.3" // color palette
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'androidx.preference:preference-ktx:1.1.0'
