@@ -15,7 +15,7 @@
     <string name="email_error_text_korean">올바른 이메일 형식으로 입력해주세요.</string>
     <string name="password_error_text_korean">비밀번호가 일치하지 않습니다.</string>
     <string name="complete_user_info_modeification">정보 수정 완료</string>
-    <string name="withdrawal">회원탈퇴</string>
+    <string name="withdrawal">회원탈퇴 약관</string>
     <string name="inquiry">문의하기</string>
     <string name="submission_text_korean">제출하기</string>
     <string name="continue_text_korean">계속</string>
@@ -27,4 +27,5 @@
     <string name="several_people_detected">사람이 둘 이상 감지되었습니다.</string>
     <string name="take_picture_again">사진 다시 선택/촬영하기</string>
     <string name="certification_text_korean">인증</string>
+    <string name="password_modification">비밀번호 변경</string>
 </resources>

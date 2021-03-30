@@ -20,19 +20,25 @@
         app:layout_constraintRight_toRightOf="parent"
         tools:ignore="MissingConstraints" />
 
+    <!-- TODO: 그림자 -->
     <com.google.android.material.tabs.TabLayout
+        style="@style/AppTabLayout"
         android:id="@+id/background_synthesis_image_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
+        app:tabTextAppearance="@style/AppTabTextAppearance"
+        app:tabIndicator="@null"
         app:layout_constraintTop_toBottomOf="@+id/background_synthesis_image"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/solid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="단색" />
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/gradation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="그라데이션" />

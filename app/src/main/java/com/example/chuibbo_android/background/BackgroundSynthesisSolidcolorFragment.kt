@@ -30,6 +30,7 @@ class BackgroundSynthesisSolidcolorFragment: Fragment() {
         color_blue.setOnClickListener { setFragmentResult("Picked Color", bundleOf("color" to "FF9ED1FF")) }
         color_yellow.setOnClickListener { setFragmentResult("Picked Color", bundleOf("color" to "FFFFD6AF")) }
         color_pink.setOnClickListener { setFragmentResult("Picked Color", bundleOf("color" to "FFFFD1D1")) }
+        // TODO: Dialog에 선택한 최종 색 나타내기 & Dialog Custom
         color_picker.setOnClickListener {
             var colorPickerView = ColorPickerDialog.Builder(context)
                 .setTitle("단색 배경 색상 선택")

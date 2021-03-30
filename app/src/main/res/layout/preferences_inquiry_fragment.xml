@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="53dp"
+    android:layout_marginHorizontal="57dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/inquiry"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:layout_marginTop="25dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="15sp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/inquiry_contents"
@@ -22,7 +23,7 @@
         android:scrollbars="vertical"
         android:scrollbarFadeDuration="0"
         android:background="@color/gray"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="@id/inquiry"
         app:layout_constraintTop_toBottomOf="@+id/inquiry"
         tools:ignore="MissingConstraints" />

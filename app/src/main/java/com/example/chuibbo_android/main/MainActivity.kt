@@ -5,16 +5,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.solver.widgets.analyzer.Dependency
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentFactory
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.camera.CameraFragment
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.mypage.MypageFragment
-import com.example.chuibbo_android.preferences.MySettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 

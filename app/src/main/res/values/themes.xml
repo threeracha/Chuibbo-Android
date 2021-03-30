@@ -22,4 +22,20 @@
         <item name="strokeColor">?attr/colorPrimary</item>
         <item name="strokeWidth">@dimen/btn_stroke_width</item>
     </style>
+
+    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@drawable/tab_item_shape</item>
+        <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+    </style>
+    <!-- for text -->
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/main_blue</item>
+        <item name="android:textSize">7.5sp</item>
+    </style>
+
+    <style name="Widget.AppCompat.Button.listButton" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

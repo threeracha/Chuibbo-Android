@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
+        <!-- TODO: margin때문에 조금 잘리는 부분 해결 -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
