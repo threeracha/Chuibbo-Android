@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.text.trimmedLength
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.signup_fragment.*
 
 class SignupFragment : Fragment() {
@@ -24,6 +25,7 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.toolbar!!.title = "계정 생성"
 
         // TODO: 회원가입 이메일과 비밀번호 정책 세우기
         email_edit_text.addTextChangedListener(object : TextWatcher {

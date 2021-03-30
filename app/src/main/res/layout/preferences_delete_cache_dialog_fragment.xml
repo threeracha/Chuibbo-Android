@@ -9,8 +9,7 @@
     android:background="@drawable/dialog"
     android:layout_marginHorizontal="45dp"
     app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    tools:context=".login.LoginFailureDialogFragment">
+    app:layout_constraintRight_toRightOf="parent">
 
     <ImageView
         android:id="@+id/x"
@@ -27,7 +26,7 @@
         android:id="@+id/dialog_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_failure_text_korean"
+        android:text="캐시를 삭제하시겠습니까?"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/x"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -35,18 +34,35 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/dialog_ok"
-        android:layout_width="match_parent"
+        android:id="@+id/dialog_yes"
+        style="@style/Widget.AppCompat.Button.myButton"
+        android:layout_width="wrap_content"
         android:layout_height="44dp"
-        android:background="@drawable/button_shape"
-        android:text="@string/OK"
+        android:background="@drawable/button_shape_white"
+        android:text="예"
         android:layout_marginTop="23dp"
         android:layout_marginBottom="23dp"
-        android:layout_marginLeft="39dp"
-        android:layout_marginRight="39dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/dialog_no"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_message"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/dialog_no"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:background="@drawable/button_shape"
+        android:text="아니오"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="23dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="32dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/dialog_yes"
         app:layout_constraintTop_toBottomOf="@+id/dialog_message"
         tools:ignore="MissingConstraints" />
 
