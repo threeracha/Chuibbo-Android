@@ -88,7 +88,7 @@ class ConfirmFragment : Fragment() {
             vm.insert(data)
             Toast.makeText(context, "Successfully saved", Toast.LENGTH_LONG).show()
             val transaction = activity?.supportFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.frameLayout, SynthesisFragment())
+            transaction.replace(R.id.frameLayout, SynthesisConfirmFragment())
             transaction.commit()
         }
     }

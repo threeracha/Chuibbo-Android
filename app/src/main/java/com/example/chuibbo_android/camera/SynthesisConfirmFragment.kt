@@ -12,9 +12,9 @@ import com.example.chuibbo_android.R
 import com.example.chuibbo_android.image.Adapter
 import com.example.chuibbo_android.image.ImageViewModel
 import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.android.synthetic.main.synthesis_fragment.*
+import kotlinx.android.synthetic.main.overall_synthesis_confirm_fragment.*
 
-class SynthesisFragment : Fragment() {
+class SynthesisConfirmFragment : Fragment() {
 
     lateinit var vm : ImageViewModel
 
@@ -23,7 +23,7 @@ class SynthesisFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.synthesis_fragment, container, false)
+        return inflater.inflate(R.layout.overall_synthesis_confirm_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -11,8 +11,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.synthesis_item_list.view.*
+import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.view.*
 
 class Adapter : RecyclerView.Adapter<Adapter.ItemViewHolder>() {
     private var itemlist = emptyList<Image>()
@@ -26,7 +25,7 @@ class Adapter : RecyclerView.Adapter<Adapter.ItemViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.synthesis_item_list,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.overall_synthesis_confirm_item ,parent,false)
         return ItemViewHolder(view)
     }
 

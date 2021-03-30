@@ -5,12 +5,12 @@ import androidx.room.*
 
 @Dao
 interface ImageDao {
-    @Query("SELECT * FROM Room_table")
+    @Query("SELECT * FROM Image_table")
     fun getAllImage(): LiveData<List<Image>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertImage(image: Image)
 
-    @Query("Delete from Room_table")
+    @Query("Delete from Image_table")
     suspend fun deleteAll()
 }

@@ -21,7 +21,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorAnimationMode="elastic"
-            app:tabMode="fixed"></com.google.android.material.tabs.TabLayout>
+            app:tabMode="fixed">
+        </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/optionViewPager"
