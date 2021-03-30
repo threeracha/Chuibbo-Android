@@ -33,13 +33,6 @@ class MypageFragment : Fragment() {
             }?.commit()
         }
 
-        view.background_synthesis_image_button.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, BackgroundSynthesisFragment())
-                addToBackStack(null)
-            }?.commit()
-        }
-
         return view
     }
 }

@@ -11,7 +11,7 @@ import com.example.chuibbo_android.mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener  { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
 
 //     var customFragmentFactory = CustomFragmentFactory("")
 
@@ -27,13 +27,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_previous)
 
-        // TODO: 카메라 탭 클릭 시, 카메라 탭 활성화 및 다른 탭 비활성화
-        camera_fab.setOnClickListener(object: View.OnClickListener {
+
+        camera_fab.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, GuidelineFragment())
                 transaction.addToBackStack(null)
                 transaction.commit()
+
+                bottomNavigationView.selectedItemId = R.id.camera_item // 카메라 탭 클릭 시, 다른 탭 비활성화
             }
         })
     }
@@ -44,7 +46,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when(p0.itemId){
+        when (p0.itemId) {
             R.id.home_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, HomeFragment())
@@ -59,36 +61,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 transaction.commit()
                 return true
             }
+            R.id.camera_item -> {
+                return true
+            }
         }
         return false
     }
 
-//    override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
-//        // Instantiate the new Fragment
-//        val args = pref.extras
-//        supportFragmentManager.fragmentFactory = customFragmentFactory
-//        val fragment = supportFragmentManager.fragmentFactory.instantiate(
-//            classLoader,
-//            pref.fragment)
-//        fragment.arguments = args
-//        fragment.setTargetFragment(caller, 0)
-//        // Replace the existing Fragment with the new Fragment
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.settings_fragment, fragment)
-//            .addToBackStack(null)
-//            .commit()
-//        return true
-//    }
-
-    //뒤로가기 버튼을 뺏어올 리스너 등록
-
+    // TODO: 뒤로가기 버튼을 뺏어올 리스너 등록
 }
-
-//class CustomFragmentFactory(private val dependency: Dependency) : FragmentFactory() {
-//    override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-//        if (className == MySettingsFragment::class.java.name) {
-//            return MySettingsFragment(Dependency)
-//        }
-//        return super.instantiate(classLoader, className)
-//    }
-//}
