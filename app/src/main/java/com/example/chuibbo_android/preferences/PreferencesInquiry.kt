@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.text.trimmedLength
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_inquiry_fragment.view.*
 
 class PreferencesInquiry: Fragment() {
@@ -44,5 +45,10 @@ class PreferencesInquiry: Fragment() {
         })
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.toolbar!!.title = "문의하기"
     }
 }

@@ -2,44 +2,85 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="67dp"
+    android:layout_marginHorizontal="47dp"
     android:name=".mypage.MypageFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:id="@+id/mypage_text"
-        android:layout_width="match_parent"
+        android:id="@+id/myalbum_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mypage_text"
+        android:text="My album"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="26dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="100sp" />
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_settings_24"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/myalbum_text"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:background="@drawable/button_shape"
         android:text="@string/login_text_korean"
-        app:layout_constraintTop_toBottomOf="@+id/mypage_text"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         tools:ignore="MissingConstraints" />
-    <Button
-        android:id="@+id/settings_button"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@drawable/button_shape"
-        android:text="환경설정 버튼"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
-        tools:ignore="MissingConstraints" />
-    <Button
-        android:id="@+id/background_synthesis_image_button"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@drawable/button_shape"
-        android:text="배경합성 버튼"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/settings_button"
-        tools:ignore="MissingConstraints" />
+
+    <HorizontalScrollView
+        android:id="@+id/myalbums"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/myalbum_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="30dp">
+
+            <ImageView
+                android:id="@+id/one"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="#FFC4C4C4"
+                android:layout_marginRight="10dp"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/two"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="#FFC4C4C4"
+                android:layout_marginRight="10dp"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/three"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="#FFC4C4C4"
+                android:layout_marginRight="10dp"
+                tools:ignore="MissingConstraints" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

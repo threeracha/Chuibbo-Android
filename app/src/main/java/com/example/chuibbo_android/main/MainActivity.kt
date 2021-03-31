@@ -16,7 +16,7 @@ import com.example.chuibbo_android.mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener  { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
 
 //     var customFragmentFactory = CustomFragmentFactory("")
 
@@ -32,13 +32,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_previous)
 
-        // TODO: 카메라 탭 클릭 시, 카메라 탭 활성화 및 다른 탭 비활성화
-        camera_fab.setOnClickListener(object: View.OnClickListener {
+
+        camera_fab.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, GuidelineFragment())
                 transaction.addToBackStack(null)
                 transaction.commit()
+
+                bottomNavigationView.selectedItemId = R.id.camera_item // 카메라 탭 클릭 시, 다른 탭 비활성화
             }
         })
     }
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when(p0.itemId){
+        when (p0.itemId) {
             R.id.home_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, HomeFragment())
@@ -64,7 +66,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 transaction.commit()
                 return true
             }
+            R.id.camera_item -> {
+                return true
+            }
         }
         return false
     }
+    // TODO: 뒤로가기 버튼을 뺏어올 리스너 등록
 }

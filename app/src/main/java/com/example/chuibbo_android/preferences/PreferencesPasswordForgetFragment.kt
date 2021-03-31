@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.text.trimmedLength
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_password_forget_fragment.*
 
 class PreferencesPasswordForgetFragment: Fragment() {
@@ -23,6 +24,7 @@ class PreferencesPasswordForgetFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.toolbar!!.title = "비밀번호 재설정"
 
         email_text.addTextChangedListener(EditTextWatcher())
 

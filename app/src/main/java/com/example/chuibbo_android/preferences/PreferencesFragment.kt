@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.login.LoginFailureDialogFragment
+import kotlinx.android.synthetic.main.login_fragment.*
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_fragment.view.*
 
 class PreferencesFragment: Fragment() {
@@ -45,6 +48,18 @@ class PreferencesFragment: Fragment() {
             }?.commit()
         }
 
+        var deleteCacheDialog: PreferencesDeleteCacheDialogFragment = PreferencesDeleteCacheDialogFragment()
+        deleteCacheDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+        view.preferences_delete_cache_button?.setOnClickListener {
+            activity?.supportFragmentManager?.let { it -> deleteCacheDialog.show(it, "Delete Cache") }
+        }
+
+        var logoutDialog: PreferencesLogoutDialogFragment = PreferencesLogoutDialogFragment()
+        logoutDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+        view.preferences_logout_button?.setOnClickListener {
+            activity?.supportFragmentManager?.let { it -> logoutDialog.show(it, "Logout") }
+        }
+
         view.preferences_withdrawal_button?.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, PreferencesWithdrawalFragment())
@@ -53,5 +68,10 @@ class PreferencesFragment: Fragment() {
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.toolbar!!.title = "설정"
     }
 }
