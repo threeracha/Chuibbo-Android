@@ -70,6 +70,8 @@ class GuidelineContentsFragment : Fragment() {
                         val transaction = activity?.supportFragmentManager!!.beginTransaction()
                         transaction.replace(R.id.frameLayout, CameraFragment())
                         transaction.commit()
+
+                        activity?.toolbar!!.removeView(btn) // sy: 클릭시 제거 됨
                     }
                     activity?.toolbar!!.addView(btn)
                     // This is how to set layout_gravity properties to Button

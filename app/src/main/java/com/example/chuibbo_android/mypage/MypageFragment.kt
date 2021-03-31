@@ -9,7 +9,9 @@ import com.example.chuibbo_android.R
 import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.preferences.PreferencesFragment
+import com.example.chuibbo_android.preferences.PreferencesLogoutDialogFragment
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
+import kotlinx.android.synthetic.main.preferences_fragment.view.*
 
 class MypageFragment : Fragment() {
 
@@ -33,11 +35,10 @@ class MypageFragment : Fragment() {
             }?.commit()
         }
 
-        view.background_synthesis_image_button.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, BackgroundSynthesisFragment())
-                addToBackStack(null)
-            }?.commit()
+        var myalbumDialog: MypageMyalbumDialogFragment = MypageMyalbumDialogFragment()
+        myalbumDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+        view.one?.setOnClickListener {
+            activity?.supportFragmentManager?.let { it -> myalbumDialog.show(it, "My album") }
         }
 
         return view

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_withdrawal_fragment.view.*
 
 class PreferencesWithdrawalFragment: Fragment() {
@@ -36,5 +37,9 @@ class PreferencesWithdrawalFragment: Fragment() {
         }
 
         return view
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.toolbar!!.title = "회원탈퇴"
     }
 }
