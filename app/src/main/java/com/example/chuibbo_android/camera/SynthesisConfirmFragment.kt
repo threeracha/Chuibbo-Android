@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.background.BackgroundSynthesisFragment
+import com.example.chuibbo_android.background.BackgroundSynthesisSolidcolorFragment
 import com.example.chuibbo_android.image.Adapter
 import com.example.chuibbo_android.image.ImageViewModel
 import kotlinx.android.synthetic.main.main_activity.*

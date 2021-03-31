@@ -1,6 +1,6 @@
 package com.example.chuibbo_android.preferences
 
-import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_inquiry_fragment.view.*
 
 class PreferencesInquiry: Fragment() {
-    @SuppressLint("ResourceAsColor")
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -29,17 +28,16 @@ class PreferencesInquiry: Fragment() {
 
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                // TODO: 버튼 크기가 변경됨, 일관성 있게 만들기
                 if (view.inquiry_contents.text.toString().trimmedLength() != 0) {
                     view.inquiry_button.isEnabled = true
                     view.inquiry_button.isClickable = true
                     view.inquiry_button.setBackgroundResource(R.drawable.button_shape)
-                    view.inquiry_button.setTextColor(R.color.black) // TODO: textColor white로 바꾸기
+                    view.inquiry_button.setTextColor(Color.WHITE)
                 } else {
                     view.inquiry_button.isEnabled = false
                     view.inquiry_button.isClickable = false
                     view.inquiry_button.setBackgroundResource(R.drawable.button_shape_disabled)
-                    view.inquiry_button.setTextColor(R.color.dark_gray)
+                    view.inquiry_button.setTextColor(Color.DKGRAY)
                 }
             }
         })

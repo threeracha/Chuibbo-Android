@@ -1,6 +1,6 @@
 package com.example.chuibbo_android.preferences
 
-import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -38,7 +38,6 @@ class PreferencesPasswordForgetFragment: Fragment() {
         }
     }
 
-    @SuppressLint("ResourceAsColor")
     inner class EditTextWatcher: TextWatcher {
         override fun afterTextChanged(p0: Editable?) {}
 
@@ -50,20 +49,18 @@ class PreferencesPasswordForgetFragment: Fragment() {
                 certification_button.isEnabled = true
                 certification_button.isClickable = true
                 certification_button.setBackgroundResource(R.drawable.button_shape)
-                certification_button.setTextColor(R.color.black) // TODO: textColor white로 바꾸기
+                certification_button.setTextColor(Color.WHITE)
 
                 return
             } else {
-                // TODO: 버튼 크기가 변경됨, 일관성 있게 만들기
                 certification_button.isEnabled = false
                 certification_button.isClickable = false
                 certification_button.setBackgroundResource(R.drawable.button_shape_disabled)
-                certification_button.setTextColor(R.color.dark_gray)
+                certification_button.setTextColor(Color.DKGRAY)
             }
         }
     }
 
-    @SuppressLint("ResourceAsColor")
     inner class EditTextWatcher2: TextWatcher {
         override fun afterTextChanged(p0: Editable?) {}
 
@@ -75,15 +72,14 @@ class PreferencesPasswordForgetFragment: Fragment() {
                 continue_button.isEnabled = true
                 continue_button.isClickable = true
                 continue_button.setBackgroundResource(R.drawable.button_shape)
-                continue_button.setTextColor(R.color.black) // TODO: textColor white로 바꾸기
+                continue_button.setTextColor(Color.WHITE)
 
                 return
             } else {
-                // TODO: 버튼 크기가 변경됨, 일관성 있게 만들기
                 continue_button.isEnabled = false
                 continue_button.isClickable = false
                 continue_button.setBackgroundResource(R.drawable.button_shape_disabled)
-                continue_button.setTextColor(R.color.dark_gray)
+                continue_button.setTextColor(Color.DKGRAY)
             }
         }
     }

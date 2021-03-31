@@ -41,11 +41,12 @@
                 android:layout_marginHorizontal="15dp"
                 tools:ignore="MissingConstraints" />
 
+            <!-- TODO: 그라데이션 부분 어떻게 할건지 고민 -->
             <ImageView
                 android:id="@+id/color_white_gradation"
                 android:layout_width="90dp"
                 android:layout_height="120dp"
-                android:background="#80F6F6F6"
+                android:background="@drawable/synthesis_gradation"
                 android:layout_marginHorizontal="15dp"
                 tools:ignore="MissingConstraints" />
 
@@ -53,7 +54,7 @@
                 android:id="@+id/color_blue_gradation"
                 android:layout_width="90dp"
                 android:layout_height="120dp"
-                android:background="#809ED1FF"
+                android:background="@drawable/synthesis_gradation"
                 android:layout_marginHorizontal="15dp"
                 tools:ignore="MissingConstraints" />
 
@@ -61,7 +62,7 @@
                 android:id="@+id/color_yellow_gradation"
                 android:layout_width="90dp"
                 android:layout_height="120dp"
-                android:background="#80FFD6AF"
+                android:background="@drawable/synthesis_gradation"
                 android:layout_marginHorizontal="15dp"
                 tools:ignore="MissingConstraints" />
 
@@ -69,7 +70,7 @@
                 android:id="@+id/color_pink_gradation"
                 android:layout_width="90dp"
                 android:layout_height="120dp"
-                android:background="#80FFD1D1"
+                android:background="@drawable/synthesis_gradation"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="45dp"
                 tools:ignore="MissingConstraints" />
