@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.solver.widgets.analyzer.Dependency
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.mypage.MypageFragment
@@ -62,33 +67,4 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         return false
     }
-
-//    override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
-//        // Instantiate the new Fragment
-//        val args = pref.extras
-//        supportFragmentManager.fragmentFactory = customFragmentFactory
-//        val fragment = supportFragmentManager.fragmentFactory.instantiate(
-//            classLoader,
-//            pref.fragment)
-//        fragment.arguments = args
-//        fragment.setTargetFragment(caller, 0)
-//        // Replace the existing Fragment with the new Fragment
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.settings_fragment, fragment)
-//            .addToBackStack(null)
-//            .commit()
-//        return true
-//    }
-
-    //뒤로가기 버튼을 뺏어올 리스너 등록
-
 }
-
-//class CustomFragmentFactory(private val dependency: Dependency) : FragmentFactory() {
-//    override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-//        if (className == MySettingsFragment::class.java.name) {
-//            return MySettingsFragment(Dependency)
-//        }
-//        return super.instantiate(classLoader, className)
-//    }
-//}

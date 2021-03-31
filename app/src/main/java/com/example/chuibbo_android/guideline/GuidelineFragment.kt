@@ -1,9 +1,12 @@
 import GuidelineContentsFragment.Companion.newIntent
+import android.annotation.SuppressLint
 import android.content.Context
+import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -52,6 +55,7 @@ class GuidelineFragment : Fragment() {
                 } else {
                     // Otherwise, select the previous step.
                     viewPager.currentItem = viewPager.currentItem - 1
+
                 }
             }
         }
@@ -60,6 +64,8 @@ class GuidelineFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
+        val bbb : ImageButton? = activity?.toolbar!!.findViewById(R.id.btn_next)
+        activity?.toolbar!!.removeView(bbb)
         callback.remove()
     }
 

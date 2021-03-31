@@ -1,14 +1,18 @@
 package com.example.chuibbo_android.camera
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.camera_option_fragment.*
 
 class CameraOptionsFragment : Fragment() {
+    private lateinit var callback: OnBackPressedCallback
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,6 +44,22 @@ class CameraOptionsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // FIXME: 2021/03/31 뒤로가기 하면 화살표 두번 나타남
+                activity?.supportFragmentManager!!.popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
     companion object {
