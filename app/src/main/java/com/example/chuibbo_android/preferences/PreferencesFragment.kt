@@ -32,7 +32,7 @@ class PreferencesFragment: Fragment() {
                 addToBackStack(null)
             }?.commit()
         }
-//
+
         view.preferences_faq_button?.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, PreferencesFaqFragment())
