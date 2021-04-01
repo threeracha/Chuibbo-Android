@@ -1,6 +1,6 @@
 package com.example.chuibbo_android.signup
 
-import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -75,7 +75,6 @@ class SignupFragment : Fragment() {
     }
 
     // EditText에 내용이 들어있고, CheckBox에 체크 되어있다면 계정생성하기 버튼 활성화
-    @SuppressLint("ResourceAsColor")
     fun checkEditTextAndCheckBox(): Unit {
         if (agree_checkbox.isChecked) {
             if (nickname_edit_text.text.toString().trimmedLength() != 0 && email_edit_text.toString().trimmedLength() != 0
@@ -83,17 +82,16 @@ class SignupFragment : Fragment() {
                 create_account_button.isEnabled = true
                 create_account_button.isClickable = true
                 create_account_button.setBackgroundResource(R.drawable.button_shape)
-                create_account_button.setTextColor(R.color.black) // TODO: textColor white로 바꾸기
+                create_account_button.setTextColor(Color.WHITE)
 
                 return
             }
         }
 
-        // TODO: 버튼 크기가 변경됨, 일관성 있게 만들기
         create_account_button.isEnabled = false
         create_account_button.isClickable = false
         create_account_button.setBackgroundResource(R.drawable.button_shape_disabled)
-        create_account_button.setTextColor(R.color.dark_gray)
+        create_account_button.setTextColor(Color.DKGRAY)
 
         return
     }

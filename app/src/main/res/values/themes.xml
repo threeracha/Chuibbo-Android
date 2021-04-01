@@ -32,10 +32,4 @@
         <item name="android:textColor">@color/main_blue</item>
         <item name="android:textSize">7.5sp</item>
     </style>
-
-    <style name="Widget.AppCompat.Button.listButton" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/white</item>
-        <item name="backgroundTint">@color/white</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
 </resources>
