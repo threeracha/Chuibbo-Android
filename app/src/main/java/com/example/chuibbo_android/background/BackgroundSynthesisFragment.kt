@@ -21,13 +21,11 @@ class BackgroundSynthesisFragment: Fragment() {
             0 -> {
                 activity?.supportFragmentManager?.beginTransaction()?.apply {
                     replace(R.id.color_contents, BackgroundSynthesisSolidcolorFragment())
-                    addToBackStack(null)
                 }?.commit()
             }
             1 -> {
                 activity?.supportFragmentManager?.beginTransaction()?.apply {
                     replace(R.id.color_contents, BackgroundSynthesisGradationFragment())
-                    addToBackStack(null)
                 }?.commit()
             }
         }
@@ -51,7 +49,6 @@ class BackgroundSynthesisFragment: Fragment() {
 
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.color_contents, BackgroundSynthesisSolidcolorFragment())
-            addToBackStack(null)
         }?.commit()
 
         return v

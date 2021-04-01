@@ -1,6 +1,6 @@
 package com.example.chuibbo_android.preferences
 
-import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_withdrawal_fragment.view.*
 
 class PreferencesWithdrawalFragment: Fragment() {
-    @SuppressLint("ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,17 +21,16 @@ class PreferencesWithdrawalFragment: Fragment() {
         view.withdrawal_contents.movementMethod = ScrollingMovementMethod()
 
         view.withdrawal_checkbox.setOnCheckedChangeListener { buttonView, isChecked -> // 체크박스 선택시 버튼 활성화
-            // TODO: 버튼 크기가 변경됨, 일관성 있게 만들기
             if (view.withdrawal_checkbox.isChecked) {
                 view.withdrawal_button.isEnabled = true
                 view.withdrawal_button.isClickable = true
                 view.withdrawal_button.setBackgroundResource(R.drawable.button_shape)
-                view.withdrawal_button.setTextColor(R.color.black) // TODO: textColor white로 바꾸기
+                view.withdrawal_button.setTextColor(Color.WHITE)
             } else {
                 view.withdrawal_button.isEnabled = false
                 view.withdrawal_button.isClickable = false
                 view.withdrawal_button.setBackgroundResource(R.drawable.button_shape_disabled)
-                view.withdrawal_button.setTextColor(R.color.dark_gray)
+                view.withdrawal_button.setTextColor(Color.DKGRAY)
             }
         }
 

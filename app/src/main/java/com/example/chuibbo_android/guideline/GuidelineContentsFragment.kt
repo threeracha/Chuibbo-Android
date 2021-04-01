@@ -77,6 +77,7 @@ class GuidelineContentsFragment : Fragment() {
                         transaction.replace(R.id.frameLayout, CameraFragment())
                         transaction.addToBackStack(null)
                         transaction.commit()
+                        transaction.addToBackStack(null)
                     }
                     activity?.toolbar!!.addView(btn)
                     // This is how to set layout_gravity properties to Button
