@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background_synthesis_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_200">
+
+    <ImageView
+        android:id="@+id/img_face_correction"
+        android:layout_width="250dp"
+        android:layout_height="315dp"
+        android:src="@drawable/background_synthesis_sample"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/photo_frame"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <!-- TODO: 그림자 -->
+    <com.google.android.material.tabs.TabLayout
+        style="@style/AppTabLayout"
+        android:id="@+id/tablayout_face_correction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        app:tabTextAppearance="@style/AppTabTextAppearance"
+        app:tabIndicator="@null"
+        app:layout_constraintTop_toBottomOf="@+id/img_face_correction"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_face"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="얼굴보정" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_makeup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메이크업" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_distortion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="왜곡보정" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <FrameLayout
+        android:id="@+id/correction_contents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@+id/tablayout_face_correction" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
