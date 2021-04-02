@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.login.LoginFailureDialogFragment
-import kotlinx.android.synthetic.main.login_fragment.*
+import com.example.chuibbo_android.faq.PreferencesFaqFragment
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_fragment.view.*
 
@@ -27,19 +26,19 @@ class PreferencesFragment: Fragment() {
             }?.commit()
         }
 
-//        view.preferences_notice_button?.setOnClickListener {
-//            activity?.supportFragmentManager?.beginTransaction()?.apply {
-//                replace(R.id.frameLayout, PreferencesNoticeFragment())
-//                addToBackStack(null)
-//            }?.commit()
-//        }
-//
-//        view.preferences_faq_button?.setOnClickListener {
-//            activity?.supportFragmentManager?.beginTransaction()?.apply {
-//                replace(R.id.frameLayout, PreferencesFaqFragment())
-//                addToBackStack(null)
-//            }?.commit()
-//        }
+        view.preferences_notice_button?.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, PreferencesNoticeFragment())
+                addToBackStack(null)
+            }?.commit()
+        }
+
+        view.preferences_faq_button?.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, PreferencesFaqFragment())
+                addToBackStack(null)
+            }?.commit()
+        }
 
         view.preferences_inquiry_button?.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {

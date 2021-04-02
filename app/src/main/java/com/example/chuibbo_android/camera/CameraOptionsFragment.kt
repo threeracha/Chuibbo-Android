@@ -50,7 +50,6 @@ class CameraOptionsFragment : Fragment() {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // FIXME: 2021/03/31 뒤로가기 하면 화살표 두번 나타남
                 activity?.supportFragmentManager!!.popBackStack()
             }
         }
