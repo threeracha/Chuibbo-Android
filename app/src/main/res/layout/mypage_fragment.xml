@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="47dp"
-    android:name=".mypage.MypageFragment"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/myalbum_text"
@@ -16,6 +14,7 @@
         android:textStyle="bold"
         android:layout_marginTop="26dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         tools:ignore="MissingConstraints" />
 
     <ImageView
@@ -40,47 +39,36 @@
         app:layout_constraintRight_toRightOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <HorizontalScrollView
-        android:id="@+id/myalbums"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/album_tab"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/myalbum_text"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:ignore="MissingConstraints">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/myalbum_text">
+        <ImageView
+            android:id="@+id/vertical_album"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="30dp">
+            android:src="@drawable/card_vertical_colored"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            tools:ignore="MissingConstraints" />
 
-            <ImageView
-                android:id="@+id/one"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="#FFC4C4C4"
-                android:layout_marginRight="10dp"
-                tools:ignore="MissingConstraints" />
+        <ImageView
+            android:id="@+id/horizontal_album"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/card_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/two"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="#FFC4C4C4"
-                android:layout_marginRight="10dp"
-                tools:ignore="MissingConstraints" />
-
-            <ImageView
-                android:id="@+id/three"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="#FFC4C4C4"
-                android:layout_marginRight="10dp"
-                tools:ignore="MissingConstraints" />
-
-        </LinearLayout>
-    </HorizontalScrollView>
+    <FrameLayout
+        android:id="@+id/album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/album_tab"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
