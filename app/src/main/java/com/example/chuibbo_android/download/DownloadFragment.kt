@@ -40,7 +40,5 @@ class DownloadFragment : Fragment() {
         (btn.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams)?.apply {
             this.gravity = Gravity.RIGHT
         }
-
-
     }
 }
