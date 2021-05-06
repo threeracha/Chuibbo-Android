@@ -10,17 +10,18 @@
 
     <ImageView
         android:id="@+id/background_synthesis_image"
-        android:layout_width="250dp"
-        android:layout_height="315dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:src="@drawable/background_synthesis_sample"
-        android:layout_marginTop="40dp"
+        android:layout_marginVertical="33dp"
+        android:layout_marginHorizontal="55dp"
         android:background="@drawable/photo_frame"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/background_synthesis_image_tabs"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <!-- TODO: 그림자 -->
     <com.google.android.material.tabs.TabLayout
         style="@style/AppTabLayout"
         android:id="@+id/background_synthesis_image_tabs"
@@ -29,8 +30,11 @@
         android:layout_marginTop="26dp"
         app:tabTextAppearance="@style/AppTabTextAppearance"
         app:tabIndicator="@null"
-        app:layout_constraintTop_toBottomOf="@+id/background_synthesis_image"
+        app:layout_constraintBottom_toTopOf="@+id/color_contents"
+        app:tabSelectedTextColor="@color/main_blue"
         tools:ignore="MissingConstraints">
+
+        <!-- TODO: 탭과 탭아이템 사이 선 -->
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/solid"
@@ -50,6 +54,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@+id/background_synthesis_image_tabs" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

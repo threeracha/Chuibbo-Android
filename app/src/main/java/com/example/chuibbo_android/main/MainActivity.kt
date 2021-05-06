@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_previous)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_button)
 
 
         camera_fab.setOnClickListener(object : View.OnClickListener {

@@ -1,17 +1,24 @@
 package com.example.chuibbo_android.background
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.camera.CameraFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.background_synthesis_fragment.*
+import kotlinx.android.synthetic.main.main_activity.*
 
 class BackgroundSynthesisFragment: Fragment() {
 
@@ -55,21 +62,17 @@ class BackgroundSynthesisFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         background_synthesis_image_tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 var pos = tab.getPosition()
                 changeView(pos)
-                // TODO: tab 선택시 폰트 크기 증가, bold, 높이 증가
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                // do nothing
-            }
+            override fun onTabUnselected(tab: TabLayout.Tab) { }
 
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                // do nothing
-            }
+            override fun onTabReselected(tab: TabLayout.Tab) { }
         })
     }
 }

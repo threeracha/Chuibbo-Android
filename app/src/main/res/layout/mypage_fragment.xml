@@ -5,18 +5,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/myalbum_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My album"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_marginTop="26dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:ignore="MissingConstraints" />
-
     <ImageView
         android:id="@+id/settings_button"
         android:layout_width="wrap_content"
@@ -25,7 +13,6 @@
         android:layout_marginTop="26dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/myalbum_text"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -43,15 +30,16 @@
         android:id="@+id/album_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/myalbum_text">
+        android:gravity="center"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/vertical_album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/card_vertical_colored"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="21dp"
             tools:ignore="MissingConstraints" />
 
         <ImageView
@@ -59,8 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@drawable/card_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="21dp"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
 

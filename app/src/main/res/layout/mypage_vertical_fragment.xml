@@ -10,6 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,9 +45,8 @@
                             android:src="@drawable/guideline_first"
                             android:layout_marginTop="20dp"
                             android:layout_marginBottom="70dp"
-                            android:layout_marginHorizontal="30dp"
+                            android:layout_marginHorizontal="15dp"
                             app:layout_constraintCircleRadius="10dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

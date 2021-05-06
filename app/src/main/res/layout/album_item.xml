@@ -28,7 +28,7 @@
                 android:cropToPadding="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/guideline_first"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="18dp"
                 android:layout_marginBottom="70dp"
                 android:layout_marginHorizontal="30dp"
                 app:layout_constraintCircleRadius="10dp"
