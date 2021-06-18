@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,21 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.api.ImageApi
 import com.example.chuibbo_android.image.Image
 import com.example.chuibbo_android.image.ImageViewModel
 import kotlinx.android.synthetic.main.confirm_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody.Part.Companion.createFormData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Multipart
+import java.io.File
 
 class ConfirmFragment : Fragment() {
     lateinit var filePath : String
@@ -49,6 +61,13 @@ class ConfirmFragment : Fragment() {
 
         var result : String
         var resultUri : Uri
+        var fileBody : RequestBody
+        var filePart : MultipartBody.Part
+        var retrofit = Retrofit.Builder()
+            .baseUrl("http://10.0.2.2:5000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        var server = retrofit.create(ImageApi::class.java)
 
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ImageViewModel::class.java)
 
@@ -60,12 +79,29 @@ class ConfirmFragment : Fragment() {
                 BitmapFactory.decodeFile(result)?.also { bitmap ->
                     img_preview.setImageBitmap(bitmap)
                 }
-
             } else if (bundle.getParcelable<Uri>("bundleKeyUri") != null) { // gallery
                 val uriPathHelper = URIPathHelper()
                 filePath = uriPathHelper.getPath(requireContext(), bundle.getParcelable<Uri>("bundleKeyUri")).toString()
                 resultUri = bundle.getParcelable("bundleKeyUri")
                 img_preview.setImageURI(resultUri)
+                fileBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), File(filePath));
+                filePart = createFormData("photo", "photo.jpg", fileBody);
+
+                // send resume photo to server
+                server.uploadResumePhoto(filePart).enqueue(object: Callback<String> {
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        Log.d("레트로핏 결과1", t.message)
+                    }
+
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        if (response?.isSuccessful) {
+                            Toast.makeText(context, "File Uploaded Successfully...", Toast.LENGTH_LONG).show();
+                            Log.d("레트로핏 결과2",""+response?.body().toString())
+                        } else {
+                            Toast.makeText(context, "Some error occurred...", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
             }
         }
         return inflater.inflate(R.layout.confirm_fragment, container, false)
