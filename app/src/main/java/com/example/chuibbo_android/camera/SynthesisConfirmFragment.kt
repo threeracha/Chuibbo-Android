@@ -35,7 +35,7 @@ import java.io.InputStream
 class SynthesisConfirmFragment : Fragment() {
 
     lateinit var vm : ImageViewModel
-    lateinit var next_button: Button
+    lateinit var next_button: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,13 +66,14 @@ class SynthesisConfirmFragment : Fragment() {
         }
 
         // sy: arrow_right_at_synthesis 버튼과 BackgroundSynthesisFragment 연결
-        next_button = Button(context)
-        next_button.setBackgroundResource(R.drawable.arrow_right_at_synthesis) // TODO: 버튼 크기 조정
+        next_button = ImageButton(context)
+        next_button.setImageResource(R.drawable.ic_arrow_right)
         val l3 = androidx.appcompat.widget.Toolbar.LayoutParams(
                         Toolbar.LayoutParams.WRAP_CONTENT,
                         Toolbar.LayoutParams.WRAP_CONTENT,
                 )
         next_button.layoutParams = l3
+        next_button.setBackground(null)
         activity?.toolbar!!.addView(next_button)
         (next_button.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams).apply {
             this.gravity = Gravity.RIGHT
