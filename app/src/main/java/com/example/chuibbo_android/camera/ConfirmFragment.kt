@@ -1,6 +1,7 @@
 package com.example.chuibbo_android.camera
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -31,6 +32,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Multipart
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 class ConfirmFragment : Fragment() {
     lateinit var filePath : String
@@ -42,6 +44,16 @@ class ConfirmFragment : Fragment() {
         setFragmentResult("requestKey", bundleOf("bundleKeyUri" to activityResult.data!!.data))
         val transaction = activity?.supportFragmentManager!!.beginTransaction()
         transaction.replace(R.id.frameLayout, ConfirmFragment())
+        clearBackStack()
+        transaction.commit()
+    }
+
+    private val requestSynthesisConfirmFragment = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { activityResult ->
+        setFragmentResult("requestKey", bundleOf("bundleKeyUri" to activityResult.data!!.data))
+        val transaction = activity?.supportFragmentManager!!.beginTransaction()
+        transaction.replace(R.id.frameLayout, SynthesisConfirmFragment())
         clearBackStack()
         transaction.commit()
     }
@@ -58,16 +70,8 @@ class ConfirmFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         var result : String
         var resultUri : Uri
-        var fileBody : RequestBody
-        var filePart : MultipartBody.Part
-        var retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        var server = retrofit.create(ImageApi::class.java)
 
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ImageViewModel::class.java)
 
@@ -84,24 +88,6 @@ class ConfirmFragment : Fragment() {
                 filePath = uriPathHelper.getPath(requireContext(), bundle.getParcelable<Uri>("bundleKeyUri")).toString()
                 resultUri = bundle.getParcelable("bundleKeyUri")
                 img_preview.setImageURI(resultUri)
-                fileBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), File(filePath));
-                filePart = createFormData("photo", "photo.jpg", fileBody);
-
-                // send resume photo to server
-                server.uploadResumePhoto(filePart).enqueue(object: Callback<String> {
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-                        Log.d("레트로핏 결과1", t.message)
-                    }
-
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                        if (response?.isSuccessful) {
-                            Toast.makeText(context, "File Uploaded Successfully...", Toast.LENGTH_LONG).show();
-                            Log.d("레트로핏 결과2",""+response?.body().toString())
-                        } else {
-                            Toast.makeText(context, "Some error occurred...", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
             }
         }
         return inflater.inflate(R.layout.confirm_fragment, container, false)
@@ -119,13 +105,53 @@ class ConfirmFragment : Fragment() {
         }
         btn_confirm.setOnClickListener {
             // TODO: 2021/03/24 이미지 서버로 보내고 로딩 페이지 띄우기. 서버로부터 이미지 받으면 SysthesisFragment 띄우기
+            var fileBody : RequestBody
+            var filePart : MultipartBody.Part
+            var okHttpClient : OkHttpClient = OkHttpClient().newBuilder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .build()
+            var retrofit = Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build()
+            var server = retrofit.create(ImageApi::class.java)
+
             // room 에 이미지 데이터 저장
             var data = Image(0, filePath)
             vm.insert(data)
-            Toast.makeText(context, "Successfully saved", Toast.LENGTH_LONG).show()
-            val transaction = activity?.supportFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.frameLayout, SynthesisConfirmFragment())
-            transaction.commit()
+            // Toast.makeText(context, "Successfully saved", Toast.LENGTH_LONG).show()
+
+            fileBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), File(filePath));
+            filePart = createFormData("photo", "photo.jpg", fileBody);
+
+            // request resume photo to server
+            server.uploadResumePhoto(filePart).enqueue(object: Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response?.isSuccessful) {
+                        Toast.makeText(context, "File Uploaded Successfully...", Toast.LENGTH_LONG).show();
+
+                        val file = response.body()?.byteStream()
+                        val bitmapResultImage = BitmapFactory.decodeStream(file)
+
+                        setFragmentResult("requestBitmapKey", bundleOf("bundleKey" to bitmapResultImage))
+                        val transaction = activity?.supportFragmentManager!!.beginTransaction()
+                        transaction.replace(R.id.frameLayout, SynthesisConfirmFragment())
+                        transaction.commit()
+                    } else {
+                        Toast.makeText(context, "Some error occurred...", Toast.LENGTH_LONG).show();
+                    }
+                }
+            })
         }
     }
 
