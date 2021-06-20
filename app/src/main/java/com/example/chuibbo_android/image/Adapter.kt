@@ -34,7 +34,7 @@ class Adapter : RecyclerView.Adapter<Adapter.ItemViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(itemlist[position])
+        holder.bind(itemlist[0])
     }
 
     fun addCategoryList(item : List<Image>){
