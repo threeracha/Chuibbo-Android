@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_previous)
 
-
         camera_fab.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 val transaction = supportFragmentManager.beginTransaction()

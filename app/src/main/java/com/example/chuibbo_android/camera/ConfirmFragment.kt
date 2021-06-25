@@ -11,15 +11,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.LoadState
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.ImageApi
+import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.image.Image
 import com.example.chuibbo_android.image.ImageViewModel
+import com.example.chuibbo_android.main.MainActivity
 import kotlinx.android.synthetic.main.confirm_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import okhttp3.*
@@ -90,6 +94,7 @@ class ConfirmFragment : Fragment() {
                 img_preview.setImageURI(resultUri)
             }
         }
+
         return inflater.inflate(R.layout.confirm_fragment, container, false)
     }
 
@@ -97,6 +102,7 @@ class ConfirmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.toolbar!!.setTitle("사진 선택")
+
         // FIXME: 2021/03/25 여기서 뒤로가기 버튼 누르면 앱이 종료됨
 
         btn_cancel.setOnClickListener {
@@ -127,6 +133,13 @@ class ConfirmFragment : Fragment() {
             fileBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), File(filePath));
             filePart = createFormData("photo", "photo.jpg", fileBody);
 
+            //activate progress bar & disable the buttons
+            layoutProgressBar.visibility=View.VISIBLE
+            progressBar.visibility = View.VISIBLE
+            progressText.visibility = View.VISIBLE
+            btn_confirm.isEnabled = false
+            btn_cancel.isEnabled = false
+
             // request resume photo to server
             server.uploadResumePhoto(filePart).enqueue(object: Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -143,10 +156,15 @@ class ConfirmFragment : Fragment() {
                         val file = response.body()?.byteStream()
                         val bitmapResultImage = BitmapFactory.decodeStream(file)
 
+                        //remove progress bar
+                        layoutProgressBar.visibility=View.GONE
+                        progressBar.visibility = View.GONE
+                        progressText.visibility = View.GONE
+
                         setFragmentResult("requestBitmapKey", bundleOf("bundleKey" to bitmapResultImage))
                         val transaction = activity?.supportFragmentManager!!.beginTransaction()
                         transaction.replace(R.id.frameLayout, SynthesisConfirmFragment())
-                        transaction.commit()
+                        transaction.commitAllowingStateLoss()
                     } else {
                         Toast.makeText(context, "Some error occurred...", Toast.LENGTH_LONG).show();
                     }
@@ -162,7 +180,7 @@ class ConfirmFragment : Fragment() {
         }
     }
 
-   // TODO: 이미지 resize 할 size 정하기 & 함수 적용
+    // TODO: 이미지 resize 할 size 정하기 & 함수 적용
     // ImageView에 사진을 넣는 메소드
     private fun setPic(photoPath : String){
         var img : ImageView = img_preview

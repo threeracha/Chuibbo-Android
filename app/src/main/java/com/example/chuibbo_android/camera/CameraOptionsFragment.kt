@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.guideline_fragment_contents.*
 
 class CameraOptionsFragment : Fragment() {
     private lateinit var callback: OnBackPressedCallback
+    private var face1_flag: Boolean = false
+    private var face2_flag: Boolean = false
     private var hair1_flag: Boolean = false
     private var hair2_flag: Boolean = false
     private var hair3_flag: Boolean = false
@@ -35,6 +37,16 @@ class CameraOptionsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         img_face1.setImageResource(R.drawable.round_face)
         img_face2.setImageResource(R.drawable.long_face)
+
+        img_face1.setOnClickListener {
+            controlOption(img_face1, face1_flag)
+            face1_flag = !face1_flag
+        }
+
+        img_face2.setOnClickListener {
+            controlOption(img_face2, face2_flag)
+            face2_flag = !face2_flag
+        }
 
         arguments?.let {
             when(it.getInt(ARGS_PAGER_POSITION)) {
