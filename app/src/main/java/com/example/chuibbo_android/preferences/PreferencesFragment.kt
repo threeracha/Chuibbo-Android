@@ -22,7 +22,7 @@ class PreferencesFragment : Fragment() {
 
         view.preferences_user_info_modification_button?.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, PreferencesUserInfoModificationFragmentFragment())
+                replace(R.id.frameLayout, PreferencesUserInfoModificationFragment())
                 addToBackStack(null)
             }?.commit()
         }
