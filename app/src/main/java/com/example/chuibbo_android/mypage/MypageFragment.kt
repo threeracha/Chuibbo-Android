@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.preferences.PreferencesFragment
-import com.example.chuibbo_android.preferences.PreferencesLogoutDialogFragment
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
 import kotlinx.android.synthetic.main.preferences_fragment.view.*
 
 class MypageFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         var view: View = inflater.inflate(R.layout.mypage_fragment, container, false)

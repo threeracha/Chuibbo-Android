@@ -1,13 +1,10 @@
 package com.example.chuibbo_android.camera
 
 import android.content.Context
-import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -49,7 +46,7 @@ class CameraOptionsFragment : Fragment() {
         }
 
         arguments?.let {
-            when(it.getInt(ARGS_PAGER_POSITION)) {
+            when (it.getInt(ARGS_PAGER_POSITION)) {
                 0 -> { // 여
                     img_hair1.setImageResource(R.drawable.female_short_hair)
                     img_hair2.setImageResource(R.drawable.female_mid_hair)
@@ -132,15 +129,14 @@ class CameraOptionsFragment : Fragment() {
     private fun controlOption(optionItem: ImageView, currentFlag: Boolean) {
         when (currentFlag) {
             false -> {
-                optionItem.setPadding(6,6,6,6)
+                optionItem.setPadding(6, 6, 6, 6)
                 optionItem.setBackgroundResource(R.drawable.selected_option_border)
             }
             true -> {
-                optionItem.setPadding(0,0,0,0)
+                optionItem.setPadding(0, 0, 0, 0)
             }
         }
     }
-
 
     companion object {
         private const val ARGS_PAGER_POSITION = "args_pager_position"
@@ -155,4 +151,3 @@ class CameraOptionsFragment : Fragment() {
         }
     }
 }
-
