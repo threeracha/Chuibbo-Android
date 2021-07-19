@@ -13,11 +13,12 @@ import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.preferences_delete_cache_dialog_fragment.view.*
 
-class PreferencesDeleteCacheDialogFragment: DialogFragment() {
+class PreferencesDeleteCacheDialogFragment : DialogFragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         var view: View = inflater.inflate(R.layout.preferences_delete_cache_dialog_fragment, container, false)
@@ -37,7 +38,7 @@ class PreferencesDeleteCacheDialogFragment: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return dialog
     }
 }

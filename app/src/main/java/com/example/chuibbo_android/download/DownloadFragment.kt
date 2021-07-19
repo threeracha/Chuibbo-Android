@@ -10,24 +10,27 @@ import android.widget.ImageButton
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.correction.FaceCorrectionFragment
 import kotlinx.android.synthetic.main.main_activity.*
 
 class DownloadFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.download_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var btn : ImageButton = ImageButton(activity?.applicationContext)
+        var btn: ImageButton = ImageButton(activity?.applicationContext)
         btn.setImageResource(R.drawable.ic_download)
         val l3 =
-                androidx.appcompat.widget.Toolbar.LayoutParams(
-                        Toolbar.LayoutParams.WRAP_CONTENT,
-                        Toolbar.LayoutParams.WRAP_CONTENT
-                )
+            androidx.appcompat.widget.Toolbar.LayoutParams(
+                Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT
+            )
         btn.setBackgroundColor(Color.WHITE)
         btn.layoutParams = l3
         btn.setBackground(null)

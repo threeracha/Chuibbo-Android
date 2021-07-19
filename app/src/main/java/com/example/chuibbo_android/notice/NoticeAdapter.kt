@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.faq.Faq
 import com.example.chuibbo_android.faq.ToggleAnimation
 
 class NoticeAdapter(
@@ -53,6 +52,4 @@ class NoticeAdapter(
     override fun getItemCount(): Int {
         return noticeList.size
     }
-
-
 }

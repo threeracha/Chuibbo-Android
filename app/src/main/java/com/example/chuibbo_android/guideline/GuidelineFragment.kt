@@ -1,7 +1,5 @@
 import GuidelineContentsFragment.Companion.newIntent
-import android.annotation.SuppressLint
 import android.content.Context
-import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +13,6 @@ import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.guideline_fragment.*
 import kotlinx.android.synthetic.main.guideline_fragment_contents.*
 import kotlinx.android.synthetic.main.main_activity.*
-import me.relex.circleindicator.CircleIndicator3
 
 private const val NUM_PAGES = 4
 
@@ -28,7 +25,11 @@ class GuidelineFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var callback: OnBackPressedCallback
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.guideline_fragment, container, false)
     }
 
@@ -51,11 +52,10 @@ class GuidelineFragment : Fragment() {
                     // If the user is currently looking at the first step, allow the system to handle the
                     // Back button. This calls finish() on this activity and pops the back stack.
                     activity?.supportFragmentManager!!.popBackStack()
-                    //childFragmentManager.popBackStack()
+                    // childFragmentManager.popBackStack()
                 } else {
                     // Otherwise, select the previous step.
                     viewPager.currentItem = viewPager.currentItem - 1
-
                 }
             }
         }
@@ -64,7 +64,7 @@ class GuidelineFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        val bbb : ImageButton? = activity?.toolbar!!.findViewById(R.id.btn_next)
+        val bbb: ImageButton? = activity?.toolbar!!.findViewById(R.id.btn_next)
         activity?.toolbar!!.removeView(bbb)
         callback.remove()
     }
@@ -77,6 +77,6 @@ class GuidelineFragment : Fragment() {
         override fun getItemCount(): Int = NUM_PAGES
 
         override fun createFragment(position: Int): Fragment =
-                newIntent(position)
+            newIntent(position)
     }
 }

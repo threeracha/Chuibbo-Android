@@ -9,8 +9,9 @@ import com.example.chuibbo_android.R
 
 class FaceCorrectionMakeupFragment : Fragment() {
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.face_correction_makeup_fragment, container, false)
     }

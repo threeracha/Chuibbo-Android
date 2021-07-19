@@ -6,10 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import kotlinx.android.synthetic.main.preferences_faq_and_notices_item.view.*
 
 class FaqAdapter(
     private val faqList: List<Faq>
@@ -53,6 +51,4 @@ class FaqAdapter(
     override fun getItemCount(): Int {
         return faqList.size
     }
-
-
 }

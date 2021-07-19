@@ -10,7 +10,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
-class ProductImageUploader {
+class ResumeImageUploader {
     suspend fun upload(imageFile: File) = try {
         val part = makeImagePart(imageFile)
         withContext(Dispatchers.IO) {

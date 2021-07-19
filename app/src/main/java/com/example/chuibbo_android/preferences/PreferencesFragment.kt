@@ -10,18 +10,19 @@ import com.example.chuibbo_android.faq.PreferencesFaqFragment
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_fragment.view.*
 
-class PreferencesFragment: Fragment() {
+class PreferencesFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         var view = inflater.inflate(R.layout.preferences_fragment, container, false)
 
         view.preferences_user_info_modification_button?.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, PreferencesUserInfoModificationFragmentFragment())
+                replace(R.id.frameLayout, PreferencesUserInfoModificationFragment())
                 addToBackStack(null)
             }?.commit()
         }

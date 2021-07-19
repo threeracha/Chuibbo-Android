@@ -1,7 +1,6 @@
 package com.example.chuibbo_android.login
 
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,8 @@ import kotlinx.android.synthetic.main.login_fragment.*
 class LoginFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.login_fragment, container, false)
@@ -30,14 +30,14 @@ class LoginFragment : Fragment() {
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "Login Failure") }
         }
 
-        question_password_text.setOnClickListener{
+        question_password_text.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, PreferencesPasswordForgetFragment())
                 addToBackStack(null)
             }?.commit()
         }
 
-        make_account_text.setOnClickListener{
+        make_account_text.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, SignupFragment())
                 addToBackStack(null)
