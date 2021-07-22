@@ -41,8 +41,9 @@ class FaceCorrectionFragment : Fragment() {
 
     @SuppressLint("ResourceAsColor")
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         var v = inflater.inflate(R.layout.face_correction_fragment, container, false)
 
@@ -55,8 +56,8 @@ class FaceCorrectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // this is for next button on the last page
-        //btn = ImageButton(context)
-        var btn : ImageButton = ImageButton(activity?.applicationContext)
+        // btn = ImageButton(context)
+        var btn: ImageButton = ImageButton(activity?.applicationContext)
         btn.setImageResource(R.drawable.ic_arrow_right)
         val l3 =
             androidx.appcompat.widget.Toolbar.LayoutParams(

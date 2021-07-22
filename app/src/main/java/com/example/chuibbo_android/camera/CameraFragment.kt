@@ -1,7 +1,5 @@
 package com.example.chuibbo_android.camera
 
-import com.example.chuibbo_android.camera.CameraOptionsFragment.Companion.newIntent
-import GuidelineFragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -21,6 +19,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.camera.CameraOptionsFragment.Companion.newIntent
 import com.google.android.material.tabs.TabLayoutMediator
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -29,13 +28,14 @@ import kotlinx.android.synthetic.main.main_activity.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 private const val NUM_PAGES = 2
 
 class CameraFragment : Fragment() {
     private lateinit var currentPhotoPath: String
-    private lateinit var optionsViewPager : ViewPager2
+    private lateinit var optionsViewPager: ViewPager2
 
     private val requestCameraActivity = registerForActivityResult(
         StartActivityForResult()
@@ -82,8 +82,8 @@ class CameraFragment : Fragment() {
         optionsViewPager.adapter = pagerAdapter2
 
         val tabLayout = tabLayout
-        TabLayoutMediator(tabLayout,  optionViewPager) { tab, position ->
-            when(position) {
+        TabLayoutMediator(tabLayout, optionViewPager) { tab, position ->
+            when (position) {
                 0 -> {
                     tab.text = "여자"
                 }
@@ -96,50 +96,53 @@ class CameraFragment : Fragment() {
         setPermission() // 카메라 및 갤러리 접근 권한 요청
 
         gallery_capture_button.setOnClickListener {
-            galleryAddPic() }
+            galleryAddPic()
+        }
         camera_capture_button.setOnClickListener {
             dispatchTakePictureIntent()
         }
     }
 
-    //테드 퍼미션 설정 (카메라 사용시 권한 설정 팝업을 쉽게 구현하기 위해 사용)
+    // 테드 퍼미션 설정 (카메라 사용시 권한 설정 팝업을 쉽게 구현하기 위해 사용)
     private fun setPermission() {
         val permission = object : PermissionListener {
-            override fun onPermissionGranted() {//설정해 놓은 위험권한(카메라 접근 등)이 허용된 경우 이곳을 실행
-                Toast.makeText(activity,"요청하신 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
+            override fun onPermissionGranted() { // 설정해 놓은 위험권한(카메라 접근 등)이 허용된 경우 이곳을 실행
+                Toast.makeText(activity, "요청하신 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {//설정해 놓은 위험권한이 거부된 경우 이곳을 실행
-                Toast.makeText(activity,"요청하신 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) { // 설정해 놓은 위험권한이 거부된 경우 이곳을 실행
+                Toast.makeText(activity, "요청하신 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
         TedPermission.with(activity)
-                .setPermissionListener(permission)
-                .setRationaleMessage("카메라 앱을 사용하시려면 권한을 허용해주세요.")
-                .setDeniedMessage("권한을 거부하셨습니다.앱을 사용하시려면 [앱 설정]-[권한] 항목에서 권한을 허용해주세요.")
-                .setPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA)
-                .check()
+            .setPermissionListener(permission)
+            .setRationaleMessage("카메라 앱을 사용하시려면 권한을 허용해주세요.")
+            .setDeniedMessage("권한을 거부하셨습니다.앱을 사용하시려면 [앱 설정]-[권한] 항목에서 권한을 허용해주세요.")
+            .setPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA)
+            .check()
     }
 
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(activity?.packageManager)?.also {
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    Log.d("test", "error: $ex")
-                    null
-                }
-                var photoURI : Uri? = null
-                // photoUri를 보내는 코드
-                photoFile?.also {
-                    activity?.also {
-                        photoURI = FileProvider.getUriForFile(it, "com.example.chuibbo_android.camera", photoFile)
+            activity?.packageManager?.let {
+                takePictureIntent.resolveActivity(it)?.also {
+                    val photoFile: File? = try {
+                        createImageFile()
+                    } catch (ex: IOException) {
+                        // Error occurred while creating the File
+                        Log.d("test", "error: $ex")
+                        null
                     }
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    requestCameraActivity.launch(takePictureIntent)
+                    var photoURI: Uri? = null
+                    // photoUri를 보내는 코드
+                    photoFile?.also {
+                        activity?.also {
+                            photoURI = FileProvider.getUriForFile(it, "com.example.chuibbo_android.camera", photoFile)
+                        }
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                        requestCameraActivity.launch(takePictureIntent)
+                    }
                 }
             }
         }
@@ -159,9 +162,9 @@ class CameraFragment : Fragment() {
         val imageFileName = "JPEG_" + timeStamp + "_"
         val storageDir = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val image = File.createTempFile(
-                imageFileName, /* prefix */
-                ".jpg", /* suffix */
-                storageDir      /* directory */
+            imageFileName, /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
         )
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.absolutePath

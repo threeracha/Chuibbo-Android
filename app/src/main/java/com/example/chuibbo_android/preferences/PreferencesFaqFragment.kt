@@ -43,7 +43,7 @@ class PreferencesFaqFragment : Fragment() {
         val answers = resources.getStringArray(R.array.faq_answers)
 
         for (i in faqs.indices) {
-            val faq= Faq().apply {
+            val faq = Faq().apply {
                 question = faqs[i]
                 answer = answers[i]
             }

@@ -1,28 +1,19 @@
 package com.example.chuibbo_android.camera
 
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toolbar
-import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.background.BackgroundSynthesisFragment
-import com.example.chuibbo_android.background.BackgroundSynthesisSolidcolorFragment
 import com.example.chuibbo_android.image.Adapter
 import com.example.chuibbo_android.image.ImageViewModel
 import kotlinx.android.synthetic.main.download_fragment.view.*
@@ -30,11 +21,10 @@ import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.overall_synthesis_confirm_fragment.*
 import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.*
 import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.view.*
-import java.io.InputStream
 
 class SynthesisConfirmFragment : Fragment() {
 
-    lateinit var vm : ImageViewModel
+    lateinit var vm: ImageViewModel
     lateinit var next_button: ImageButton
 
     override fun onCreateView(
@@ -69,9 +59,9 @@ class SynthesisConfirmFragment : Fragment() {
         next_button = ImageButton(context)
         next_button.setImageResource(R.drawable.ic_arrow_right)
         val l3 = androidx.appcompat.widget.Toolbar.LayoutParams(
-                        Toolbar.LayoutParams.WRAP_CONTENT,
-                        Toolbar.LayoutParams.WRAP_CONTENT,
-                )
+            Toolbar.LayoutParams.WRAP_CONTENT,
+            Toolbar.LayoutParams.WRAP_CONTENT,
+        )
         next_button.layoutParams = l3
         next_button.setBackground(null)
         activity?.toolbar!!.addView(next_button)
@@ -80,14 +70,15 @@ class SynthesisConfirmFragment : Fragment() {
         }
         next_button.setOnClickListener {
             activity?.supportFragmentManager!!.beginTransaction()
-            .replace(R.id.frameLayout, BackgroundSynthesisFragment())
-            .commit()
+                .replace(R.id.frameLayout, BackgroundSynthesisFragment())
+                .commit()
 
             activity?.toolbar!!.removeView(next_button)
         }
 
         vm.allItem.observe(
-            viewLifecycleOwner, Observer {
+            viewLifecycleOwner,
+            Observer {
                 it.let {
                     ad.addCategoryList(it)
                 }

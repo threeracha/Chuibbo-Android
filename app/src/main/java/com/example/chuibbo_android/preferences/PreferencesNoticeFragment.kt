@@ -44,7 +44,7 @@ class PreferencesNoticeFragment : Fragment() {
         val titles = resources.getStringArray(R.array.notice_title)
         val contents = resources.getStringArray(R.array.notice_content)
 
-        for(i in titles.indices) {
+        for (i in titles.indices) {
             val notice = Notice().apply {
                 title = titles[i]
                 content = contents[i]

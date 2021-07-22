@@ -13,21 +13,30 @@ import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_inquiry_fragment.view.*
 
-class PreferencesInquiry: Fragment() {
+class PreferencesInquiry : Fragment() {
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         var view: View = inflater.inflate(R.layout.preferences_inquiry_fragment, container, false)
 
-        view.inquiry_contents.addTextChangedListener(object: TextWatcher { // 문의하기 내용 입력시 버튼 활성화
+        view.inquiry_contents.addTextChangedListener(object : TextWatcher { // 문의하기 내용 입력시 버튼 활성화
             override fun afterTextChanged(s: Editable) {}
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {}
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
                 if (view.inquiry_contents.text.toString().trimmedLength() != 0) {
                     view.inquiry_button.isEnabled = true
                     view.inquiry_button.isClickable = true

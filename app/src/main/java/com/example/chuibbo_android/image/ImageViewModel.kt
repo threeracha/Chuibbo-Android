@@ -4,9 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.chuibbo_android.image.Image
-import com.example.chuibbo_android.image.ImageDatabase
-import com.example.chuibbo_android.image.ImageRepository
 import kotlinx.coroutines.launch
 
 class ImageViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,7 +20,7 @@ class ImageViewModel(application: Application) : AndroidViewModel(application) {
         repository.imageInsert(item)
     }
 
-    fun delete()=viewModelScope.launch {
+    fun delete() = viewModelScope.launch {
         repository.delete()
     }
 }

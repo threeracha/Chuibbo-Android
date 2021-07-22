@@ -14,14 +14,13 @@ import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.camera.CameraFragment
 import com.example.chuibbo_android.correction.FaceCorrectionFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.background_synthesis_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 
-class BackgroundSynthesisFragment: Fragment() {
+class BackgroundSynthesisFragment : Fragment() {
 
     @SuppressLint("ResourceAsColor")
     private fun changeView(index: Int) {
@@ -44,14 +43,15 @@ class BackgroundSynthesisFragment: Fragment() {
 
         // color picker로 선택된 컬러로 배경 색상 변경
         setFragmentResultListener("Picked Color") { resultKey, bundle ->
-            background_synthesis_image.setBackgroundColor(Color.parseColor("#"+bundle.getString("color")))
+            background_synthesis_image.setBackgroundColor(Color.parseColor("#" + bundle.getString("color")))
         }
     }
 
     @SuppressLint("ResourceAsColor")
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         var v = inflater.inflate(R.layout.background_synthesis_fragment, container, false)
 
@@ -65,14 +65,14 @@ class BackgroundSynthesisFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // this is for next button on the last page
-        //btn = ImageButton(context)
-        var btn : ImageButton = ImageButton(activity?.applicationContext)
+        // btn = ImageButton(context)
+        var btn: ImageButton = ImageButton(activity?.applicationContext)
         btn.setImageResource(R.drawable.ic_arrow_right)
         val l3 =
-                androidx.appcompat.widget.Toolbar.LayoutParams(
-                        Toolbar.LayoutParams.WRAP_CONTENT,
-                        Toolbar.LayoutParams.WRAP_CONTENT
-                )
+            androidx.appcompat.widget.Toolbar.LayoutParams(
+                Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT
+            )
         btn.setBackgroundColor(Color.WHITE)
         btn.layoutParams = l3
         btn.setBackground(null)

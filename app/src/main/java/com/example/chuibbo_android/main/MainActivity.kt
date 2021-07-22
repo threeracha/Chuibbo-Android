@@ -10,10 +10,14 @@ import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
 
-//     var customFragmentFactory = CustomFragmentFactory("")
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart Called")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +30,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_button)
-
 
         camera_fab.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {

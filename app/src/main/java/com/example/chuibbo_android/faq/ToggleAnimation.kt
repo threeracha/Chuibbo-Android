@@ -23,7 +23,7 @@ class ToggleAnimation {
             view.startAnimation(animation)
         }
 
-        private fun expandAction(view: View) : Animation {
+        private fun expandAction(view: View): Animation {
             view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             val actualHeight = view.measuredHeight
 
@@ -62,5 +62,4 @@ class ToggleAnimation {
             view.startAnimation(animation)
         }
     }
-
 }

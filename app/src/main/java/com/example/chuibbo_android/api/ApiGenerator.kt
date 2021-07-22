@@ -1,6 +1,5 @@
 package com.example.chuibbo_android.api
 
-import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +11,7 @@ class ApiGenerator {
         .build()
         .create(api)
 
-    fun <T> generateRefreshClient(api: Class<T>) : T = Retrofit.Builder()
+    fun <T> generateRefreshClient(api: Class<T>): T = Retrofit.Builder()
         .baseUrl(HOST)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

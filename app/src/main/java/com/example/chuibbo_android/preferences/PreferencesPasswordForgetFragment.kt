@@ -13,11 +13,12 @@ import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_password_forget_fragment.*
 
-class PreferencesPasswordForgetFragment: Fragment() {
+class PreferencesPasswordForgetFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.preferences_password_forget_fragment, container, false)
     }
@@ -30,7 +31,7 @@ class PreferencesPasswordForgetFragment: Fragment() {
 
         certification_code.addTextChangedListener(EditTextWatcher2())
 
-        continue_button.setOnClickListener{
+        continue_button.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, PreferencesPasswordModificationFragment())
                 addToBackStack(null)
@@ -38,13 +39,17 @@ class PreferencesPasswordForgetFragment: Fragment() {
         }
     }
 
-    inner class EditTextWatcher: TextWatcher {
+    inner class EditTextWatcher : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {}
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-        override fun onTextChanged(s: CharSequence, start: Int,
-                                   before: Int, count: Int) {
+        override fun onTextChanged(
+            s: CharSequence,
+            start: Int,
+            before: Int,
+            count: Int
+        ) {
             if (email_text.toString().trimmedLength() != 0) {
                 certification_button.isEnabled = true
                 certification_button.isClickable = true
@@ -61,13 +66,17 @@ class PreferencesPasswordForgetFragment: Fragment() {
         }
     }
 
-    inner class EditTextWatcher2: TextWatcher {
+    inner class EditTextWatcher2 : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {}
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-        override fun onTextChanged(s: CharSequence, start: Int,
-                                   before: Int, count: Int) {
+        override fun onTextChanged(
+            s: CharSequence,
+            start: Int,
+            before: Int,
+            count: Int
+        ) {
             if (email_text.toString().trimmedLength() != 0) {
                 continue_button.isEnabled = true
                 continue_button.isClickable = true
