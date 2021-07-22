@@ -28,4 +28,28 @@
     <string name="take_picture_again">사진 다시 선택/촬영하기</string>
     <string name="certification_text_korean">인증</string>
     <string name="password_modification">비밀번호 변경</string>
+
+    <string-array name="faq_questions">
+        <item>왜 이건 이래요?</item>
+        <item>왜 이건 이래요?</item>
+        <item>왜 이건 이래요?</item>
+    </string-array>
+
+    <string-array name="faq_answers">
+        <item>이건 이래서 그래요</item>
+        <item>이건 이래서 그래요</item>
+        <item>이건 이래서 그래요\n이건 이래서 그래요\n이건 이래서 그래요</item>
+    </string-array>
+
+    <string-array name="notice_title">
+        <item>모두에게 알립니다요</item>
+        <item>모두에게 알립니다요</item>
+        <item>모두에게 알립니다요</item>
+    </string-array>
+
+    <string-array name="notice_content">
+        <item>모두모두 많이 참여해주세요~</item>
+        <item>모두모두 많이 참여해주세요~</item>
+        <item>모두모두 많이 참여해주세요~</item>
+    </string-array>
 </resources>
