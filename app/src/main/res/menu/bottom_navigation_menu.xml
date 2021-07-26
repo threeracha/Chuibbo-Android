@@ -7,12 +7,18 @@
         android:enabled="true"
         android:title="@string/home_text" />
     <item
-        android:id="@+id/camera_item"
+        android:id="@+id/calendar_item"
+        android:icon="@drawable/calendar"
         android:enabled="true"
-        android:title="@string/home_text" />
+        android:title="@string/calendar_text" />
+    <item
+        android:id="@+id/camera_item"
+        android:icon="@drawable/ic_camera"
+        android:enabled="true"
+        android:title="@string/camera_text" />
     <item
         android:id="@+id/mypage_item"
         android:icon="@drawable/ic_mypage"
         android:enabled="true"
-        android:title="@string/home_text" />
+        android:title="@string/mypage_text" />
 </menu>

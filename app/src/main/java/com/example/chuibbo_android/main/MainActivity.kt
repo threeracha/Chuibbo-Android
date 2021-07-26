@@ -3,7 +3,6 @@ package com.example.chuibbo_android.main
 import GuidelineFragment
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.home.HomeFragment
@@ -16,7 +15,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onStart() {
         super.onStart()
-        Timber.i("onStart Called")
+        // Timber.i("onStart Called")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,19 +27,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         bottomNavigationView.selectedItemId = R.id.home_item
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_button)
-
-        camera_fab.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, GuidelineFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-
-                bottomNavigationView.selectedItemId = R.id.camera_item // 카메라 탭 클릭 시, 다른 탭 비활성화
-            }
-        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -57,7 +43,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 transaction.commit()
                 return true
             }
-            R.id.mypage_item -> {
+            R.id.calendar_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, MypageFragment())
                 transaction.addToBackStack(null)
@@ -65,6 +51,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.camera_item -> {
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frameLayout, GuidelineFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
+                return true
+            }
+            R.id.mypage_item -> {
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frameLayout, MypageFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
                 return true
             }
         }
