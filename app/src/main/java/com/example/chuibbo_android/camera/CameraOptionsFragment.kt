@@ -9,18 +9,18 @@ import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.option.Option
 import kotlinx.android.synthetic.main.camera_option_fragment.*
-import kotlinx.android.synthetic.main.guideline_fragment_contents.*
+
+enum class Sex(val type: Int) {MALE(0), FEMALE(1)}
+enum class FaceType(val type: Int) {ROUND(0), LONG(1)}
+enum class Hairstyle(val style: String) {
+    BANG("bang"), HALF_BANG("half_bang"), NO_BANG("no_bang"),
+    LONG("long"), MID("mid"), SHORT("short")
+}
 
 class CameraOptionsFragment : Fragment() {
     private lateinit var callback: OnBackPressedCallback
-    private var face1_flag: Boolean = false
-    private var face2_flag: Boolean = false
-    private var hair1_flag: Boolean = false
-    private var hair2_flag: Boolean = false
-    private var hair3_flag: Boolean = false
-    private var suit1_flag: Boolean = false
-    private var suit2_flag: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,22 +32,26 @@ class CameraOptionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         img_face1.setImageResource(R.drawable.round_face)
         img_face2.setImageResource(R.drawable.long_face)
 
         img_face1.setOnClickListener {
-            controlOption(img_face1, face1_flag)
-            face1_flag = !face1_flag
+            controlOption(img_face1, true)
+            controlOption(img_face2, false)
+            Option.Opt.opt.face_shape = FaceType.ROUND
         }
 
         img_face2.setOnClickListener {
-            controlOption(img_face2, face2_flag)
-            face2_flag = !face2_flag
+            controlOption(img_face2, true)
+            controlOption(img_face1, false)
+            Option.Opt.opt.face_shape = FaceType.LONG
         }
 
         arguments?.let {
             when (it.getInt(ARGS_PAGER_POSITION)) {
                 0 -> { // 여
+                    Option.Opt.opt.sex = Sex.FEMALE
                     img_hair1.setImageResource(R.drawable.female_short_hair)
                     img_hair2.setImageResource(R.drawable.female_mid_hair)
                     img_hair3.setImageResource(R.drawable.female_long_hair)
@@ -55,26 +59,33 @@ class CameraOptionsFragment : Fragment() {
                     img_suit1.setImageResource(R.drawable.female_suit)
 
                     img_hair1.setOnClickListener {
-                        controlOption(img_hair1, hair1_flag)
-                        hair1_flag = !hair1_flag
+                        controlOption(img_hair1, true)
+                        controlOption(img_hair2, false)
+                        controlOption(img_hair3, false)
+                        Option.Opt.opt.hairstyle = Hairstyle.SHORT
                     }
 
                     img_hair2.setOnClickListener {
-                        controlOption(img_hair2, hair2_flag)
-                        hair2_flag = !hair2_flag
+                        controlOption(img_hair2, true)
+                        controlOption(img_hair1, false)
+                        controlOption(img_hair3, false)
+                        Option.Opt.opt.hairstyle = Hairstyle.MID
                     }
 
                     img_hair3.setOnClickListener {
-                        controlOption(img_hair3, hair3_flag)
-                        hair3_flag = !hair3_flag
+                        controlOption(img_hair3, true)
+                        controlOption(img_hair1, false)
+                        controlOption(img_hair2, false)
+                        Option.Opt.opt.hairstyle = Hairstyle.LONG
                     }
 
                     img_suit1.setOnClickListener {
-                        controlOption(img_suit1, suit1_flag)
-                        suit1_flag = !suit1_flag
+                        controlOption(img_suit1, true)
+                        Option.Opt.opt.suit = 0
                     }
                 }
                 1 -> { // 남
+                    Option.Opt.opt.sex = Sex.MALE
                     img_hair1.setImageResource(R.drawable.male_no_bang)
                     img_hair2.setImageResource(R.drawable.male_half_bang)
                     img_hair3.setImageResource(R.drawable.male_bang)
@@ -83,28 +94,36 @@ class CameraOptionsFragment : Fragment() {
                     img_suit2.setImageResource(R.drawable.male_suit2)
 
                     img_hair1.setOnClickListener {
-                        controlOption(img_hair1, hair1_flag)
-                        hair1_flag = !hair1_flag
+                        controlOption(img_hair1, true)
+                        controlOption(img_hair2, false)
+                        controlOption(img_hair3, false)
+                        Option.Opt.opt.hairstyle = Hairstyle.NO_BANG
                     }
 
                     img_hair2.setOnClickListener {
-                        controlOption(img_hair2, hair2_flag)
-                        hair2_flag = !hair2_flag
+                        controlOption(img_hair2, true)
+                        controlOption(img_hair1, false)
+                        controlOption(img_hair3, false)
+                        Option.Opt.opt.hairstyle = Hairstyle.HALF_BANG
                     }
 
                     img_hair3.setOnClickListener {
-                        controlOption(img_hair3, hair3_flag)
-                        hair3_flag = !hair3_flag
+                        controlOption(img_hair3, true)
+                        controlOption(img_hair1, false)
+                        controlOption(img_hair2, false)
+                        Option.Opt.opt.hairstyle = Hairstyle.BANG
                     }
 
                     img_suit1.setOnClickListener {
-                        controlOption(img_suit1, suit1_flag)
-                        suit1_flag = !suit1_flag
+                        controlOption(img_suit1, true)
+                        controlOption(img_suit2, false)
+                        Option.Opt.opt.suit = 0
                     }
 
                     img_suit2.setOnClickListener {
-                        controlOption(img_suit2, suit2_flag)
-                        suit2_flag = !suit2_flag
+                        controlOption(img_suit2, true)
+                        controlOption(img_suit1, false)
+                        Option.Opt.opt.suit = 1
                     }
                 }
             }
@@ -128,11 +147,11 @@ class CameraOptionsFragment : Fragment() {
 
     private fun controlOption(optionItem: ImageView, currentFlag: Boolean) {
         when (currentFlag) {
-            false -> {
+            true -> {
                 optionItem.setPadding(6, 6, 6, 6)
                 optionItem.setBackgroundResource(R.drawable.selected_option_border)
             }
-            true -> {
+            false -> {
                 optionItem.setPadding(0, 0, 0, 0)
             }
         }

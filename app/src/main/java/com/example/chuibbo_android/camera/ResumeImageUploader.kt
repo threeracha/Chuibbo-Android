@@ -11,17 +11,17 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 class ResumeImageUploader {
-    suspend fun upload(imageFile: File) = try {
-        val part = makeImagePart(imageFile)
-        withContext(Dispatchers.IO) {
-            ImageApi.instance.uploadResumePhoto(part)
-        }
-    } catch (e: Exception) {
-        error("error: product image upload")
-        ApiResponse.error<ResumePhotoUploadResponse>(
-            "An unknown error has occurred."
-        )
-    }
+//    suspend fun upload(imageFile: File) = try {
+//        withContext(Dispatchers.IO) {
+//            val part = makeImagePart(imageFile)
+//            ImageApi.instance.uploadResumePhoto(part)
+//        }
+//    } catch (e: Exception) {
+//        error("error: product image upload")
+//        ApiResponse.error<ResumePhotoUploadResponse>(
+//            "An unknown error has occurred."
+//        )
+//    }
 
     private fun makeImagePart(imageFile: File): MultipartBody.Part {
         val mediaType = "multipart/form-data".toMediaType()
