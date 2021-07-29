@@ -34,6 +34,7 @@ class MypageFragment : Fragment() {
         activity?.settings_button!!.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, PreferencesFragment())
+                addToBackStack(null)
             }?.commit()
         }
 
@@ -69,7 +70,6 @@ class MypageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.toolbar_title!!.text = "마이페이지"
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

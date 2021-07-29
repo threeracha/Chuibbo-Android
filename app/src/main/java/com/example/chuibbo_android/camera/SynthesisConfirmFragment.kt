@@ -32,13 +32,15 @@ class SynthesisConfirmFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        activity?.process1!!.visibility = View.VISIBLE
+
         // return inflater.inflate(R.layout.overall_synthesis_confirm_fragment, container, false)
         return inflater.inflate(R.layout.overall_synthesis_confirm_item, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar!!.setTitle("사진 편집")
 
         val ad = Adapter()
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ImageViewModel::class.java)
@@ -55,25 +57,12 @@ class SynthesisConfirmFragment : Fragment() {
             img_synthesis!!.setImageBitmap(result)
         }
 
-        // sy: arrow_right_at_synthesis 버튼과 BackgroundSynthesisFragment 연결
-        next_button = ImageButton(context)
-        next_button.setImageResource(R.drawable.ic_arrow_right)
-        val l3 = androidx.appcompat.widget.Toolbar.LayoutParams(
-            Toolbar.LayoutParams.WRAP_CONTENT,
-            Toolbar.LayoutParams.WRAP_CONTENT,
-        )
-        next_button.layoutParams = l3
-        next_button.setBackground(null)
-        activity?.toolbar!!.addView(next_button)
-        (next_button.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams).apply {
-            this.gravity = Gravity.RIGHT
-        }
-        next_button.setOnClickListener {
-            activity?.supportFragmentManager!!.beginTransaction()
-                .replace(R.id.frameLayout, BackgroundSynthesisFragment())
-                .commit()
-
-            activity?.toolbar!!.removeView(next_button)
+        activity?.btn_next!!.visibility = View.VISIBLE
+        activity?.btn_next!!.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, BackgroundSynthesisFragment())
+                addToBackStack(null)
+            }?.commit()
         }
 
         vm.allItem.observe(
@@ -84,5 +73,10 @@ class SynthesisConfirmFragment : Fragment() {
                 }
             }
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.process1!!.visibility = View.GONE
     }
 }

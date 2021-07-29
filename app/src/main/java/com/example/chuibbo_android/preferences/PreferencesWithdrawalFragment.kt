@@ -19,6 +19,8 @@ class PreferencesWithdrawalFragment : Fragment() {
     ): View? {
         var view: View = inflater.inflate(R.layout.preferences_withdrawal_fragment, container, false)
 
+        activity?.back_button!!.visibility = View.VISIBLE
+
         view.withdrawal_contents.movementMethod = ScrollingMovementMethod()
 
         view.withdrawal_checkbox.setOnCheckedChangeListener { buttonView, isChecked -> // 체크박스 선택시 버튼 활성화
@@ -37,8 +39,14 @@ class PreferencesWithdrawalFragment : Fragment() {
 
         return view
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar!!.title = "회원탈퇴"
+        activity?.toolbar_title!!.text = "회원탈퇴"
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
     }
 }

@@ -55,6 +55,8 @@ class BackgroundSynthesisFragment : Fragment() {
     ): View? {
         var v = inflater.inflate(R.layout.background_synthesis_fragment, container, false)
 
+        activity?.process2!!.visibility = View.VISIBLE
+
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.color_contents, BackgroundSynthesisSolidcolorFragment())
         }?.commit()
@@ -64,29 +66,13 @@ class BackgroundSynthesisFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // this is for next button on the last page
-        // btn = ImageButton(context)
-        var btn: ImageButton = ImageButton(activity?.applicationContext)
-        btn.setImageResource(R.drawable.ic_arrow_right)
-        val l3 =
-            androidx.appcompat.widget.Toolbar.LayoutParams(
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT
-            )
-        btn.setBackgroundColor(Color.WHITE)
-        btn.layoutParams = l3
-        btn.setBackground(null)
-        btn.setOnClickListener {
-            val transaction = activity?.supportFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.frameLayout, FaceCorrectionFragment())
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
-        activity?.toolbar!!.addView(btn)
-        // This is how to set layout_gravity properties to Button
-        // must be put this code after put button view on the activity
-        (btn.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams)?.apply {
-            this.gravity = Gravity.RIGHT
+
+        activity?.btn_next!!.visibility = View.VISIBLE
+        activity?.btn_next!!.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, FaceCorrectionFragment())
+                addToBackStack(null)
+            }?.commit()
         }
 
         background_synthesis_image_tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
@@ -95,9 +81,14 @@ class BackgroundSynthesisFragment : Fragment() {
                 changeView(pos)
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) { }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
 
-            override fun onTabReselected(tab: TabLayout.Tab) { }
+            override fun onTabReselected(tab: TabLayout.Tab) {}
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.process2!!.visibility = View.GONE
     }
 }

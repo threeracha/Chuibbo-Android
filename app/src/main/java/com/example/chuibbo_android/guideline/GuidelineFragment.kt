@@ -35,13 +35,15 @@ class GuidelineFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.toolbar_title!!.text = "촬영 가이드라인"
+
         viewPager = pager!!
         val pagerAdapter = ScreenSlidePagerAdapter(this)
         viewPager.adapter = pagerAdapter
         indicator.setViewPager(viewPager)
         pagerAdapter.registerAdapterDataObserver(indicator.adapterDataObserver)
 
-        activity?.toolbar!!.setTitle("촬영 가이드라인")
     }
 
     override fun onAttach(context: Context) {

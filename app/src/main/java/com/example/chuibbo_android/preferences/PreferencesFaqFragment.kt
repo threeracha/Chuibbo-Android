@@ -19,12 +19,14 @@ class PreferencesFaqFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.back_button!!.visibility = View.VISIBLE
+
         return inflater.inflate(R.layout.preferences_faq_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar!!.setTitle("자주 묻는 질문")
+        activity?.toolbar_title!!.text = "자주 묻는 질문"
 
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.recyclerview_faq)
         faqList = ArrayList()
@@ -34,6 +36,11 @@ class PreferencesFaqFragment : Fragment() {
         recyclerView!!.layoutManager = LinearLayoutManager(activity?.applicationContext)
         adapter = FaqAdapter(faqList)
         recyclerView!!.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
     }
 
     private fun loadData(): List<Faq> {

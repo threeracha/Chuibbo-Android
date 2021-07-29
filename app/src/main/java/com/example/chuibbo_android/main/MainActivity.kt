@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         bottomNavigationView.selectedItemId = R.id.home_item
 
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
