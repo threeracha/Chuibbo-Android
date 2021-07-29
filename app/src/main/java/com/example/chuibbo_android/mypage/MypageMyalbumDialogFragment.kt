@@ -23,14 +23,14 @@ class MypageMyalbumDialogFragment : DialogFragment() {
 
         var view: View = inflater.inflate(R.layout.mypage_myalbum_dialog_fragment, container, false)
 
-        var fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("My album")
-        view.dialog_confirm.setOnClickListener {
+        var fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("CustomDialog")
+        view.close_button.setOnClickListener {
             var dialogFragment: DialogFragment = fragment as DialogFragment
             dialogFragment.dismiss()
         }
         view.dialog_save.setOnClickListener {
             var dialogFragment: DialogFragment = fragment as DialogFragment
-            dialogFragment.dismiss()
+            dismiss() // TODO: 저장으로 변경
         }
         return view
     }
