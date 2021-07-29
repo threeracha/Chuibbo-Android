@@ -1,6 +1,5 @@
 package com.example.chuibbo_android.option
 
-import androidx.lifecycle.LiveData
 import com.example.chuibbo_android.camera.FaceType
 import com.example.chuibbo_android.camera.Hairstyle
 import com.example.chuibbo_android.camera.Sex
