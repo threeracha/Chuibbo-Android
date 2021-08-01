@@ -184,5 +184,6 @@ class CameraFragment : Fragment() {
 
     companion object {
         var isFromGallery: Boolean = true
+
     }
 }
