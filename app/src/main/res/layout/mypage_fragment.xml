@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
+        android:nestedScrollingEnabled="false"
         android:orientation="vertical"
+        android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -67,7 +69,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:layout_marginBottom="16dp"
-                            android:text="4"
+                            android:text="0"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="18sp"
@@ -95,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:layout_marginBottom="16dp"
-                            android:text="4"
+                            android:text="0"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="18sp"
@@ -138,57 +140,23 @@
             <!-- TODO: 오른쪽 여백 더 주기 -->
             <HorizontalScrollView
                 android:id="@+id/resume_photo_scrollview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fillViewport="true"
                 android:scrollbars="none"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/resume_photo"
+                <!-- RecyclerView Layout으로 감싸주지 않으면 보여지는 갯수 제한 생김 -->
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="13dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/resume_photo_text">
+                    android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/image1"
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
-                        android:layout_marginRight="29dp"
-                        android:layout_marginBottom="13dp"
-                        android:elevation="9dp"
-                        android:src="@drawable/female_long_hair" />
-
-                    <ImageView
-                        android:id="@+id/image2"
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
-                        android:layout_marginRight="29dp"
-                        android:layout_marginBottom="13dp"
-                        android:elevation="9dp"
-                        android:src="@drawable/female_short_hair" />
-
-                    <ImageView
-                        android:id="@+id/image3"
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
-                        android:layout_marginRight="29dp"
-                        android:layout_marginBottom="13dp"
-                        android:elevation="9dp"
-                        android:src="@drawable/female_short_hair" />
-
-                    <ImageView
-                        android:id="@+id/image4"
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
-                        android:layout_marginRight="29dp"
-                        android:layout_marginBottom="13dp"
-                        android:elevation="9dp"
-                        android:src="@drawable/female_short_hair" />
-                </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview_resume_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="9dp" />
+                </RelativeLayout>
             </HorizontalScrollView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -222,114 +190,18 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ScrollView
-                android:id="@+id/like_job_posting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginVertical="9dp"
-                android:fillViewport="true"
-                android:orientation="vertical"
-                android:scrollbars="none"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_like_job_posting">
+            <!-- RecyclerView Layout으로 감싸주지 않으면 스크롤 추가로 생김 -->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/job_posting"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_like_job_posting"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="16dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/job_posting_text">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="110dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="4dp"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="5"
-                                android:gravity="center"
-                                android:padding="15dp">
-
-                                <ImageView
-                                    android:id="@+id/company_logo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/guideline_first" />
-                            </LinearLayout>
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="4dp"
-                                android:layout_marginRight="18dp"
-                                android:layout_weight="3">
-
-                                <ImageButton
-                                    android:id="@+id/star"
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_alignRight="@+id/company_contents"
-                                    android:layout_marginTop="10dp"
-                                    android:background="#ffffffff"
-                                    android:src="@drawable/star_fill" />
-
-                                <LinearLayout
-                                    android:id="@+id/company_contents"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:orientation="vertical"
-                                    android:paddingRight="23dp">
-
-                                    <TextView
-                                        android:id="@+id/company_name"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="롯데제과"
-                                        android:textColor="#818181"
-                                        android:textSize="13sp"
-                                        android:textStyle="bold"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
-
-                                    <TextView
-                                        android:id="@+id/company_desc"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="2021 7월 신입사원(채용연계 인턴십) 채용"
-                                        android:textColor="@color/black"
-                                        android:textSize="13sp"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@id/company_logo" />
-
-                                    <TextView
-                                        android:id="@+id/company_deadline"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="D-3"
-                                        android:textColor="#818181"
-                                        android:textSize="13sp"
-                                        android:textStyle="bold"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@id/company_desc" />
-                                </LinearLayout>
-                            </RelativeLayout>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-            </ScrollView>
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_marginTop="8dp" />
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/login_button"
