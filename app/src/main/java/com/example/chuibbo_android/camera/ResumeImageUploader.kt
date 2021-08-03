@@ -1,10 +1,5 @@
 package com.example.chuibbo_android.camera
 
-import com.example.chuibbo_android.api.ImageApi
-import com.example.chuibbo_android.api.response.ApiResponse
-import com.example.chuibbo_android.api.response.ResumePhotoUploadResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody

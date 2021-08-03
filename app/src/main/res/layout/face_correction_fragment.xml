@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/background_synthesis_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,27 +9,48 @@
 
     <ImageView
         android:id="@+id/img_face_correction"
-        android:layout_width="250dp"
-        android:layout_height="315dp"
-        android:src="@drawable/background_synthesis_sample"
-        android:layout_marginTop="40dp"
+        android:layout_width="210dp"
+        android:layout_height="285dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/photo_frame"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/background_synthesis_sample"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_correction_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_back_correction"
+        android:layout_marginTop="50dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/img_face_correction"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_correction_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/ic_next_correction"
+        app:layout_constraintRight_toRightOf="@id/btn_correction_back"
+        app:layout_constraintLeft_toLeftOf="@id/btn_correction_back"
+        app:layout_constraintTop_toBottomOf="@id/btn_correction_back" />
 
     <!-- TODO: 그림자 -->
+
     <com.google.android.material.tabs.TabLayout
-        style="@style/AppTabLayout"
         android:id="@+id/tablayout_face_correction"
+        style="@style/AppTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        app:tabTextAppearance="@style/AppTabTextAppearance"
-        app:tabIndicator="@null"
+        android:layout_height="43dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_face_correction"
-        tools:ignore="MissingConstraints">
+        app:tabIndicator="@null"
+        app:tabTextAppearance="@style/AppTabTextAppearance">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_item_face"
@@ -57,6 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@+id/tablayout_face_correction" />
+        app:layout_constraintTop_toBottomOf="@+id/tablayout_face_correction"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

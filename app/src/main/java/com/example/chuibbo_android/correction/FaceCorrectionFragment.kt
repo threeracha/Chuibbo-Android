@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.face_correction_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 
 class FaceCorrectionFragment : Fragment() {
+    private lateinit var next_button: ImageButton
 
     @SuppressLint("ResourceAsColor")
     private fun changeView(index: Int) {
@@ -55,29 +56,29 @@ class FaceCorrectionFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // this is for next button on the last page
-        // btn = ImageButton(context)
-        var btn: ImageButton = ImageButton(activity?.applicationContext)
-        btn.setImageResource(R.drawable.ic_arrow_right)
+        super.onViewCreated(view, savedInstanceState)
+
+        next_button = ImageButton(activity?.applicationContext)
+        next_button.setImageResource(R.drawable.ic_arrow_right)
         val l3 =
             androidx.appcompat.widget.Toolbar.LayoutParams(
                 Toolbar.LayoutParams.WRAP_CONTENT,
                 Toolbar.LayoutParams.WRAP_CONTENT
             )
-        btn.setBackgroundColor(Color.WHITE)
-        btn.layoutParams = l3
-        btn.setBackground(null)
-        btn.setOnClickListener {
-            val transaction = activity?.supportFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.frameLayout, DownloadFragment())
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
-        activity?.toolbar!!.addView(btn)
+        next_button.setBackgroundColor(Color.WHITE)
+        next_button.layoutParams = l3
+        next_button.setBackground(null)
+        activity?.toolbar!!.addView(next_button)
         // This is how to set layout_gravity properties to Button
         // must be put this code after put button view on the activity
-        (btn.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams)?.apply {
+        (next_button.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams)?.apply {
             this.gravity = Gravity.RIGHT
+        }
+        next_button.setOnClickListener {
+            activity?.supportFragmentManager!!.beginTransaction()
+                .replace(R.id.frameLayout, DownloadFragment())
+                .commit()
+            activity?.toolbar!!.removeView(next_button)
         }
 
         tablayout_face_correction.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

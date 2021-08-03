@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,13 +21,14 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.ImageApi
+import com.example.chuibbo_android.api.response.ResumePhotoUploadResponse
 import com.example.chuibbo_android.image.Image
 import com.example.chuibbo_android.image.ImageViewModel
 import com.example.chuibbo_android.option.Option
 import kotlinx.android.synthetic.main.confirm_fragment.*
+import kotlinx.android.synthetic.main.face_detection_failfure_dialog_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.coroutines.runBlocking
-import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -93,7 +95,7 @@ class ConfirmFragment : Fragment() {
         activity?.toolbar!!.setTitle("사진 선택")
 
         // FIXME: 2021/03/25 여기서 뒤로가기 버튼 누르면 앱이 종료됨
-        btn_cancel.setOnClickListener {
+        btn_select_again.setOnClickListener {
             // TODO: 2021/03/26 스택 이름을 나눠서 지정하여 여기서 꺼내기 
             galleryAddPic()
         }
@@ -119,45 +121,63 @@ class ConfirmFragment : Fragment() {
             options.put("suit", suitBody)
 
             // activate progress bar & disable the buttons
-            layoutProgressBar.visibility = View.VISIBLE
-            progressBar.visibility = View.VISIBLE
-            progressText.visibility = View.VISIBLE
-            btn_confirm.isEnabled = false
-            btn_cancel.isEnabled = false
-
-            println("전달될 값 = " + options)
+            activateProgressBar(true)
 
             // request resume photo to server in a coroutine scope
             runBlocking {
                 ImageApi.instance.uploadResumePhoto(
                     filePart,
                     data = options
-                ).enqueue(object : Callback<ResponseBody> {
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                ).enqueue(object : Callback<ResumePhotoUploadResponse> {
+                    override fun onFailure(call: Call<ResumePhotoUploadResponse>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
 
                     override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
+                        call: Call<ResumePhotoUploadResponse>,
+                        response: Response<ResumePhotoUploadResponse>
                     ) {
                         if (response?.isSuccessful) {
-                            Toast.makeText(context, "File Uploaded Successfully...", Toast.LENGTH_LONG).show()
+                            val result = response.body()?.code
+                            println(result)
+                            when (result) {
+                                1 -> {
+                                    val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
+                                    val bitmapResultImage = BitmapFactory.decodeByteArray(decode_img, 0, decode_img.size)
 
-                            val file = response.body()?.byteStream()
-                            val bitmapResultImage = BitmapFactory.decodeStream(file)
+                                    // remove progress bar
+                                    activateProgressBar(false)
 
-                            // remove progress bar
-                            layoutProgressBar.visibility = View.GONE
-                            progressBar.visibility = View.GONE
-                            progressText.visibility = View.GONE
+                                    setFragmentResult("requestBitmapKey", bundleOf("bundleKey" to bitmapResultImage))
+                                    Toast.makeText(context, "File Uploaded Successfully...", Toast.LENGTH_LONG).show()
 
-                            setFragmentResult("requestBitmapKey", bundleOf("bundleKey" to bitmapResultImage))
-                            val transaction = activity?.supportFragmentManager!!.beginTransaction()
-                            transaction.replace(R.id.frameLayout, SynthesisConfirmFragment())
-                            transaction.commitAllowingStateLoss()
+                                    val transaction = activity?.supportFragmentManager!!.beginTransaction()
+                                    transaction.replace(R.id.frameLayout, SynthesisConfirmFragment())
+                                    transaction.commitAllowingStateLoss()
+                                }
+                                2 -> { // 얼굴 여러명 이상 감지
+                                    var dialog = FaceDetectionFailureDialogFragment()
+                                    dialog?.tv_dialog_message?.text = "2인 이상 감지되었습니다."
+                                    dialog.isCancelable = false
+
+                                    activity?.supportFragmentManager?.let { it ->
+                                        dialog.show(it, "Face Detection Failure")
+                                    }
+                                    activateProgressBar(false)
+                                }
+                                3 -> { // 얼굴 인식 실패
+                                    var dialog2 = FaceDetectionFailureDialogFragment()
+                                    dialog2.tv_dialog_message.text = "얼굴 인식에 실패하였습니다."
+                                    dialog2.isCancelable = false
+
+                                    activity?.supportFragmentManager?.let { it ->
+                                        dialog2.show(it, "Face Detection Failure")
+                                    }
+                                    activateProgressBar(false)
+                                }
+                            }
                         } else {
-                            Toast.makeText(context, "Some error occurred...", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show()
                         }
                     }
                 })
@@ -195,6 +215,25 @@ class ConfirmFragment : Fragment() {
         }
         BitmapFactory.decodeFile(photoPath, bmOptions)?.also { bitmap ->
             img.setImageBitmap(bitmap)
+        }
+    }
+
+    private fun activateProgressBar(isActive: Boolean) {
+        when (isActive) {
+            true -> {
+                layoutProgressBar.visibility = View.VISIBLE
+                progressBar.visibility = View.VISIBLE
+                progressText.visibility = View.VISIBLE
+                btn_confirm.isEnabled = false
+                btn_select_again.isEnabled = false
+            }
+            false -> {
+                layoutProgressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
+                progressText.visibility = View.GONE
+                btn_confirm.isEnabled = true
+                btn_select_again.isEnabled = true
+            }
         }
     }
 }

@@ -156,7 +156,7 @@ class CameraFragment : Fragment() {
     }
 
     // 사진 파일을 만드는 메소드
-    private fun createImageFile(): File {
+    fun createImageFile(): File {
         // Create an image file name
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.KOREA).format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
@@ -180,5 +180,10 @@ class CameraFragment : Fragment() {
 
         override fun createFragment(position: Int): Fragment =
             newIntent(position)
+    }
+
+    companion object {
+        var isFromGallery: Boolean = true
+
     }
 }

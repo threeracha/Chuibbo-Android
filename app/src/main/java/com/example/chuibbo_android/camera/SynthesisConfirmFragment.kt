@@ -24,15 +24,14 @@ import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.view.*
 
 class SynthesisConfirmFragment : Fragment() {
 
-    lateinit var vm: ImageViewModel
-    lateinit var next_button: ImageButton
+    private lateinit var vm: ImageViewModel
+    private lateinit var next_button: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // return inflater.inflate(R.layout.overall_synthesis_confirm_fragment, container, false)
         return inflater.inflate(R.layout.overall_synthesis_confirm_item, container, false)
     }
 
@@ -55,7 +54,6 @@ class SynthesisConfirmFragment : Fragment() {
             img_synthesis!!.setImageBitmap(result)
         }
 
-        // sy: arrow_right_at_synthesis 버튼과 BackgroundSynthesisFragment 연결
         next_button = ImageButton(context)
         next_button.setImageResource(R.drawable.ic_arrow_right)
         val l3 = androidx.appcompat.widget.Toolbar.LayoutParams(
@@ -72,17 +70,9 @@ class SynthesisConfirmFragment : Fragment() {
             activity?.supportFragmentManager!!.beginTransaction()
                 .replace(R.id.frameLayout, BackgroundSynthesisFragment())
                 .commit()
-
             activity?.toolbar!!.removeView(next_button)
         }
 
-        vm.allItem.observe(
-            viewLifecycleOwner,
-            Observer {
-                it.let {
-                    ad.addCategoryList(it)
-                }
-            }
-        )
+        vm.allItem.observe(viewLifecycleOwner) { ad.addCategoryList(it) }
     }
 }

@@ -12,8 +12,8 @@ import com.example.chuibbo_android.R
 import com.example.chuibbo_android.option.Option
 import kotlinx.android.synthetic.main.camera_option_fragment.*
 
-enum class Sex(val type: Int) {MALE(0), FEMALE(1)}
-enum class FaceType(val type: Int) {ROUND(0), LONG(1)}
+enum class Sex(val type: Int) { MALE(0), FEMALE(1) }
+enum class FaceType(val type: Int) { ROUND(0), LONG(1) }
 enum class Hairstyle(val style: String) {
     BANG("bang"), HALF_BANG("half_bang"), NO_BANG("no_bang"),
     LONG("long"), MID("mid"), SHORT("short")

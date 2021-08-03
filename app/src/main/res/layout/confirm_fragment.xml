@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"></ImageView>
 
         <Button
-            android:id="@+id/btn_cancel"
+            android:id="@+id/btn_select_again"
             style="@style/Widget.AppCompat.Button.myButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:layout_marginRight="45dp"
             android:layout_marginBottom="80dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_cancel"
+            app:layout_constraintStart_toEndOf="@+id/btn_select_again"
             app:layout_constraintTop_toBottomOf="@+id/img_preview"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
