@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.calendar.CalendarFragment
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -34,8 +35,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return true
     }
 
-    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when (p0.itemId) {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.home_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, HomeFragment())
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.calendar_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, MypageFragment())
+                transaction.replace(R.id.frameLayout, CalendarFragment())
                 transaction.addToBackStack(null)
                 transaction.commit()
                 return true

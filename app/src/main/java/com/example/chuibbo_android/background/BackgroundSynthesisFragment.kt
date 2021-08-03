@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.background_synthesis_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 
 class BackgroundSynthesisFragment : Fragment() {
+    private lateinit var next_button: ImageButton
 
     @SuppressLint("ResourceAsColor")
     private fun changeView(index: Int) {

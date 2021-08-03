@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.face_correction_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 
 class FaceCorrectionFragment : Fragment() {
+    private lateinit var next_button: ImageButton
 
     @SuppressLint("ResourceAsColor")
     private fun changeView(index: Int) {

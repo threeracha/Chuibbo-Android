@@ -24,8 +24,8 @@ import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.view.*
 
 class SynthesisConfirmFragment : Fragment() {
 
-    lateinit var vm: ImageViewModel
-    lateinit var next_button: ImageButton
+    private lateinit var vm: ImageViewModel
+    private lateinit var next_button: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +35,6 @@ class SynthesisConfirmFragment : Fragment() {
 
         activity?.process1!!.visibility = View.VISIBLE
 
-        // return inflater.inflate(R.layout.overall_synthesis_confirm_fragment, container, false)
         return inflater.inflate(R.layout.overall_synthesis_confirm_item, container, false)
     }
 
@@ -57,6 +56,7 @@ class SynthesisConfirmFragment : Fragment() {
             img_synthesis!!.setImageBitmap(result)
         }
 
+
         activity?.btn_next!!.visibility = View.VISIBLE
         activity?.btn_next!!.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
@@ -65,14 +65,7 @@ class SynthesisConfirmFragment : Fragment() {
             }?.commit()
         }
 
-        vm.allItem.observe(
-            viewLifecycleOwner,
-            Observer {
-                it.let {
-                    ad.addCategoryList(it)
-                }
-            }
-        )
+        vm.allItem.observe(viewLifecycleOwner) { ad.addCategoryList(it) }
     }
 
     override fun onDestroyView() {

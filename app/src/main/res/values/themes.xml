@@ -26,6 +26,7 @@
     <style name="AppTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabBackground">@drawable/tab_item_shape</item>
         <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+        <item name="height">5dp</item>
     </style>
     <!-- for text -->
     <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
