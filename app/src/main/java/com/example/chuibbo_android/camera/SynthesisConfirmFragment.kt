@@ -26,6 +26,7 @@ class SynthesisConfirmFragment : Fragment() {
 
     private lateinit var vm: ImageViewModel
     private lateinit var next_button: ImageButton
+    private val adapter = Adapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +40,6 @@ class SynthesisConfirmFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.toolbar!!.setTitle("사진 편집")
 
-        val ad = Adapter()
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ImageViewModel::class.java)
 
         // TODO: 2021/03/29 Recycler View Binding 아닌, ImageView 하나의 Object에 바인딩 하기
@@ -73,6 +73,6 @@ class SynthesisConfirmFragment : Fragment() {
             activity?.toolbar!!.removeView(next_button)
         }
 
-        vm.allItem.observe(viewLifecycleOwner) { ad.addCategoryList(it) }
+        vm.allItem.observe(viewLifecycleOwner) { adapter.addCategoryList(it) }
     }
 }

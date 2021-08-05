@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.main_activity.*
 class FaceCorrectionFragment : Fragment() {
     private lateinit var next_button: ImageButton
 
-    @SuppressLint("ResourceAsColor")
     private fun changeView(index: Int) {
         when (index) {
             0 -> {
@@ -40,19 +39,18 @@ class FaceCorrectionFragment : Fragment() {
         }
     }
 
-    @SuppressLint("ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var v = inflater.inflate(R.layout.face_correction_fragment, container, false)
+        val view = inflater.inflate(R.layout.face_correction_fragment, container, false)
 
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.correction_contents, FaceCorrectionInsideFragment())
         }?.commit()
 
-        return v
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,9 +81,8 @@ class FaceCorrectionFragment : Fragment() {
 
         tablayout_face_correction.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                var pos = tab.getPosition()
+                val pos = tab.getPosition()
                 changeView(pos)
-                // TODO: tab 선택시 폰트 크기 증가, bold, 높이 증가
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {

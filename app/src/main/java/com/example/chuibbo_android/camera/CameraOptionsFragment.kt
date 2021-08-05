@@ -160,7 +160,6 @@ class CameraOptionsFragment : Fragment() {
     companion object {
         private const val ARGS_PAGER_POSITION = "args_pager_position"
 
-        @JvmStatic
         fun newIntent(position: Int): CameraOptionsFragment {
             return CameraOptionsFragment().apply {
                 arguments = Bundle().apply {
