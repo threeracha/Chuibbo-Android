@@ -45,7 +45,7 @@
                     android:layout_alignRight="@+id/company_contents"
                     android:layout_marginTop="10dp"
                     android:background="#ffffffff"
-                    android:src="@drawable/star_fill" />
+                    android:src="@drawable/ic_star_fill" />
 
                 <LinearLayout
                     android:id="@+id/company_contents"

@@ -29,7 +29,7 @@
                 android:id="@+id/color_none_gradation"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/color_none"
+                android:src="@drawable/ic_color_none"
                 android:background="#00FFFFFF"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="20dp"
@@ -39,7 +39,7 @@
                 android:id="@+id/color_picker_gradation"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/color_picker"
+                android:src="@drawable/ic_palette"
                 android:background="#00FFFFFF"
                 android:layout_marginRight="20dp"
                 tools:ignore="MissingConstraints" />

@@ -27,8 +27,8 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="22dp"
                 android:background="#ffffffff"
-                android:src="@drawable/back_button"
-                android:visibility="gone" />
+                android:src="@drawable/ic_back"
+                 />
 
             <TextView
                 android:id="@+id/toolbar_title"

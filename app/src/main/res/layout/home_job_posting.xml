@@ -81,7 +81,7 @@
                 android:layout_alignBottom="@+id/company_contents"
                 android:layout_marginTop="10dp"
                 android:background="#ffffffff"
-                android:src="@drawable/star_fill" />
+                android:src="@drawable/ic_star_fill" />
         </RelativeLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

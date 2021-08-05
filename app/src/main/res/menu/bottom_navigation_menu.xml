@@ -8,7 +8,7 @@
         android:title="@string/home_text" />
     <item
         android:id="@+id/calendar_item"
-        android:icon="@drawable/calendar"
+        android:icon="@drawable/ic_calendar"
         android:enabled="true"
         android:title="@string/calendar_text" />
     <item
