@@ -7,15 +7,15 @@
         android:enabled="true"
         android:title="@string/home_text" />
     <item
-        android:id="@+id/camera_item"
-        android:icon="@drawable/ic_camera"
-        android:enabled="true"
-        android:title="@string/camera_text" />
-    <item
         android:id="@+id/calendar_item"
         android:icon="@drawable/ic_calendar"
         android:enabled="true"
         android:title="@string/calendar_text" />
+    <item
+        android:id="@+id/camera_item"
+        android:icon="@drawable/ic_camera"
+        android:enabled="true"
+        android:title="@string/camera_text" />
     <item
         android:id="@+id/mypage_item"
         android:icon="@drawable/ic_mypage"

@@ -92,7 +92,7 @@ class ConfirmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar!!.setTitle("사진 선택")
+        activity?.toolbar_title!!.text = "사진 선택"
 
         // FIXME: 2021/03/25 여기서 뒤로가기 버튼 누르면 앱이 종료됨
         btn_select_again.setOnClickListener {

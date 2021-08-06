@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.R.id.btn_next
 import com.example.chuibbo_android.camera.CameraFragment
+import com.example.chuibbo_android.preferences.PreferencesFragment
 import kotlinx.android.synthetic.main.guideline_fragment_contents.*
 import kotlinx.android.synthetic.main.main_activity.*
 
@@ -52,38 +53,23 @@ class GuidelineContentsFragment : Fragment() {
                     tv_subtitle.text = "후드티나 목 위로 올라오는 옷은 피해주세요"
 
                     // this is for next button on the last page
-                    // btn = ImageButton(context)
-                    btn = activity?.toolbar!!.findViewById(R.id.btn_next)
-                    if (btn != null) {
-                        activity?.toolbar!!.removeView(btn)
-                    }
-                    btn.visibility = View.VISIBLE
-                    btn.setImageResource(R.drawable.ic_arrow_right)
-                    val l3 =
-                        androidx.appcompat.widget.Toolbar.LayoutParams(
-                            Toolbar.LayoutParams.WRAP_CONTENT,
-                            Toolbar.LayoutParams.WRAP_CONTENT
-                        )
-                    btn.setBackgroundColor(Color.WHITE)
-                    btn.layoutParams = l3
-                    btn.setBackground(null)
-                    btn.setOnClickListener {
-                        val transaction = activity?.supportFragmentManager!!.beginTransaction()
-                        transaction.replace(R.id.frameLayout, CameraFragment())
-                        transaction.addToBackStack(null)
-                        transaction.commit()
-                    }
-                    activity?.toolbar!!.addView(btn)
-                    // This is how to set layout_gravity properties to Button
-                    // must be put this code after put button view on the activity
-                    (btn.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams)?.apply {
-                        this.gravity = Gravity.RIGHT
+                    activity?.btn_next!!.visibility = View.VISIBLE
+                    activity?.btn_next!!.setOnClickListener {
+                        activity?.supportFragmentManager?.beginTransaction()?.apply {
+                            replace(R.id.frameLayout, CameraFragment())
+                            addToBackStack(null)
+                        }?.commit()
                     }
                 }
                 else -> {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.btn_next!!.visibility = View.GONE
     }
 
     companion object {

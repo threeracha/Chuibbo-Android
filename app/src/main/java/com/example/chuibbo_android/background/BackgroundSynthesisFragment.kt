@@ -1,12 +1,14 @@
 package com.example.chuibbo_android.background
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -54,6 +56,8 @@ class BackgroundSynthesisFragment : Fragment() {
     ): View? {
         var v = inflater.inflate(R.layout.background_synthesis_fragment, container, false)
 
+        activity?.process2!!.visibility = View.VISIBLE
+
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.color_contents, BackgroundSynthesisSolidcolorFragment())
         }?.commit()
@@ -64,39 +68,28 @@ class BackgroundSynthesisFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        next_button = ImageButton(context)
-        next_button.setImageResource(R.drawable.ic_arrow_right)
-        val l3 = androidx.appcompat.widget.Toolbar.LayoutParams(
-            Toolbar.LayoutParams.WRAP_CONTENT,
-            Toolbar.LayoutParams.WRAP_CONTENT,
-        )
-        next_button.layoutParams = l3
-        next_button.setBackground(null)
-        activity?.toolbar!!.addView(next_button)
-        (next_button.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams).apply {
-            this.gravity = Gravity.RIGHT
-        }
-        next_button.setOnClickListener {
-            activity?.supportFragmentManager!!.beginTransaction()
-                .replace(R.id.frameLayout, FaceCorrectionFragment())
-                .commit()
-            activity?.toolbar!!.removeView(next_button)
+        activity?.btn_next!!.visibility = View.VISIBLE
+        activity?.btn_next!!.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, FaceCorrectionFragment())
+                addToBackStack(null)
+            }?.commit()
         }
 
         background_synthesis_image_tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 var pos = tab.getPosition()
                 changeView(pos)
-                // TODO: tab 선택시 폰트 크기 증가, bold, 높이 증가
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                // do nothing
-            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
 
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                // do nothing
-            }
+            override fun onTabReselected(tab: TabLayout.Tab) {}
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.process2!!.visibility = View.GONE
     }
 }

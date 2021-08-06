@@ -20,12 +20,14 @@ class PreferencesPasswordForgetFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.back_button!!.visibility = View.VISIBLE
+
         return inflater.inflate(R.layout.preferences_password_forget_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar!!.title = "비밀번호 재설정"
+        activity?.toolbar_title!!.text = "비밀번호 재설정"
 
         email_text.addTextChangedListener(EditTextWatcher())
 
@@ -37,6 +39,11 @@ class PreferencesPasswordForgetFragment : Fragment() {
                 addToBackStack(null)
             }?.commit()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
     }
 
     inner class EditTextWatcher : TextWatcher {

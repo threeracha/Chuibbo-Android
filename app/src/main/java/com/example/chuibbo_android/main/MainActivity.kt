@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onStart() {
         super.onStart()
-        Timber.i("onStart Called")
+        // Timber.i("onStart Called")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         bottomNavigationView.selectedItemId = R.id.home_item
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_previous)
+        //setSupportActionBar(toolbar)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -46,16 +44,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 transaction.commit()
                 return true
             }
-            R.id.camera_item -> {
+            R.id.calendar_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, GuidelineFragment())
+                transaction.replace(R.id.frameLayout, CalendarFragment())
                 transaction.addToBackStack(null)
                 transaction.commit()
                 return true
             }
-            R.id.calendar_item -> {
+            R.id.camera_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, CalendarFragment())
+                transaction.replace(R.id.frameLayout, GuidelineFragment())
                 transaction.addToBackStack(null)
                 transaction.commit()
                 return true

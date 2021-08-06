@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.download.DownloadFragment
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.face_correction_fragment.*
@@ -48,6 +49,8 @@ class FaceCorrectionFragment : Fragment() {
     ): View? {
         var v = inflater.inflate(R.layout.face_correction_fragment, container, false)
 
+        activity?.process3!!.visibility = View.VISIBLE
+
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.correction_contents, FaceCorrectionInsideFragment())
         }?.commit()
@@ -58,27 +61,12 @@ class FaceCorrectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        next_button = ImageButton(activity?.applicationContext)
-        next_button.setImageResource(R.drawable.ic_arrow_right)
-        val l3 =
-            androidx.appcompat.widget.Toolbar.LayoutParams(
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT
-            )
-        next_button.setBackgroundColor(Color.WHITE)
-        next_button.layoutParams = l3
-        next_button.setBackground(null)
-        activity?.toolbar!!.addView(next_button)
-        // This is how to set layout_gravity properties to Button
-        // must be put this code after put button view on the activity
-        (next_button.layoutParams as androidx.appcompat.widget.Toolbar.LayoutParams)?.apply {
-            this.gravity = Gravity.RIGHT
-        }
-        next_button.setOnClickListener {
-            activity?.supportFragmentManager!!.beginTransaction()
-                .replace(R.id.frameLayout, DownloadFragment())
-                .commit()
-            activity?.toolbar!!.removeView(next_button)
+        activity?.btn_next!!.visibility = View.VISIBLE
+        activity?.btn_next!!.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, DownloadFragment())
+                addToBackStack(null)
+            }?.commit()
         }
 
         tablayout_face_correction.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -96,5 +84,10 @@ class FaceCorrectionFragment : Fragment() {
                 // do nothing
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.process3!!.visibility = View.GONE
     }
 }

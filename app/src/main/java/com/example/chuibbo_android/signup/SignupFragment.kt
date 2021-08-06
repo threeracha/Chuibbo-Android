@@ -21,12 +21,14 @@ class SignupFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.back_button!!.visibility = View.VISIBLE
+
         return inflater.inflate(R.layout.signup_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar!!.title = "계정 생성"
+        activity?.toolbar_title!!.text = "계정 생성"
 
         // TODO: 회원가입 이메일과 비밀번호 정책 세우기
         email_edit_text.addTextChangedListener(object : TextWatcher {
@@ -61,6 +63,11 @@ class SignupFragment : Fragment() {
         agree_checkbox.setOnCheckedChangeListener { buttonView, isChecked -> // 체크박스 선택 시 버튼 활성화
             checkEditTextAndCheckBox()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
     }
 
     // EditText에 등록할 Listener

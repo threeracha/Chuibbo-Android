@@ -75,7 +75,7 @@ class CameraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar!!.title = "옵션 선택"
+        activity?.toolbar_title!!.text = "옵션 선택"
 
         optionsViewPager = optionViewPager
         val pagerAdapter2 = GenderSlidePagerAdapter(this)

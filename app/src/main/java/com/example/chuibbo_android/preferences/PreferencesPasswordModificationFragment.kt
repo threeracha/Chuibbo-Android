@@ -15,11 +15,18 @@ class PreferencesPasswordModificationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.back_button!!.visibility = View.VISIBLE
+
         return inflater.inflate(R.layout.preferences_password_modification_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar!!.title = "비밀번호 변경"
+        activity?.toolbar_title!!.text = "비밀번호변경"
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
     }
 }

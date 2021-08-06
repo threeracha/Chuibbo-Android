@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:id="@+id/company_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="left">
+
+                    <ImageView
+                        android:id="@+id/company_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:src="@drawable/company_logo_ex" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/company_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="롯데제과"
+                    android:textColor="#818181"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/company_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:text="2021 7월 신입사원(채용연계 인턴십) 채용"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/company_logo" />
+
+                <TextView
+                    android:id="@+id/company_deadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="D-3"
+                    android:textColor="#818181"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/company_desc" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/star"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignRight="@+id/company_contents"
+                android:layout_alignBottom="@+id/company_contents"
+                android:layout_marginTop="10dp"
+                android:background="#ffffffff"
+                android:src="@drawable/ic_star_fill" />
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
