@@ -30,7 +30,7 @@
     </style>
     <!-- for text -->
     <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textColor">@color/gray_200</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/main_blue</item>
+        <item name="android:textSize">7.5sp</item>
     </style>
 </resources>

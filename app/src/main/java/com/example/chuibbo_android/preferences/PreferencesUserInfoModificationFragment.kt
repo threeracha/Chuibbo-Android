@@ -16,18 +16,11 @@ class PreferencesUserInfoModificationFragment : Fragment() {
     ): View? {
         var view: View = inflater.inflate(R.layout.preferences_user_info_modification_fragment, container, false)
 
-        activity?.back_button!!.visibility = View.VISIBLE
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "계정 / 정보관리"
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity?.back_button!!.visibility = View.GONE
+        activity?.toolbar!!.title = "계정 / 정보관리"
     }
 }

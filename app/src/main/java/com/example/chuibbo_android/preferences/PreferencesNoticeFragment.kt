@@ -21,14 +21,12 @@ class PreferencesNoticeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.back_button!!.visibility = View.VISIBLE
-
         return inflater.inflate(R.layout.preferences_notice_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "공지사항"
+        activity?.toolbar!!.setTitle("설정")
 
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.recyclerview_notice)
         noticeList = ArrayList()
@@ -38,11 +36,6 @@ class PreferencesNoticeFragment : Fragment() {
         recyclerView!!.layoutManager = LinearLayoutManager(activity?.applicationContext)
         adapter = NoticeAdapter(noticeList)
         recyclerView!!.adapter = adapter
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity?.back_button!!.visibility = View.GONE
     }
 
     private fun loadData(): List<Notice> {

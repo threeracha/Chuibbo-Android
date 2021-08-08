@@ -1,6 +1,5 @@
 package com.example.chuibbo_android.preferences
 
-import android.R.attr.button
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import com.example.chuibbo_android.faq.PreferencesFaqFragment
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_fragment.view.*
 
-
 class PreferencesFragment : Fragment() {
 
     override fun onCreateView(
@@ -21,8 +19,6 @@ class PreferencesFragment : Fragment() {
     ): View? {
 
         var view = inflater.inflate(R.layout.preferences_fragment, container, false)
-
-        activity?.back_button!!.visibility = View.VISIBLE
 
         view.preferences_user_info_modification_button?.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
@@ -76,11 +72,6 @@ class PreferencesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "설정"
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity?.back_button!!.visibility = View.GONE
+        activity?.toolbar!!.title = "설정"
     }
 }

@@ -9,7 +9,6 @@ import com.example.chuibbo_android.R
 import com.example.chuibbo_android.preferences.PreferencesPasswordForgetFragment
 import com.example.chuibbo_android.signup.SignupFragment
 import kotlinx.android.synthetic.main.login_fragment.*
-import kotlinx.android.synthetic.main.main_activity.*
 
 class LoginFragment : Fragment() {
 
@@ -23,8 +22,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        activity?.toolbar_title!!.text = "로그인"
 
         var dialog: LoginFailureDialogFragment = LoginFailureDialogFragment()
         dialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기

@@ -16,7 +16,7 @@
         android:id="@+id/x"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_close_blue"
+        android:src="@drawable/ic_close"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         app:layout_constraintTop_toTopOf="parent"

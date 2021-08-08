@@ -21,8 +21,6 @@ class PreferencesInquiry : Fragment() {
     ): View? {
         var view: View = inflater.inflate(R.layout.preferences_inquiry_fragment, container, false)
 
-        activity?.back_button!!.visibility = View.VISIBLE
-
         view.inquiry_contents.addTextChangedListener(object : TextWatcher { // 문의하기 내용 입력시 버튼 활성화
             override fun afterTextChanged(s: Editable) {}
 
@@ -58,11 +56,6 @@ class PreferencesInquiry : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "문의하기"
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity?.back_button!!.visibility = View.GONE
+        activity?.toolbar!!.title = "문의하기"
     }
 }

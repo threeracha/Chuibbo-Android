@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">chuibbo-android</string>
     <string name="home_text">HOME</string>
-    <string name="calendar_text">CALENDAR</string>
     <string name="camera_text">CAMERA</string>
     <string name="mypage_text">MYPAGE</string>
+    <string name="calendar_text">CALENDAR</string>
     <string name="login_text">Login</string>
     <string name="email_text_korean">이메일</string>
     <string name="password_text_korean">비밀번호</string>
@@ -53,7 +53,4 @@
         <item>모두모두 많이 참여해주세요~</item>
         <item>모두모두 많이 참여해주세요~</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search_hint">검색어를 입력하세요</string>
 </resources>
