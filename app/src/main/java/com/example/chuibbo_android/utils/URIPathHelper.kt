@@ -1,4 +1,4 @@
-package com.example.chuibbo_android.camera
+package com.example.chuibbo_android.utils
 
 import android.content.ContentUris
 import android.content.Context
