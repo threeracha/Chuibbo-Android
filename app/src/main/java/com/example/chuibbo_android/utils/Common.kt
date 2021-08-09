@@ -16,13 +16,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.camera.ConfirmFragment
-import kotlinx.android.synthetic.main.confirm_fragment.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
-class Common (
+class Common(
     val fragment: Fragment,
     val activity: Activity
 ) {
@@ -48,9 +48,9 @@ class Common (
         transaction.commit()
     }
 
-    private fun clearBackStack() {
+    private fun clearBackStack() { // 조금 더 공부해보자
         val fragmentManager: FragmentManager = fragment.requireActivity().supportFragmentManager
-        while (fragmentManager.backStackEntryCount !== 0) {
+        while (fragmentManager.backStackEntryCount != 2) {
             fragmentManager.popBackStackImmediate()
         }
     }

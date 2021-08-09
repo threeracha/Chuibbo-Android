@@ -1,24 +1,17 @@
 package com.example.chuibbo_android.correction
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.download.DownloadFragment
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.face_correction_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 
 class FaceCorrectionFragment : Fragment() {
-    private lateinit var next_button: ImageButton
 
     private fun changeView(index: Int) {
         when (index) {
@@ -86,5 +79,6 @@ class FaceCorrectionFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         activity?.process3!!.visibility = View.GONE
+        activity?.btn_next!!.visibility = View.GONE
     }
 }

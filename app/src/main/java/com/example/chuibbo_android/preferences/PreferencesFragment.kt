@@ -1,6 +1,5 @@
 package com.example.chuibbo_android.preferences
 
-import android.R.attr.button
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import com.example.chuibbo_android.R
 import com.example.chuibbo_android.faq.PreferencesFaqFragment
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_fragment.view.*
-
 
 class PreferencesFragment : Fragment() {
 

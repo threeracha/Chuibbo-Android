@@ -10,7 +10,6 @@ import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
 
@@ -22,12 +21,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        toolbar_title.text = "취뽀"
 
         bottomNavigationView.background = null
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         bottomNavigationView.selectedItemId = R.id.home_item
 
-        //setSupportActionBar(toolbar)
+        // setSupportActionBar(toolbar)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

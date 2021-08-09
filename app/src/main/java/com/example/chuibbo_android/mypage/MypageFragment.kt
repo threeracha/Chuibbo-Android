@@ -48,7 +48,6 @@ class MypageFragment : Fragment() {
             )
         )
 
-
         // TODO: company_desc가 일정 길이 이상이면 자르기
         var likeData = ArrayList<LikeJobPostingModel>()
         likeData.add(
@@ -85,13 +84,13 @@ class MypageFragment : Fragment() {
         recyclerview_resume_photo.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         var resume_photo_adapter = MypageAlbumRecyclerViewAdpater(context, albumData)
-        //resume_photo_adapter.setClickListener(this)
+        // resume_photo_adapter.setClickListener(this)
         recyclerview_resume_photo.adapter = resume_photo_adapter
 
         val recyclerView_like_job_posting: RecyclerView = view.recyclerview_like_job_posting
         recyclerView_like_job_posting.layoutManager = LinearLayoutManager(context)
         var like_job_posting_adapter = MypageLikeJobPostingRecyclerViewAdapter(context, likeData)
-        //adapter.setClickListener(this)
+        // adapter.setClickListener(this)
         recyclerView_like_job_posting.adapter = like_job_posting_adapter
 
         view.resume_photo_count.text = albumData.size.toString()

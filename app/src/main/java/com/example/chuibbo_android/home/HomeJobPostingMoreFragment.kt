@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,23 +52,18 @@ class HomeJobPostingMoreFragment : Fragment() {
             ) {
                 when (position) {
                     0 -> {
-
                     }
                     1 -> {
-
                     }
-                    //...
+                    // ...
                     else -> {
-
                     }
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-
             }
         }
-
 
         // TODO: company_desc가 일정 길이 이상이면 자르기
         // dummy data to populate the RecyclerView with
@@ -173,7 +167,6 @@ class HomeJobPostingMoreFragment : Fragment() {
                 "https://www.doosan.com/kr"
             )
         )
-
 
         activity?.back_button!!.visibility = View.VISIBLE
 

@@ -2,15 +2,11 @@ package com.example.chuibbo_android.camera
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.background.BackgroundSynthesisFragment
@@ -25,7 +21,6 @@ import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.view.*
 class SynthesisConfirmFragment : Fragment() {
 
     private lateinit var vm: ImageViewModel
-    private lateinit var next_button: ImageButton
     private val adapter = Adapter()
 
     override fun onCreateView(
@@ -33,14 +28,13 @@ class SynthesisConfirmFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         activity?.process1!!.visibility = View.VISIBLE
-
         return inflater.inflate(R.layout.overall_synthesis_confirm_item, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.toolbar_title!!.text = ""
 
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ImageViewModel::class.java)
 
@@ -55,7 +49,6 @@ class SynthesisConfirmFragment : Fragment() {
             val result = bundle.getParcelable<Bitmap>("bundleKey")
             img_synthesis!!.setImageBitmap(result)
         }
-
 
         activity?.btn_next!!.visibility = View.VISIBLE
         activity?.btn_next!!.setOnClickListener {
