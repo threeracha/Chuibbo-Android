@@ -1,22 +1,16 @@
-import android.annotation.SuppressLint
-import android.graphics.Color
+
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.R.id.btn_next
 import com.example.chuibbo_android.camera.CameraFragment
-import com.example.chuibbo_android.preferences.PreferencesFragment
 import kotlinx.android.synthetic.main.guideline_fragment_contents.*
 import kotlinx.android.synthetic.main.main_activity.*
 
 class GuidelineContentsFragment : Fragment() {
-    private lateinit var btn: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +20,6 @@ class GuidelineContentsFragment : Fragment() {
         return inflater.inflate(R.layout.guideline_fragment_contents, container, false)
     }
 
-    @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

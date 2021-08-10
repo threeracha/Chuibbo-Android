@@ -75,12 +75,14 @@ class HomeFragment : Fragment() {
         // adapter.setClickListener(this)
         recyclerView.adapter = adapter
 
-        view.more.setOnClickListener(View.OnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, HomeJobPostingMoreFragment())
-                addToBackStack(null)
-            }?.commit()
-        })
+        view.more.setOnClickListener(
+            View.OnClickListener {
+                activity?.supportFragmentManager?.beginTransaction()?.apply {
+                    replace(R.id.frameLayout, HomeJobPostingMoreFragment())
+                    addToBackStack(null)
+                }?.commit()
+            }
+        )
 
         view.plus.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
