@@ -1,5 +1,7 @@
 package com.example.chuibbo_android.camera
 
+import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -34,6 +36,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+
 
 class ConfirmFragment : Fragment() {
     private lateinit var filePath: String
@@ -118,9 +124,8 @@ class ConfirmFragment : Fragment() {
                         call: Call<ResumePhotoUploadResponse>,
                         response: Response<ResumePhotoUploadResponse>
                     ) {
-                        if (response?.isSuccessful) {
+                        if (response.isSuccessful) {
                             val result = response.body()?.code
-                            println(result)
                             when (result) {
                                 1 -> {
                                     val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
@@ -128,7 +133,9 @@ class ConfirmFragment : Fragment() {
 
                                     activateProgressBar(false) // remove progress bar
 
-                                    setFragmentResult("requestBitmapKey", bundleOf("bundleKey" to bitmapResultImage))
+                                    saveBitmapToJpeg(bitmapResultImage, "result")
+
+                                    setFragmentResult("requestBitmapKey", bundleOf("bundleBitmapKey" to bitmapResultImage))
                                     Toast.makeText(context, "File Uploaded Successfully...", Toast.LENGTH_LONG).show()
 
                                     val transaction = activity?.supportFragmentManager!!.beginTransaction()
@@ -181,6 +188,24 @@ class ConfirmFragment : Fragment() {
                 btn_confirm.isEnabled = true
                 btn_select_again.isEnabled = true
             }
+        }
+    }
+
+    private fun saveBitmapToJpeg(bitmap: Bitmap, name: String) {
+        val storage: File = activity?.cacheDir!!
+        val fileName = "$name.jpg"
+
+        val tempFile = File(storage, fileName)
+        try {
+            tempFile.createNewFile()
+            val out = FileOutputStream(tempFile)
+            // compress 함수를 사용해 스트림에 비트맵을 저장합니다.
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            out.close()
+        } catch (e: FileNotFoundException) {
+            Log.e("MyTag", "FileNotFoundException : " + e.message)
+        } catch (e: IOException) {
+            Log.e("MyTag", "IOException : " + e.message)
         }
     }
 }
