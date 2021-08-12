@@ -62,7 +62,7 @@ class GuidelineContentsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        activity?.btn_next!!.visibility = View.GONE
+        activity?.btn_next?.visibility = View.GONE
     }
 
     companion object {
