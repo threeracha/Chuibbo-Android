@@ -1,5 +1,7 @@
 package com.example.chuibbo_android.home
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -18,13 +21,14 @@ import kotlinx.android.synthetic.main.main_activity.*
 
 class HomeFragment : Fragment() {
 
+    private val jobPostListViewModel by viewModels<JobPostListViewModel> {
+        context?.let { JobPostListViewModelFactory(it) }!!
+    }
     private lateinit var sliderViewPager: ViewPager2
     private lateinit var layoutIndicator: LinearLayout
 
     private val images = arrayOf(
-        "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
         "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/03/08/21/41/landscape-4913841_1280.jpg",
         "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
         "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
     )
@@ -35,56 +39,34 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        // TODO: company_desc가 일정 길이 이상이면 자르기
-        // dummy data to populate the RecyclerView with
-        var data = ArrayList<JobPostingModel>()
-        data.add(
-            JobPostingModel(
-                "롯데제과",
-                "롯데제과 채용공고",
-                3,
-                "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-                "https://www.lotteconf.co.kr/"
-            )
-        )
-        data.add(
-            JobPostingModel(
-                "두산",
-                "두산 채용",
-                2,
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-                "https://www.doosan.com/kr"
-            )
-        )
-        data.add(
-            JobPostingModel(
-                "두산",
-                "두산 채용",
-                2,
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-                "https://www.doosan.com/kr"
-            )
-        )
-
         val view = inflater.inflate(R.layout.home_fragment, container, false)
+
+        // TODO: company_desc가 일정 길이 이상이면 자르기
+
+        val jobPostAdapter = JobPostAdapter { jobPost -> adapterOnClick(jobPost, view) }
 
         val recyclerView: RecyclerView = view.recyclerview
         val numberOfColumns = 2
         recyclerView.layoutManager = GridLayoutManager(context, numberOfColumns)
-        var adapter = HomeJobPostingRecyclerViewAdapter(context, data)
-        // adapter.setClickListener(this)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = jobPostAdapter
+
+        jobPostListViewModel.jobPostsLiveData.observe(viewLifecycleOwner, {
+            it?.let {
+                jobPostAdapter.submitList(it as MutableList<JobPost>)
+            }
+        })
+
 
         view.more.setOnClickListener(View.OnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, HomeJobPostingMoreFragment())
+                replace(R.id.frameLayout, HomeJobPostMoreFragment())
                 addToBackStack(null)
             }?.commit()
         })
 
         view.plus.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, HomeJobPostingMoreFragment())
+                replace(R.id.frameLayout, HomeJobPostMoreFragment())
                 addToBackStack(null)
             }?.commit()
         }
@@ -113,6 +95,18 @@ class HomeFragment : Fragment() {
 
         setupIndicators(images.size)
     }
+
+    /* Opens companyLink of JobPost when RecyclerView item is clicked. */
+    private fun adapterOnClick(jobPost: JobPost, view: View) {
+        val url: String = jobPost.companyLink
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        view.context.startActivity(intent)
+    }
+
+//    private fun adapterStarOnClick(jobPost: JobPost, view: View) {
+//        view.star.setImageResource(R.drawable.ic_star_fill)
+//    }
 
     private fun setupIndicators(count: Int) {
         val indicators: Array<ImageView?> = arrayOfNulls<ImageView>(count)

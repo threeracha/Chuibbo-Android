@@ -16,7 +16,6 @@
         <ImageView
             android:id="@+id/resume_photo"
             android:layout_width="129dp"
-            android:layout_height="172dp"
-            android:src="@drawable/female_short_hair" />
+            android:layout_height="172dp" />
     </androidx.cardview.widget.CardView>
 </LinearLayout>

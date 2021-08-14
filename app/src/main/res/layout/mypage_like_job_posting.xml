@@ -27,8 +27,7 @@
                     android:id="@+id/company_logo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:src="@drawable/company_logo_ex" />
+                    android:layout_gravity="center" />
             </LinearLayout>
 
             <RelativeLayout
@@ -59,7 +58,7 @@
                         android:id="@+id/company_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="롯데제과"
+                        android:text="회사명"
                         android:textColor="#818181"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -70,7 +69,7 @@
                         android:id="@+id/company_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2021 7월 신입사원(채용연계 인턴십) 채용"
+                        android:text="채용 공고 내용"
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +79,7 @@
                         android:id="@+id/company_deadline"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="D-3"
+                        android:text="D-0"
                         android:textColor="#818181"
                         android:textSize="13sp"
                         android:textStyle="bold"

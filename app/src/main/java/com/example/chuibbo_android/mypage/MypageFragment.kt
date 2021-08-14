@@ -1,13 +1,18 @@
 package com.example.chuibbo_android.mypage
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.home.PhotoAlbumViewModel
+import com.example.chuibbo_android.home.PhotoAlbumViewModelFactory
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.preferences.PreferencesFragment
 import kotlinx.android.synthetic.main.main_activity.*
@@ -15,87 +20,50 @@ import kotlinx.android.synthetic.main.mypage_fragment.view.*
 
 class MypageFragment : Fragment() {
 
+    private val photoAlbumViewModel by viewModels<PhotoAlbumViewModel> {
+        context?.let { PhotoAlbumViewModelFactory(it) }!!
+    }
+
+    private val likeJobPostListViewModel by viewModels<LikeJobPostListViewModel> {
+        context?.let { LikeJobPostListViewModelFactory(it) }!!
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        // dummy data to populate the RecyclerView with
-        var albumData = ArrayList<AlbumModel>()
-        albumData.add(
-            AlbumModel(
-                "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-                "2021.08.02", "긴머리, 정장1"
-            )
-        )
-        albumData.add(
-            AlbumModel(
-                "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-                "2021.08.02", "긴머리, 정장1"
-            )
-        )
-        albumData.add(
-            AlbumModel(
-                "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-                "2021.08.02", "긴머리, 정장1"
-            )
-        )
-        albumData.add(
-            AlbumModel(
-                "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-                "2021.08.02", "긴머리, 정장1"
-            )
-        )
-
-
-        // TODO: company_desc가 일정 길이 이상이면 자르기
-        var likeData = ArrayList<LikeJobPostingModel>()
-        likeData.add(
-            LikeJobPostingModel(
-                "롯데제과",
-                "롯데제과 채용공고",
-                3,
-                "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-                "https://www.lotteconf.co.kr/"
-            )
-        )
-        likeData.add(
-            LikeJobPostingModel(
-                "두산",
-                "두산 채용",
-                2,
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-                "https://www.doosan.com/kr"
-            )
-        )
-        likeData.add(
-            LikeJobPostingModel(
-                "두산",
-                "두산 채용 소식2",
-                1,
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-                "https://www.doosan.com/kr"
-            )
-        )
-
         var view: View = inflater.inflate(R.layout.mypage_fragment, container, false)
 
-        val recyclerview_resume_photo: RecyclerView = view.recyclerview_resume_photo
-        recyclerview_resume_photo.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        var resume_photo_adapter = MypageAlbumRecyclerViewAdpater(context, albumData)
-        //resume_photo_adapter.setClickListener(this)
-        recyclerview_resume_photo.adapter = resume_photo_adapter
+        // photoAlbum recyclerview
+        val recyclerviewPhotoAlbum: RecyclerView = view.recyclerview_resume_photo
+        recyclerviewPhotoAlbum.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val photoAlbumAdapter = PhotoAlbumAdapter { photoAlbum -> photoAlbumAdapterOnClick(photoAlbum, view) }
 
-        val recyclerView_like_job_posting: RecyclerView = view.recyclerview_like_job_posting
-        recyclerView_like_job_posting.layoutManager = LinearLayoutManager(context)
-        var like_job_posting_adapter = MypageLikeJobPostingRecyclerViewAdapter(context, likeData)
-        //adapter.setClickListener(this)
-        recyclerView_like_job_posting.adapter = like_job_posting_adapter
+        recyclerviewPhotoAlbum.adapter = photoAlbumAdapter
 
-        view.resume_photo_count.text = albumData.size.toString()
-        view.like_job_posting_count.text = likeData.size.toString()
+        photoAlbumViewModel.photoAlbumsLiveData.observe(viewLifecycleOwner, {
+            it?.let {
+                photoAlbumAdapter.submitList(it as MutableList<PhotoAlbum>)
+            }
+        })
+
+        // likeJobPost recyclerview
+        val recyclerviewLikeJobPost: RecyclerView = view.recyclerview_like_job_posting
+        recyclerviewLikeJobPost.layoutManager = LinearLayoutManager(context)
+        val likeJobPostAdapter = LikeJobPostAdapter { likeJobPost -> likeJobPostAdapterOnClick(likeJobPost, view) }
+
+        recyclerviewLikeJobPost.adapter = likeJobPostAdapter
+
+        likeJobPostListViewModel.likeJobPostsLiveData.observe(viewLifecycleOwner, {
+            it?.let {
+                likeJobPostAdapter.submitList(it as MutableList<LikeJobPost>)
+            }
+        })
+
+        view.resume_photo_count.text = photoAlbumViewModel.getSize().toString()
+        view.like_job_posting_count.text = likeJobPostListViewModel.getSize().toString()
 
         view.login_button.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
@@ -112,14 +80,6 @@ class MypageFragment : Fragment() {
             }?.commit()
         }
 
-        /* TODO: 클릭시 다이얼로그
-        view.image1.setOnClickListener{
-            var myalbumDialog: MypageMyalbumDialogFragment = MypageMyalbumDialogFragment()
-            myalbumDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
-            activity?.let { it1 -> myalbumDialog.show(it1.supportFragmentManager, "CustomDialog") }
-        }
-        */
-
         // TODO: star 클릭시 color 변화
 
         return view
@@ -133,5 +93,20 @@ class MypageFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         activity?.settings_button!!.visibility = View.GONE
+    }
+
+    /* Opens dialog when RecyclerView item is clicked. */
+    private fun photoAlbumAdapterOnClick(photoAlbum: PhotoAlbum, view: View) {
+        var myalbumDialog = MypageMyalbumDialogFragment()
+        myalbumDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+        activity?.let { it1 -> myalbumDialog.show(it1.supportFragmentManager, "CustomDialog") }
+    }
+
+    /* Opens companyLink of LikeJobPost when RecyclerView item is clicked. */
+    private fun likeJobPostAdapterOnClick(likeJobPost: LikeJobPost, view: View) {
+        val url: String = likeJobPost.companyLink
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        view.context.startActivity(intent)
     }
 }
