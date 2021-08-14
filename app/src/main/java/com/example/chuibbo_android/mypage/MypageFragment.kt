@@ -99,6 +99,12 @@ class MypageFragment : Fragment() {
     private fun photoAlbumAdapterOnClick(photoAlbum: PhotoAlbum, view: View) {
         var myalbumDialog = MypageMyalbumDialogFragment()
         myalbumDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+
+        // 데이터 전달
+        val args = Bundle()
+        args.putString("image", photoAlbum.image)
+        args.putString("dateAndDesc", photoAlbum.date + "\n" + photoAlbum.desc)
+        myalbumDialog.arguments = args
         activity?.let { it1 -> myalbumDialog.show(it1.supportFragmentManager, "CustomDialog") }
     }
 
