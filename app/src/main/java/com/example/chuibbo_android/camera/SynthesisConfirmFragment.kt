@@ -25,15 +25,15 @@ import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.view.*
 class SynthesisConfirmFragment : Fragment() {
 
     private lateinit var vm: ImageViewModel
-    private lateinit var next_button: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        activity?.back_button!!.visibility = View.VISIBLE
         activity?.process1!!.visibility = View.VISIBLE
+        activity?.btn_next!!.visibility = View.VISIBLE
 
         return inflater.inflate(R.layout.overall_synthesis_confirm_item, container, false)
     }
@@ -56,8 +56,6 @@ class SynthesisConfirmFragment : Fragment() {
             img_synthesis!!.setImageBitmap(result)
         }
 
-
-        activity?.btn_next!!.visibility = View.VISIBLE
         activity?.btn_next!!.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, BackgroundSynthesisFragment())
@@ -70,6 +68,8 @@ class SynthesisConfirmFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
         activity?.process1!!.visibility = View.GONE
+        activity?.btn_next!!.visibility = View.GONE
     }
 }

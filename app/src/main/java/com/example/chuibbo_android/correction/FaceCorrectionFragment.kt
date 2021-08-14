@@ -47,21 +47,23 @@ class FaceCorrectionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var v = inflater.inflate(R.layout.face_correction_fragment, container, false)
+        var view = inflater.inflate(R.layout.face_correction_fragment, container, false)
 
+        activity?.toolbar_title!!.text = ""
+        activity?.back_button!!.visibility = View.VISIBLE
         activity?.process3!!.visibility = View.VISIBLE
+        activity?.btn_next!!.visibility = View.VISIBLE
 
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.correction_contents, FaceCorrectionInsideFragment())
         }?.commit()
 
-        return v
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.btn_next!!.visibility = View.VISIBLE
         activity?.btn_next!!.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, DownloadFragment())
@@ -88,6 +90,8 @@ class FaceCorrectionFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
         activity?.process3!!.visibility = View.GONE
+        activity?.btn_next!!.visibility = View.GONE
     }
 }

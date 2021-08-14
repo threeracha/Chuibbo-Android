@@ -21,6 +21,7 @@ class SignupFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.toolbar_title!!.text = "계정 생성"
         activity?.back_button!!.visibility = View.VISIBLE
 
         return inflater.inflate(R.layout.signup_fragment, container, false)
@@ -28,7 +29,6 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "계정 생성"
 
         // TODO: 회원가입 이메일과 비밀번호 정책 세우기
         email_edit_text.addTextChangedListener(object : TextWatcher {

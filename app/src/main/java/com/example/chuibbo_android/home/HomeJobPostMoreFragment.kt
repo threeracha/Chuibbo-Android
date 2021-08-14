@@ -85,14 +85,10 @@ class HomeJobPostMoreFragment : Fragment() {
             }
         })
 
+        activity?.toolbar_title!!.text = "취뽀 채용공고"
         activity?.back_button!!.visibility = View.VISIBLE
 
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "취뽀 채용공고"
     }
 
     override fun onDestroyView() {

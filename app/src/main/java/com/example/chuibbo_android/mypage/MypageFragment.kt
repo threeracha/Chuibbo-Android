@@ -65,14 +65,15 @@ class MypageFragment : Fragment() {
         view.resume_photo_count.text = photoAlbumViewModel.getSize().toString()
         view.like_job_posting_count.text = likeJobPostListViewModel.getSize().toString()
 
-        view.login_button.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, LoginFragment())
-                addToBackStack(null)
-            }?.commit()
-        }
-
+        activity?.toolbar_title!!.text = "마이페이지"
         activity?.settings_button!!.visibility = View.VISIBLE
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         activity?.settings_button!!.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, PreferencesFragment())
@@ -81,13 +82,6 @@ class MypageFragment : Fragment() {
         }
 
         // TODO: star 클릭시 color 변화
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "마이페이지"
     }
 
     override fun onDestroyView() {

@@ -92,7 +92,9 @@ class ConfirmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         activity?.toolbar_title!!.text = "사진 선택"
+        activity?.back_button!!.visibility = View.VISIBLE
 
         // FIXME: 2021/03/25 여기서 뒤로가기 버튼 누르면 앱이 종료됨
         btn_select_again.setOnClickListener {
@@ -183,6 +185,11 @@ class ConfirmFragment : Fragment() {
                 })
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.btn_next!!.visibility = View.GONE
     }
 
     private fun galleryAddPic() {

@@ -20,6 +20,7 @@ class PreferencesPasswordForgetFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.toolbar_title!!.text = "비밀번호 재설정"
         activity?.back_button!!.visibility = View.VISIBLE
 
         return inflater.inflate(R.layout.preferences_password_forget_fragment, container, false)
@@ -27,7 +28,6 @@ class PreferencesPasswordForgetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "비밀번호 재설정"
 
         email_text.addTextChangedListener(EditTextWatcher())
 

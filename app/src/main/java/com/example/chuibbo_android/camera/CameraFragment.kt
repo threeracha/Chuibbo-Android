@@ -69,13 +69,15 @@ class CameraFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.toolbar_title!!.text = "옵션 선택"
+        activity?.back_button!!.visibility = View.VISIBLE
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.camera_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "옵션 선택"
 
         optionsViewPager = optionViewPager
         val pagerAdapter2 = GenderSlidePagerAdapter(this)
@@ -101,6 +103,11 @@ class CameraFragment : Fragment() {
         camera_capture_button.setOnClickListener {
             dispatchTakePictureIntent()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
     }
 
     // 테드 퍼미션 설정 (카메라 사용시 권한 설정 팝업을 쉽게 구현하기 위해 사용)
