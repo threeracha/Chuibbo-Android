@@ -23,13 +23,14 @@
                 android:layout_height="85dp"
                 android:layout_marginTop="15dp" />
 
-            <LinearLayout
+            <me.relex.circleindicator.CircleIndicator3
                 android:id="@+id/banner_indicator"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="8dp" />
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="12dp"
+                app:ci_drawable="@drawable/guideline_indicator"
+                app:ci_drawable_unselected="@drawable/guideline_indicator_unselected"
+                app:flow_horizontalAlign="center" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

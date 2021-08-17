@@ -3,35 +3,33 @@ package com.example.chuibbo_android.home
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.home_fragment.view.*
 import kotlinx.android.synthetic.main.main_activity.*
+import me.relex.circleindicator.CircleIndicator3
+import java.util.*
 
 class HomeFragment : Fragment() {
+
+    private lateinit var sliderViewPager: ViewPager2
+    private lateinit var layoutIndicator: CircleIndicator3
+    private lateinit var timer: Timer
+    private var currentItem = 0
+    private val DELAY_MS: Long = 0
+    private val PERIOD_MS: Long = 3000
 
     private val jobPostListViewModel by viewModels<JobPostListViewModel> {
         context?.let { JobPostListViewModelFactory(it) }!!
     }
-    private lateinit var sliderViewPager: ViewPager2
-    private lateinit var layoutIndicator: LinearLayout
-
-    private val images = arrayOf(
-        "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
-        "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,8 +39,32 @@ class HomeFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.home_fragment, container, false)
 
-        // TODO: company_desc가 일정 길이 이상이면 자르기
+        sliderViewPager = view.banner_pager
+        sliderViewPager.offscreenPageLimit = 1
+        sliderViewPager.adapter = context?.let { ImageSliderAdapter(it, getBannerImages()) }
 
+        layoutIndicator = view.banner_indicator
+        layoutIndicator.setViewPager(sliderViewPager)
+
+        // PERIOD_MS초 마다 다음 배너 이미지로 전환
+        val handler = Handler()
+        val update = Runnable {
+            if (currentItem === getBannerImages().size-1) {
+                currentItem = -1
+            }
+            sliderViewPager.setCurrentItem(++currentItem, true)
+        }
+
+        timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                handler.post(update)
+            }
+        }, DELAY_MS, PERIOD_MS)
+
+        // TODO: 배너 이미지 마지막 위치시, 처음으로
+
+        // recyclerView
         val jobPostAdapter = JobPostAdapter { jobPost -> adapterOnClick(jobPost, view) }
 
         val recyclerView: RecyclerView = view.recyclerview
@@ -56,6 +78,13 @@ class HomeFragment : Fragment() {
             }
         })
 
+        activity?.toolbar_title!!.text = "취뽀"
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         view.more.setOnClickListener(View.OnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
@@ -72,28 +101,21 @@ class HomeFragment : Fragment() {
         }
 
         // TODO: star 클릭시 color 변화
-
-        return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "취뽀"
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
+    }
 
-        sliderViewPager = view.banner_pager
-        layoutIndicator = view.banner_indicator
+    private fun getBannerImages(): Array<String> {
+        val bannerImages = arrayOf(
+            "https://board.jinhak.com/BoardV1/Upload/Job/TodayCatch/%EC%95%8C%ED%8C%8C%EC%82%AC%EC%9D%B4%EC%B8%A0%20%EB%A9%94%EC%9D%B8%20%EB%B0%B0%EB%84%88%20%EC%8B%9C%EC%95%88(%EC%88%98%EC%A0%95)_0813_14451.png",
+            "https://board.jinhak.com/BoardV1/Upload/Job/TodayCatch/2021%ED%95%9C%EC%83%98%ED%82%A4%EC%B9%9C%EC%98%81%EC%97%85_0806_131056.jpg",
+            "https://apple.contentsfeed.com/RealMedia/ads/Creatives/jobkorea/210721_seoul_mb/210720_seoul_752X110.jpg"
+        )
 
-        sliderViewPager.setOffscreenPageLimit(1)
-        sliderViewPager.setAdapter(ImageSliderAdapter(context, images))
-
-        sliderViewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                setCurrentIndicator(position)
-            }
-        })
-
-        setupIndicators(images.size)
+        return bannerImages;
     }
 
     /* Opens companyLink of JobPost when RecyclerView item is clicked. */
@@ -107,52 +129,4 @@ class HomeFragment : Fragment() {
 //    private fun adapterStarOnClick(jobPost: JobPost, view: View) {
 //        view.star.setImageResource(R.drawable.ic_star_fill)
 //    }
-
-    private fun setupIndicators(count: Int) {
-        val indicators: Array<ImageView?> = arrayOfNulls<ImageView>(count)
-        val params = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        params.setMargins(16, 8, 16, 8)
-        for (i in indicators.indices) {
-            indicators[i] = ImageView(context)
-            indicators[i]?.setImageDrawable(
-                context?.let {
-                    ContextCompat.getDrawable(
-                        it,
-                        R.drawable.guideline_indicator_unselected
-                    )
-                }
-            )
-            indicators[i]?.setLayoutParams(params)
-            layoutIndicator.addView(indicators[i])
-        }
-        setCurrentIndicator(0)
-    }
-
-    private fun setCurrentIndicator(position: Int) {
-        val childCount = layoutIndicator.childCount
-        for (i in 0 until childCount) {
-            val imageView: ImageView = layoutIndicator.getChildAt(i) as ImageView
-            if (i == position) {
-                imageView.setImageDrawable(
-                    context?.let {
-                        ContextCompat.getDrawable(
-                            it,
-                            R.drawable.guideline_indicator
-                        )
-                    }
-                )
-            } else {
-                imageView.setImageDrawable(
-                    context?.let {
-                        ContextCompat.getDrawable(
-                            it,
-                            R.drawable.guideline_indicator_unselected
-                        )
-                    }
-                )
-            }
-        }
-    }
 }
