@@ -15,23 +15,22 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:visibility="gone">
+        android:paddingRight="40dp">
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/slider"
-            android:layout_width="wrap_content"
+        <SeekBar
+            android:id="@+id/seekbar_makeup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stepSize="10.0"
-            android:valueFrom="0.0"
-            android:valueTo="100.0"
-            app:barrierMargin="30dp"
+            android:min="5"
+            android:max="30"
+            android:progress="15"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:thumbColor="@color/main_blue"
             app:thumbRadius="7dp"
-            app:trackHeight="2dp" />
+            app:trackHeight="2dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

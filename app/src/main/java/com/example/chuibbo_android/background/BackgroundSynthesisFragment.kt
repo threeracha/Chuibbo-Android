@@ -1,17 +1,16 @@
 package com.example.chuibbo_android.background
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.correction.FaceCorrectionFragment
@@ -19,9 +18,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.background_synthesis_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.*
 
 class BackgroundSynthesisFragment : Fragment() {
-    private lateinit var next_button: ImageButton
 
     @SuppressLint("ResourceAsColor")
     private fun changeView(index: Int) {

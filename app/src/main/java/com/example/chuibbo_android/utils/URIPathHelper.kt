@@ -1,4 +1,4 @@
-package com.example.chuibbo_android.camera
+package com.example.chuibbo_android.utils
 
 import android.content.ContentUris
 import android.content.Context
@@ -10,7 +10,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 
 class URIPathHelper {
-    // room dabase 에 저장하기 위해 갤러리에서 가져온 사진 경로 설정
+    // room database 에 저장하기 위해 갤러리에서 가져온 사진 경로 설정
     fun getPath(context: Context, uri: Uri): String? {
         val isKitKatorAbove = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 

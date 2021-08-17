@@ -1,16 +1,11 @@
 package com.example.chuibbo_android.download
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import kotlinx.android.synthetic.main.main_activity.*
 
 class DownloadFragment : Fragment() {

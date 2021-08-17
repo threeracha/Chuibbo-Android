@@ -16,6 +16,7 @@ interface ImageApi {
     @GET("/api/hello")
     suspend fun hello(): ApiResponse<String>
 
+    // 취업 사진
     @Multipart
     @POST("/api/resume_photo/")
     fun uploadResumePhoto(

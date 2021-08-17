@@ -135,7 +135,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- TODO: 오른쪽 여백 더 주기 -->
             <HorizontalScrollView
                 android:id="@+id/resume_photo_scrollview"
                 android:layout_width="match_parent"

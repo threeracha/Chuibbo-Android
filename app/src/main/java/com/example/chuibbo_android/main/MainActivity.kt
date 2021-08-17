@@ -11,7 +11,6 @@ import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
 
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         bottomNavigationView.selectedItemId = R.id.home_item
 
-        //setSupportActionBar(toolbar)
+        // setSupportActionBar(toolbar)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.calendar_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, BackgroundSynthesisFragment())
+                transaction.replace(R.id.frameLayout, CalendarFragment())
                 transaction.addToBackStack(null)
                 transaction.commit()
                 return true
