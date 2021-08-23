@@ -1,7 +1,5 @@
 package com.example.chuibbo_android.camera
 
-import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -36,9 +34,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
 
 
 class ConfirmFragment : Fragment() {
@@ -78,11 +73,11 @@ class ConfirmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val common = Common(this, this.requireActivity())
 
         activity?.toolbar_title!!.text = "사진 선택"
         activity?.back_button!!.visibility = View.VISIBLE
 
-        val common = Common(this, this.requireActivity())
         // FIXME: 2021/03/25 여기서 뒤로가기 버튼 누르면 앱이 종료됨
         btn_select_again.setOnClickListener {
             // TODO: 2021/03/26 스택 이름을 나눠서 지정하여 여기서 꺼내기 
@@ -135,9 +130,11 @@ class ConfirmFragment : Fragment() {
 
                                     activateProgressBar(false) // remove progress bar
 
-                                    saveBitmapToJpeg(bitmapResultImage, "result")
+                                    val fileName = "result"
+                                    common.saveBitmapToJpeg(bitmapResultImage, fileName)
 
-                                    setFragmentResult("requestBitmapKey", bundleOf("bundleBitmapKey" to bitmapResultImage))
+                                    val path = activity?.cacheDir!!.toString() + "/" + fileName + ".jpg"
+                                    setFragmentResult("requestSynthesisKey", bundleOf("bundleSynthesisBitmapKey" to bitmapResultImage, "bundleSynthesisPathKey" to path))
                                     Toast.makeText(context, "File Uploaded Successfully...", Toast.LENGTH_LONG).show()
 
                                     val transaction = activity?.supportFragmentManager!!.beginTransaction()
@@ -195,24 +192,6 @@ class ConfirmFragment : Fragment() {
                 btn_confirm.isEnabled = true
                 btn_select_again.isEnabled = true
             }
-        }
-    }
-
-    private fun saveBitmapToJpeg(bitmap: Bitmap, name: String) {
-        val storage: File = activity?.cacheDir!!
-        val fileName = "$name.jpg"
-
-        val tempFile = File(storage, fileName)
-        try {
-            tempFile.createNewFile()
-            val out = FileOutputStream(tempFile)
-            // compress 함수를 사용해 스트림에 비트맵을 저장합니다.
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
-            out.close()
-        } catch (e: FileNotFoundException) {
-            Log.e("MyTag", "FileNotFoundException : " + e.message)
-        } catch (e: IOException) {
-            Log.e("MyTag", "IOException : " + e.message)
         }
     }
 }

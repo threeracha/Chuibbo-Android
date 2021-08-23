@@ -10,12 +10,8 @@
 
     <ImageView
         android:id="@+id/background_synthesis_image"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:src="@drawable/background_synthesis_sample"
-        android:layout_marginVertical="33dp"
-        android:layout_marginHorizontal="55dp"
-        android:background="@drawable/photo_frame"
+        android:layout_width="245dp"
+        android:layout_height="315dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/background_synthesis_image_tabs"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -1,7 +1,10 @@
 package com.example.chuibbo_android.camera
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +14,28 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.api.BackgroundApi
+import com.example.chuibbo_android.api.response.ResumePhotoUploadResponse
 import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.image.Adapter
+import com.example.chuibbo_android.image.Image
 import com.example.chuibbo_android.image.ImageViewModel
-import kotlinx.android.synthetic.main.download_fragment.view.*
+import com.example.chuibbo_android.utils.Common
 import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.android.synthetic.main.overall_synthesis_confirm_fragment.*
 import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.*
-import kotlinx.android.synthetic.main.overall_synthesis_confirm_item.view.*
+import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 
 class SynthesisConfirmFragment : Fragment() {
-
     private lateinit var vm: ImageViewModel
+    private lateinit var filePath: String
     private val adapter = Adapter()
     private lateinit var result: Bitmap
 
@@ -40,6 +53,8 @@ class SynthesisConfirmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val common = Common(this, this.requireActivity())
+
         activity?.toolbar_title!!.text = ""
 
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ImageViewModel::class.java)
@@ -51,16 +66,59 @@ class SynthesisConfirmFragment : Fragment() {
 //            adapter = ad
 //        }
 
-        setFragmentResultListener("requestBitmapKey") { key, bundle ->
-            result = bundle.getParcelable<Bitmap>("bundleBitmapKey")!!
+        setFragmentResultListener("requestSynthesisKey") { key, bundle ->
+            filePath = bundle.getString("bundleSynthesisPathKey")!!
+            result = bundle.getParcelable<Bitmap>("bundleSynthesisBitmapKey")!!
             img_synthesis!!.setImageBitmap(result)
         }
 
         activity?.btn_next!!.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, BackgroundSynthesisFragment())
-                addToBackStack(null)
-            }?.commit()
+            val fileBody = File(filePath).asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val filePart = MultipartBody.Part.createFormData("photo", "photo.jpg", fileBody)
+            val idBody = "sss20_0".toRequestBody(("text/plain").toMediaTypeOrNull())
+
+            // 로컬DB에 이미지 데이터 저장
+            var data = Image(0, filePath)
+            vm.insert(data)
+
+            var options = hashMapOf("id" to idBody)
+
+            // request resume photo to server in a coroutine scope
+            runBlocking {
+                BackgroundApi.instance.removeBackground(
+                    filePart,
+                    data = options
+                ).enqueue(object : Callback<ResumePhotoUploadResponse> {
+                    override fun onFailure(call: Call<ResumePhotoUploadResponse>, t: Throwable) {
+                        Log.d("retrofit fail", t.message)
+                    }
+
+                    override fun onResponse(
+                        call: Call<ResumePhotoUploadResponse>,
+                        response: Response<ResumePhotoUploadResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val result = response.body()?.code
+                            when (result) {
+                                1 -> {
+                                    val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
+                                    val bitmapResultImage = BitmapFactory.decodeByteArray(decode_img, 0, decode_img.size)
+
+                                    val fileName = "result2"
+                                    common.saveBitmapToJpeg(bitmapResultImage, fileName)
+
+                                    val path = activity?.cacheDir!!.toString() + "/" + fileName + ".jpg"
+                                    setFragmentResult("requestRembgKey", bundleOf("bundleRembgBitmapKey" to bitmapResultImage, "bundleRembgPathKey" to path))
+
+                                    val transaction = activity?.supportFragmentManager!!.beginTransaction()
+                                    transaction.replace(R.id.frameLayout, BackgroundSynthesisFragment())
+                                    transaction.commitAllowingStateLoss()
+                                }
+                            }
+                        }
+                    }
+                })
+            }
         }
 
         vm.allItem.observe(viewLifecycleOwner) { adapter.addCategoryList(it) }
