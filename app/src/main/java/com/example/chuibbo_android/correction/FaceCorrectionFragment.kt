@@ -19,6 +19,7 @@ import com.example.chuibbo_android.api.request.MakeupRequest
 import com.example.chuibbo_android.api.request.MakeupStrongRequest
 import com.example.chuibbo_android.download.DownloadFragment
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.background_synthesis_fragment.*
 import kotlinx.android.synthetic.main.face_correction_fragment.*
 import kotlinx.android.synthetic.main.face_correction_makeup_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
@@ -32,6 +33,8 @@ import java.io.InputStream
 import java.util.HashMap
 
 class FaceCorrectionFragment : Fragment(), IUploadCallback {
+    private lateinit var filePath: String
+    private lateinit var result: Bitmap
     private lateinit var file: File
     private val makeupService = MakeupApi.instance
 
@@ -60,9 +63,13 @@ class FaceCorrectionFragment : Fragment(), IUploadCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.face_correction_fragment, container, false)
 
+        activity?.toolbar_title!!.text = ""
+        activity?.back_button!!.visibility = View.VISIBLE
         activity?.process3!!.visibility = View.VISIBLE
+        activity?.btn_next!!.visibility = View.VISIBLE
 
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.correction_contents, FaceCorrectionInsideFragment())
@@ -73,11 +80,16 @@ class FaceCorrectionFragment : Fragment(), IUploadCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        file = File(activity?.cacheDir?.toString()+"/result.jpg")
-        uploadFile()
-        activity?.img_face_correction?.setImageBitmap(BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result.jpg"))
 
-        activity?.btn_next!!.visibility = View.VISIBLE
+        setFragmentResultListener("requestBackgroundKey") { key, bundle ->
+            filePath = bundle.getString("bundleBackgroundPathKey")!!
+            file = File(filePath)
+            uploadFile()
+
+            result = bundle.getParcelable<Bitmap>("bundleBackgroundBitmapKey")!!
+            img_face_correction!!.setImageBitmap(result)
+        }
+
         activity?.btn_next!!.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, DownloadFragment())
@@ -129,6 +141,7 @@ class FaceCorrectionFragment : Fragment(), IUploadCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
         activity?.process3!!.visibility = View.GONE
         activity?.btn_next!!.visibility = View.GONE
     }

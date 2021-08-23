@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class ApiGenerator {
+class BackgroundApiGenerator {
     var gson = GsonBuilder()
         .setLenient()
         .create()
@@ -21,8 +21,8 @@ class ApiGenerator {
 
     var okHttpClient: OkHttpClient = OkHttpClient().newBuilder()
         .connectTimeout(1, TimeUnit.MINUTES)
-        .readTimeout(120, TimeUnit.SECONDS)
-        .writeTimeout(60, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
     private fun httpLoggingInterceptor() =
@@ -31,6 +31,6 @@ class ApiGenerator {
         }
 
     companion object {
-        const val HOST = "http://10.0.2.2:5000"
+        const val HOST = "http://10.0.2.2:8080"
     }
 }

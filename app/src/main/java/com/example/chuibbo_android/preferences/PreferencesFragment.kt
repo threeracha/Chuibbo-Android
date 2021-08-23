@@ -17,10 +17,14 @@ class PreferencesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        var view = inflater.inflate(R.layout.preferences_fragment, container, false)
-
+        activity?.toolbar_title!!.text = "설정"
         activity?.back_button!!.visibility = View.VISIBLE
+
+        return inflater.inflate(R.layout.preferences_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         view.preferences_user_info_modification_button?.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
@@ -68,13 +72,6 @@ class PreferencesFragment : Fragment() {
                 addToBackStack(null)
             }?.commit()
         }
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "설정"
     }
 
     override fun onDestroyView() {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.calendar.CalendarFragment
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.mypage.MypageFragment
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        toolbar_title.text = "취뽀"
 
         bottomNavigationView.background = null
         bottomNavigationView.setOnNavigationItemSelectedListener(this)

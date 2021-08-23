@@ -2,6 +2,7 @@ package com.example.chuibbo_android.utils
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
@@ -17,6 +18,8 @@ import androidx.fragment.app.setFragmentResult
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.camera.ConfirmFragment
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -126,6 +129,24 @@ class Common(
         }
         BitmapFactory.decodeFile(photoPath, bmOptions)?.also { bitmap ->
             img.setImageBitmap(bitmap)
+        }
+    }
+
+    fun saveBitmapToJpeg(bitmap: Bitmap, name: String) {
+        val storage: File = activity?.cacheDir!!
+        val fileName = "$name.jpg"
+
+        val tempFile = File(storage, fileName)
+        try {
+            tempFile.createNewFile()
+            val out = FileOutputStream(tempFile)
+            // compress 함수를 사용해 스트림에 비트맵을 저장합니다.
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            out.close()
+        } catch (e: FileNotFoundException) {
+            Log.e("MyTag", "FileNotFoundException : " + e.message)
+        } catch (e: IOException) {
+            Log.e("MyTag", "IOException : " + e.message)
         }
     }
 }

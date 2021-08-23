@@ -9,8 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:nestedScrollingEnabled="false"
-        android:orientation="vertical"
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +135,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- TODO: 오른쪽 여백 더 주기 -->
             <HorizontalScrollView
                 android:id="@+id/resume_photo_scrollview"
                 android:layout_width="match_parent"

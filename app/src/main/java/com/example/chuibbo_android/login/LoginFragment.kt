@@ -18,13 +18,13 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.toolbar_title!!.text = "로그인"
+
         return inflater.inflate(R.layout.login_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        activity?.toolbar_title!!.text = "로그인"
 
         var dialog: LoginFailureDialogFragment = LoginFailureDialogFragment()
         dialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기

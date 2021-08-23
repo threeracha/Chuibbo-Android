@@ -14,16 +14,24 @@ class DownloadFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.toolbar_title!!.text = "사진 저장"
+        activity?.back_button!!.visibility = View.VISIBLE
+        activity?.download_button!!.visibility = View.VISIBLE
+
         return inflater.inflate(R.layout.download_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.toolbar_title!!.text = "사진 저장"
-        activity?.download_button!!.visibility = View.VISIBLE
         activity?.download_button!!.setOnClickListener {
             // TODO: 2021/04/09 이미지 로컬 갤러리 & 서버에 다운로드
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.back_button!!.visibility = View.GONE
+        activity?.download_button!!.visibility = View.GONE
     }
 }

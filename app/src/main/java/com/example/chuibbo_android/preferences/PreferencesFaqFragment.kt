@@ -19,6 +19,7 @@ class PreferencesFaqFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.toolbar_title!!.text = "자주 묻는 질문"
         activity?.back_button!!.visibility = View.VISIBLE
 
         return inflater.inflate(R.layout.preferences_faq_fragment, container, false)
@@ -26,7 +27,6 @@ class PreferencesFaqFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.toolbar_title!!.text = "자주 묻는 질문"
 
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.recyclerview_faq)
         faqList = ArrayList()
