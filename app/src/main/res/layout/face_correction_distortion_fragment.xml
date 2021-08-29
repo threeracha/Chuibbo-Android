@@ -49,7 +49,7 @@
     <ImageView
         android:id="@+id/img_vertical"
         android:layout_width="45dp"
-        android:layout_height="53dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="15dp"
         android:background="@drawable/ic_vertical_distortion"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -60,6 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="수직왜곡보정"
+        android:textSize="10sp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="@+id/img_vertical"
         app:layout_constraintStart_toStartOf="@+id/img_vertical"
@@ -68,7 +69,7 @@
     <ImageView
         android:id="@+id/img_horizontal"
         android:layout_width="45dp"
-        android:layout_height="53dp"
+        android:layout_height="50dp"
         android:background="@drawable/ic_horizontal_distortion"
         app:layout_constraintLeft_toRightOf="@id/img_vertical"
         app:layout_constraintRight_toRightOf="parent"
@@ -78,6 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="수평왜곡보정"
+        android:textSize="10sp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="@+id/img_horizontal"
         app:layout_constraintStart_toStartOf="@+id/img_horizontal"

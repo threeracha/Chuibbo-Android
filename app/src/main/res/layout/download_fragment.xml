@@ -7,9 +7,9 @@
     android:background="@color/white_100">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:id="@+id/img_download"
+        android:layout_width="250dp"
+        android:layout_height="315dp"
         android:layout_marginTop="41dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +20,9 @@
         android:layout_height="1px"
         android:background="@color/gray_300"
         android:layout_marginTop="25px"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/img_download"
+        app:layout_constraintStart_toStartOf="@+id/img_download"
+        app:layout_constraintTop_toBottomOf="@id/img_download"
         android:layout_width="0px" />
 
     <View
@@ -30,9 +30,9 @@
         android:layout_width="1px"
         android:layout_height="0px"
         android:background="@color/gray_300"
-        app:layout_constraintTop_toTopOf="@id/imageView"
-        app:layout_constraintBottom_toBottomOf="@id/imageView"
-        app:layout_constraintLeft_toRightOf="@id/imageView"
+        app:layout_constraintTop_toTopOf="@id/img_download"
+        app:layout_constraintBottom_toBottomOf="@id/img_download"
+        app:layout_constraintLeft_toRightOf="@id/img_download"
         android:layout_marginLeft="25px"
         />
 
@@ -57,8 +57,5 @@
         app:layout_constraintBottom_toBottomOf="@id/sero_line"
         android:layout_marginLeft="5px"
         android:gravity="center"/>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

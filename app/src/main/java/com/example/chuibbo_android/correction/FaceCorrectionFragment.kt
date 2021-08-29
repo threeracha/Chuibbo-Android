@@ -91,6 +91,7 @@ class FaceCorrectionFragment : Fragment(), IUploadCallback {
         }
 
         activity?.btn_next!!.setOnClickListener {
+            // TODO: 보정 완료 사진 보내기
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, DownloadFragment())
                 addToBackStack(null)
@@ -123,8 +124,6 @@ class FaceCorrectionFragment : Fragment(), IUploadCallback {
                 makeupService.uploadFile(body)
                     .enqueue(object : Callback<String> {
                         override fun onResponse(call: Call<String>, response: Response<String>) {
-                            // image_view.setImageURI(selectedUri)
-                            Log.d("결과", "성공 : //{response.raw()}")
                             Toast.makeText(context, "사진 전송에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                         }
 

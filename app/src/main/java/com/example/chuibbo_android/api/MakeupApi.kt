@@ -23,7 +23,7 @@ interface MakeupApi {
     fun uploadStrong(@Body strong: Int): Call<MakeupStrongRequest>
 
     @POST("/api/makeup")
-    fun makeUpFace(@Body strong: Int): Call<MakeupStrongRequest>
+    fun makeUpFace(@Body param: HashMap<String, Int>): Call<String>
 
     companion object {
         val instance = ApiGenerator().generate(MakeupApi::class.java)
