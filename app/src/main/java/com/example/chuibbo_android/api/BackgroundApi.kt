@@ -9,7 +9,7 @@ import retrofit2.http.*
 interface BackgroundApi {
 
     @Multipart
-    @POST("/api/resume_photo/rembg")
+    @POST("/api/resume_photo/remove_background")
     fun removeBackground(
         @Part(encoding = "multipart") photo: MultipartBody.Part,
         @PartMap(encoding = "params") data: HashMap<String, RequestBody>

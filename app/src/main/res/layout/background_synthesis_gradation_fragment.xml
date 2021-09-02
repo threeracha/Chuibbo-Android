@@ -26,7 +26,7 @@
             android:layout_marginBottom="26dp">
 
             <ImageView
-                android:id="@+id/color_none_gradation"
+                android:id="@+id/gradation_none"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_color_none"
@@ -36,48 +36,45 @@
                 tools:ignore="MissingConstraints" />
 
             <ImageView
-                android:id="@+id/color_picker_gradation"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_palette"
-                android:background="#00FFFFFF"
-                android:layout_marginRight="20dp"
-                tools:ignore="MissingConstraints" />
-
-            <!-- TODO: 그라데이션 부분 어떻게 할건지 고민 -->
-            <ImageView
-                android:id="@+id/color_white_gradation"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:background="@drawable/synthesis_gradation"
+                android:id="@+id/gradation1"
+                android:layout_width="28dp"
+                android:layout_height="36dp"
+                android:src="@drawable/gradation1"
                 android:layout_marginRight="17dp"
                 tools:ignore="MissingConstraints" />
 
             <ImageView
-                android:id="@+id/color_blue_gradation"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:background="@drawable/synthesis_gradation"
+                android:id="@+id/gradation2"
+                android:layout_width="28dp"
+                android:layout_height="36dp"
+                android:src="@drawable/gradation2"
                 android:layout_marginRight="17dp"
                 tools:ignore="MissingConstraints" />
 
             <ImageView
-                android:id="@+id/color_yellow_gradation"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:background="@drawable/synthesis_gradation"
+                android:id="@+id/gradation3"
+                android:layout_width="28dp"
+                android:layout_height="36dp"
+                android:src="@drawable/gradation3"
                 android:layout_marginRight="17dp"
                 tools:ignore="MissingConstraints" />
 
             <ImageView
-                android:id="@+id/color_pink_gradation"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:background="@drawable/synthesis_gradation"
+                android:id="@+id/gradation4"
+                android:layout_width="28dp"
+                android:layout_height="36dp"
+                android:src="@drawable/gradation4"
+                android:layout_marginRight="17dp"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/gradation5"
+                android:layout_width="28dp"
+                android:layout_height="36dp"
+                android:src="@drawable/gradation5"
                 android:layout_marginRight="50dp"
                 tools:ignore="MissingConstraints" />
 
         </LinearLayout>
     </HorizontalScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
