@@ -129,7 +129,7 @@ class FaceCorrectionMakeupFragment : Fragment() {
                     val bmp : Bitmap = BitmapFactory.decodeStream(inputS)
                     activity?.img_face_correction?.setImageBitmap(bmp)
 
-                    val fileName = "result"
+                    val fileName = "result2"
                     common.saveBitmapToJpeg(bmp, fileName)
 
                     Toast.makeText(context, "메이크업에 성공하였습니다.", Toast.LENGTH_SHORT).show()

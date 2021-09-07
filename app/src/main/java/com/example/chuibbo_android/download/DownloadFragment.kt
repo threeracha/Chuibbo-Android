@@ -26,9 +26,12 @@ class DownloadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        img_download?.setImageBitmap(BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result.jpg"))
+        img_download?.setImageBitmap(BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result3.jpg"))
 
         activity?.download_button!!.setOnClickListener {
+            context?.deleteFile(activity?.cacheDir?.toString()+"/result.jpg")
+            context?.deleteFile(activity?.cacheDir?.toString()+"/result1.jpg")
+            context?.deleteFile(activity?.cacheDir?.toString()+"/result2.jpg")
             // TODO: 2021/04/09 이미지 로컬 갤러리 & 서버에 다운로드
         }
     }
