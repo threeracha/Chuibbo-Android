@@ -100,8 +100,7 @@ class SynthesisConfirmFragment : Fragment() {
                         response: Response<ResumePhotoUploadResponse>
                     ) {
                         if (response.isSuccessful) {
-                            val result = response.body()?.code
-                            when (result) {
+                            when (response.body()?.code) {
                                 1 -> {
                                     val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
                                     val bitmapResultImage = BitmapFactory.decodeByteArray(decode_img, 0, decode_img.size)
@@ -110,7 +109,10 @@ class SynthesisConfirmFragment : Fragment() {
                                     common.saveBitmapToJpeg(bitmapResultImage, fileName)
 
                                     val path = activity?.cacheDir!!.toString() + "/" + fileName + ".jpg"
-                                    setFragmentResult("requestRembgKey", bundleOf("bundleRembgBitmapKey" to bitmapResultImage, "bundleRembgPathKey" to path))
+                                    setFragmentResult("requestRembgKey", bundleOf("bundleRembgBitmapKey" to bitmapResultImage,
+                                        "bundleRembgPathKey" to path,
+                                        "bundleDefaultBitmapKey" to result,
+                                        "bundleDefaultPathKey" to filePath))
 
                                     val transaction = activity?.supportFragmentManager!!.beginTransaction()
                                     transaction.replace(R.id.frameLayout, BackgroundSynthesisFragment())
