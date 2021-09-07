@@ -32,6 +32,7 @@ class ApiGenerator {
         }
 
     companion object {
-        const val HOST = "http://10.0.2.2:5000"
+        //const val HOST = "http://10.0.2.2:5000"
+        const val HOST = "http://44.242.163.11:5000"
     }
 }

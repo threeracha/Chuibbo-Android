@@ -44,9 +44,9 @@ class SynthesisConfirmFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.back_button!!.visibility = View.VISIBLE
-        activity?.process1!!.visibility = View.VISIBLE
-        activity?.btn_next!!.visibility = View.VISIBLE
+        activity?.back_button?.visibility = View.VISIBLE
+        activity?.process1?.visibility = View.VISIBLE
+        activity?.btn_next?.visibility = View.VISIBLE
 
         return inflater.inflate(R.layout.overall_synthesis_confirm_item, container, false)
     }
@@ -72,7 +72,7 @@ class SynthesisConfirmFragment : Fragment() {
             img_synthesis!!.setImageBitmap(result)
         }
 
-        activity?.btn_next!!.setOnClickListener {
+        activity?.btn_next?.setOnClickListener {
             val fileBody = File(filePath).asRequestBody("multipart/form-data".toMediaTypeOrNull())
             val filePart = MultipartBody.Part.createFormData("photo", "photo.jpg", fileBody)
             val idBody = "sss20_0".toRequestBody(("text/plain").toMediaTypeOrNull())

@@ -27,10 +27,11 @@ class FaceDetectionFailureDialogFragment : DialogFragment() {
         val common = Common(this, this.requireActivity())
 
         dialogView.btn_dialog_cancel2.setOnClickListener {
-            var dialogFragment: DialogFragment = fragment as DialogFragment
-            dialogFragment.dismiss()
+            dismiss()
         }
         dialogView.btn_dialog_again.setOnClickListener {
+            // TODO: 다시 사진 선택했을 때 이미지 바뀌도록 수정
+            dismiss()
             when (isFromGallery) {
                 true -> {
                     common.dispatchGalleryIntent()
@@ -40,7 +41,6 @@ class FaceDetectionFailureDialogFragment : DialogFragment() {
                 }
             }
         }
-
         return dialogView
     }
 

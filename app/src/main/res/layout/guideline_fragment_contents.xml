@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/constsLayout">
+    android:id="@+id/constsLayout"
+    android:layout_gravity="center">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="55dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="55dp"
         android:backgroundTint="@color/white_100"
         android:elevation="10dp"
@@ -22,14 +23,14 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/img_guide1"
-                android:layout_width="200dp"
-                android:layout_height="300dp"
+                android:layout_width="250dp"
+                android:layout_height="350dp"
                 android:layout_centerHorizontal="true"
-                android:scaleType="centerInside"
                 app:srcCompat="@drawable/guideline_first" />
 
             <TextView

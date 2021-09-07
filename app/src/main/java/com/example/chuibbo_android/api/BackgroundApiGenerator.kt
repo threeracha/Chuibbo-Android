@@ -31,6 +31,6 @@ class BackgroundApiGenerator {
         }
 
     companion object {
-        const val HOST = "http://10.0.2.2:8080"
+        const val HOST = "http://44.228.130.1:8080"
     }
 }
