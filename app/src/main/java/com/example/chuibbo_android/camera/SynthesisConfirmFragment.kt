@@ -105,7 +105,7 @@ class SynthesisConfirmFragment : Fragment() {
                                     val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
                                     val bitmapResultImage = BitmapFactory.decodeByteArray(decode_img, 0, decode_img.size)
 
-                                    val fileName = "result"
+                                    val fileName = "result2"
                                     common.saveBitmapToJpeg(bitmapResultImage, fileName)
 
                                     val path = activity?.cacheDir!!.toString() + "/" + fileName + ".jpg"

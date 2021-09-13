@@ -30,8 +30,8 @@ class DownloadFragment : Fragment() {
 
         activity?.download_button!!.setOnClickListener {
             context?.deleteFile(activity?.cacheDir?.toString()+"/result.jpg")
-            context?.deleteFile(activity?.cacheDir?.toString()+"/result1.jpg")
             context?.deleteFile(activity?.cacheDir?.toString()+"/result2.jpg")
+            context?.deleteFile(activity?.cacheDir?.toString()+"/result3.jpg")
             // TODO: 2021/04/09 이미지 로컬 갤러리 & 서버에 다운로드
         }
     }
