@@ -26,7 +26,7 @@ class DownloadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        img_download?.setImageBitmap(BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result3.jpg"))
+        img_download?.setImageBitmap(BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result4.jpg"))
 
         activity?.download_button!!.setOnClickListener {
             context?.deleteFile(activity?.cacheDir?.toString()+"/result.jpg")
