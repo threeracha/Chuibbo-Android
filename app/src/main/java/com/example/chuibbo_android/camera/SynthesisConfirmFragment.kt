@@ -44,9 +44,9 @@ class SynthesisConfirmFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.back_button!!.visibility = View.VISIBLE
-        activity?.process1!!.visibility = View.VISIBLE
-        activity?.btn_next!!.visibility = View.VISIBLE
+        activity?.back_button?.visibility = View.VISIBLE
+        activity?.process1?.visibility = View.VISIBLE
+        activity?.btn_next?.visibility = View.VISIBLE
 
         return inflater.inflate(R.layout.overall_synthesis_confirm_item, container, false)
     }
@@ -59,7 +59,7 @@ class SynthesisConfirmFragment : Fragment() {
 
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ImageViewModel::class.java)
 
-        // TODO: 2021/03/29 Recycler View Binding 아닌, ImageView 하나의 Object에 바인딩 하기
+        // TODO: 2021/03/29 Recycler View Binding 아닌, ImageView 하나의 Object에 바인딩 하
         // 리사이클러뷰 적용 보류
 //        recycerlview_img.apply {
 //            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -72,14 +72,16 @@ class SynthesisConfirmFragment : Fragment() {
             img_synthesis!!.setImageBitmap(result)
         }
 
-        activity?.btn_next!!.setOnClickListener {
+        activity?.btn_next?.setOnClickListener {
             val fileBody = File(filePath).asRequestBody("multipart/form-data".toMediaTypeOrNull())
             val filePart = MultipartBody.Part.createFormData("photo", "photo.jpg", fileBody)
             val idBody = "sss20_0".toRequestBody(("text/plain").toMediaTypeOrNull())
 
             // 로컬DB에 이미지 데이터 저장
             var data = Image(0, filePath)
+            vm.delete()
             vm.insert(data)
+            Log.d("item count = ", adapter.itemCount.toString())
 
             var options = hashMapOf("id" to idBody)
 

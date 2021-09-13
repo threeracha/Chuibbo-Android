@@ -173,7 +173,7 @@ class ConfirmFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        activity?.btn_next!!.visibility = View.GONE
+        activity?.btn_next?.visibility = View.GONE
     }
 
     private fun activateProgressBar(isActive: Boolean) {

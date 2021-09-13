@@ -3,6 +3,7 @@ package com.example.chuibbo_android.correction
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.example.chuibbo_android.api.ApiGenerator
 import com.example.chuibbo_android.api.MakeupApi
 import com.example.chuibbo_android.api.request.MakeupRequest
 import com.example.chuibbo_android.api.request.MakeupStrongRequest
+import com.example.chuibbo_android.utils.Common
 import kotlinx.android.synthetic.main.face_correction_fragment.*
 import kotlinx.android.synthetic.main.face_correction_makeup_fragment.*
 import okhttp3.ResponseBody
@@ -28,6 +30,11 @@ class FaceCorrectionMakeupFragment : Fragment() {
     private var flagLip = false
     private var flagCheek = false
     private var flagEyebrow = false
+    private var rColor = 247
+    private var gColor = 40
+    private var bColor = 57
+    private var size = 33
+    private var index = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +58,7 @@ class FaceCorrectionMakeupFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(p0: SeekBar?) {
-                makeupFace()
+                makeupFace(rColor, gColor, bColor, size, index)
             }
         })
 
@@ -61,7 +68,8 @@ class FaceCorrectionMakeupFragment : Fragment() {
                     activity?.seekbar_makeup?.visibility = View.INVISIBLE
                 false -> {
                     activity?.seekbar_makeup?.visibility = View.VISIBLE
-                    uploadParameter(247, 40, 57, 33, 2)
+                    index = 2
+                    uploadParameter(rColor, gColor, bColor, size, index)
                 }
             }
             // TODO: 다양한 컬러 사용자로부터 선택할 수 있도록 하는 기능 추가
@@ -72,11 +80,13 @@ class FaceCorrectionMakeupFragment : Fragment() {
                     activity?.seekbar_makeup?.visibility = View.INVISIBLE
                 false -> {
                     activity?.seekbar_makeup?.visibility = View.VISIBLE
-                    uploadParameter(247, 40, 57, 100, 3)
+                    index = 3
+                    uploadParameter(rColor, gColor, bColor, size, index)
                 }
             }
             // TODO: 다양한 컬러 사용자로부터 선택할 수 있도록 하는 기능 추가
-            uploadParameter(247, 40, 57, 100, 3)
+            index = 3
+            uploadParameter(rColor, gColor, bColor, size, index)
         }
         img_eyebrow?.setOnClickListener {
             when(flagEyebrow) {
@@ -111,12 +121,17 @@ class FaceCorrectionMakeupFragment : Fragment() {
 
     //서버로 이미지 다운로드
     private fun downloadFile() {
+        val common = Common(this, this.requireActivity())
         makeupService.downloadFile(ApiGenerator.HOST+"/static/Output.jpg/")
             .enqueue(object : Callback<ResponseBody>{
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     val inputS : InputStream = response.body()!!.byteStream()
                     val bmp : Bitmap = BitmapFactory.decodeStream(inputS)
                     activity?.img_face_correction?.setImageBitmap(bmp)
+
+                    val fileName = "result4"
+                    common.saveBitmapToJpeg(bmp, fileName)
+
                     Toast.makeText(context, "메이크업에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 }
 
@@ -139,14 +154,21 @@ class FaceCorrectionMakeupFragment : Fragment() {
     }
 
     //메이크업 요청
-    private fun makeupFace() {
+    private fun makeupFace(r:Int, g:Int, b:Int, size:Int, index:Int) {
         val strong = 1
-        makeupService.makeUpFace(strong).enqueue(object: Callback<MakeupStrongRequest> {
-            override fun onResponse(call: Call<MakeupStrongRequest>, response: Response<MakeupStrongRequest>) {
+        val input = HashMap<String, Int>()
+        input["rColor"] = r
+        input["gColor"] = g
+        input["bColor"] = b
+        input["size"] = size
+        input["index"] = index
+        makeupService.makeUpFace(input).enqueue(object: Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
                 downloadFile()
             }
 
-            override fun onFailure(call: Call<MakeupStrongRequest>, t: Throwable) {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d("makeup failed",t.message)
                 Toast.makeText(context, "makeupFaceFailed"+t.message, Toast.LENGTH_SHORT).show()
             }
         })

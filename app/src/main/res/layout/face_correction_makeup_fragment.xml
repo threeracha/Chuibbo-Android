@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingBottom="40dp">
+    android:paddingBottom="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:id="@+id/layout_slider"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="26dp">
 
         <SeekBar
             android:id="@+id/seekbar_makeup"
@@ -31,7 +32,6 @@
             app:thumbRadius="7dp"
             app:trackHeight="2dp"
             android:visibility="gone"/>
-
     </LinearLayout>
 
     <ImageView
@@ -48,7 +48,7 @@
     <ImageView
         android:id="@+id/img_eyebrow"
         android:layout_width="45dp"
-        android:layout_height="53dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="15dp"
         android:background="@drawable/ic_faceeyebrow"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -59,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="눈썹"
+        android:textSize="10sp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="@+id/img_eyebrow"
         app:layout_constraintStart_toStartOf="@+id/img_eyebrow"
@@ -67,7 +68,7 @@
     <ImageView
         android:id="@+id/img_cheek"
         android:layout_width="45dp"
-        android:layout_height="53dp"
+        android:layout_height="50dp"
         android:background="@drawable/ic_facecheek"
         app:layout_constraintLeft_toRightOf="@id/img_eyebrow"
         app:layout_constraintRight_toLeftOf="@id/img_lipstick"
@@ -77,6 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="볼터치"
+        android:textSize="10sp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="@+id/img_cheek"
         app:layout_constraintStart_toStartOf="@+id/img_cheek"
@@ -85,7 +87,7 @@
     <ImageView
         android:id="@+id/img_lipstick"
         android:layout_width="45dp"
-        android:layout_height="53dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:background="@drawable/ic_facelip"
         app:layout_constraintLeft_toRightOf="@id/img_cheek"
@@ -96,6 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="립스틱"
+        android:textSize="10sp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="@+id/img_lipstick"
         app:layout_constraintStart_toStartOf="@+id/img_lipstick"

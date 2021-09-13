@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_200">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/img_synthesis"
+        android:layout_width="217dp"
+        android:layout_height="290dp"
+        android:layout_marginTop="47dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/white_100"
-        tools:context=".data.SynthesisActivity">
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        android:text="다시 사진 선택/촬영하기"
+        android:textSize="12sp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintEnd_toEndOf="@id/img_synthesis"
+        app:layout_constraintStart_toStartOf="@id/img_synthesis"
+        app:layout_constraintTop_toBottomOf="@id/img_synthesis"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
-            android:id="@+id/img_synthesis"
-            android:layout_width="217dp"
-            android:layout_height="290dp"
-            android:layout_marginTop="47dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button_shape"
-            android:text="다시 사진 선택/촬영하기"
-            android:textSize="12sp"
-            android:layout_marginBottom="80dp"
-            app:layout_constraintEnd_toEndOf="@id/img_synthesis"
-            app:layout_constraintStart_toStartOf="@id/img_synthesis"
-            app:layout_constraintTop_toBottomOf="@id/img_synthesis"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
