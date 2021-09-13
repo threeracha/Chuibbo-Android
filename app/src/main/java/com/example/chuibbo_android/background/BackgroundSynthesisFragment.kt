@@ -171,7 +171,6 @@ class BackgroundSynthesisFragment : Fragment() {
                                     1 -> {
                                         val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
                                         val bitmapResultImage = BitmapFactory.decodeByteArray(decode_img, 0, decode_img.size)
-
                                         val fileName = "result3"
                                         common.saveBitmapToJpeg(bitmapResultImage, fileName)
 
