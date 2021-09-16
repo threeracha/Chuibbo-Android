@@ -19,6 +19,13 @@ class ApiGenerator {
         .build()
         .create(api)
 
+    fun <T> generateSpring(api: Class<T>): T = Retrofit.Builder()
+        .baseUrl(SPRING_HOST)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .client(okHttpClient)
+        .build()
+        .create(api)
+
     var okHttpClient: OkHttpClient = OkHttpClient().newBuilder()
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(120, TimeUnit.SECONDS)
@@ -32,5 +39,6 @@ class ApiGenerator {
 
     companion object {
         const val HOST = "http://10.0.2.2:5000"
+        const val SPRING_HOST = "http://10.0.2.2:8080"
     }
 }

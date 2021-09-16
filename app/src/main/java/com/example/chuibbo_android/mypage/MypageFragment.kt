@@ -81,6 +81,13 @@ class MypageFragment : Fragment() {
             }?.commit()
         }
 
+        view.login_button.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.frameLayout, LoginFragment())
+                addToBackStack(null)
+            }?.commit()
+        }
+
         // TODO: star 클릭시 color 변화
     }
 

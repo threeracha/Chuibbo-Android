@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PreferencesLogoutDialogFragment : DialogFragment() {
+class PreferencesWithdrawalDialogFragment : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,12 +31,12 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
 
         val view: View = inflater.inflate(R.layout.dialog_fragment, container, false)
 
-        view.dialog_message.text = "정말 로그아웃 하시겠습니까?"
+        view.dialog_message.text = "정말 탈퇴 하시겠습니까?"
 
-        val fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Logout")
+        val fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Withdrawal")
         view.dialog_yes.setOnClickListener {
             runBlocking {
-                UserApi.instance.logout().enqueue(object : Callback<ApiResponse<String>> {
+                UserApi.instance.withdraw(1).enqueue(object : Callback<ApiResponse<String>> { // TODO: userId
                     override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
@@ -62,7 +62,6 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
             val dialogFragment: DialogFragment = fragment as DialogFragment
             dialogFragment.dismiss()
         }
-
         return view
     }
 

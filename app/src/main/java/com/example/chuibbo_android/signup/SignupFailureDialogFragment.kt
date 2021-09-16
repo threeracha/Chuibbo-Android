@@ -1,4 +1,4 @@
-package com.example.chuibbo_android.login
+package com.example.chuibbo_android.signup
 
 import android.app.Dialog
 import android.graphics.Color
@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import kotlinx.android.synthetic.main.failure_dialog_fragment.view.*
 
-class LoginFailureDialogFragment : DialogFragment() {
+class SignupFailureDialogFragment : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,9 +23,9 @@ class LoginFailureDialogFragment : DialogFragment() {
 
         var view: View = inflater.inflate(R.layout.failure_dialog_fragment, container, false)
 
-        view.dialog_message.text = "로그인에 실패하였습니다."
+        view.dialog_message.text = "회원가입에 실패하였습니다."
 
-        var fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Login Failure")
+        var fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Signup Failure")
         view.dialog_ok.setOnClickListener {
             var dialogFragment: DialogFragment = fragment as DialogFragment
             dialogFragment.dismiss()
