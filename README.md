@@ -11,7 +11,7 @@
 * 팀원 : 김서영 / 취업공고 서버 개발, 안드로이드 개발, 데이터 수집 및 모델학습 
         김서현 / 안드로이드 개발, 보정 기능 개발, 데이터 수집 및 모델학습 
 
-<img width="300" height="500" src="./resources/메인페이지.png"/> <img width="300" height="500" src="./resources/기부처목록.gif"/>
+<img width="300" height="500" src="./resources/메인페이지.png"/> <img width="300" height="500" src="./resources/마이페이지1.png"/>
 
 <img width="300" height="500" src="./resources/가이드라인1.png"/> <img width="300" height="500" src="./resources/가이드라인2.png"/>
 
