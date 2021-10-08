@@ -1,14 +1,23 @@
 package com.example.chuibbo_android.download
 
+import android.R.attr.bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.utils.Common
 import kotlinx.android.synthetic.main.download_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
+
 
 class DownloadFragment : Fragment() {
     override fun onCreateView(
@@ -25,14 +34,24 @@ class DownloadFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val common = Common(this, this.requireActivity())
+        val what = BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result4.jpg")
 
-        img_download?.setImageBitmap(BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result4.jpg"))
+        img_download?.setImageBitmap(what)
 
         activity?.download_button!!.setOnClickListener {
-            context?.deleteFile(activity?.cacheDir?.toString()+"/result.jpg")
-            context?.deleteFile(activity?.cacheDir?.toString()+"/result2.jpg")
-            context?.deleteFile(activity?.cacheDir?.toString()+"/result3.jpg")
-            // TODO: 2021/04/09 이미지 로컬 갤러리 & 서버에 다운로드
+            context?.deleteFile("result.jpg")
+            context?.deleteFile("result2.jpg")
+            context?.deleteFile("result3.jpg")
+
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale("ko", "KR"))
+            val fileName = "result" + dateFormat.format(Date(System.currentTimeMillis()))
+            common.saveBitmapToGallery(what, fileName)
+            Toast.makeText(context, "이미지 저장 성공", Toast.LENGTH_SHORT).show()
+
+            // TODO: 2021/04/09 이미지 서버에 다운로드
+
+            context?.deleteFile("result4.jpg")
         }
     }
 

@@ -1,27 +1,29 @@
 package com.example.chuibbo_android.utils
 
 import android.app.Activity
-import android.content.Intent
+import android.content.*
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.renderscript.ScriptGroup
 import android.util.Log
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.core.content.contentValuesOf
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.camera.ConfirmFragment
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
+import java.lang.UnsupportedOperationException
 import java.text.SimpleDateFormat
+import java.time.LocalTime
 import java.util.Date
 import java.util.Locale
 
@@ -148,5 +150,68 @@ class Common(
         } catch (e: IOException) {
             Log.e("MyTag", "IOException : " + e.message)
         }
+    }
+
+    fun saveBitmapToGallery(bitmap: Bitmap, name: String) {
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "$name.jpg")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/*")
+            put(MediaStore.Images.Media.IS_PENDING, 1)
+        }
+        val contentResolver = activity?.applicationContext.contentResolver
+        var collection: Uri ?= getImageUri(activity?.applicationContext, bitmap)
+
+    // FIXME: 기능은 정상작동 되나 아래 코드가 왜 없어도 되는지 공부 필요..
+        /*
+        if (collection != null) {
+
+            var item = contentResolver.insert(collection, values)!!
+
+            if (isExternalStorageWritable()) {
+                try {
+                    contentResolver.openFileDescriptor(item!!, "w", null).use { pfd ->
+                        val bytes = ByteArrayOutputStream()
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+                        val bitmapData = bytes.toByteArray()
+                        val bs = ByteArrayInputStream(bitmapData)
+                        val fos = FileOutputStream(pfd?.fileDescriptor)
+                        val byteBuffer = ByteArrayOutputStream()
+                        val bufferSize = 1024;
+                        val buffer = ByteArray(bufferSize)
+                        var len = 0;
+                        while ((bs.read(buffer).also { len = it }) != -1) {
+                            byteBuffer.write(buffer, 0, len)
+                        }
+                        fos.write(byteBuffer.toByteArray())
+                        fos.close()
+                        bs.close()
+                        pfd?.close()
+                    }
+                    Log.d("wow6", "wow")
+                    contentResolver.update(item, values, null, null)
+                } catch (e: FileNotFoundException) {
+                    Log.e("MyTag", "FileNotFoundException : " + e.message)
+                } catch (e: IOException) {
+                    Log.e("MyTag", "IOException : " + e.message)
+                } finally {
+                    values.clear()
+                    values.put(MediaStore.Images.Media.IS_PENDING, 0)
+                    contentResolver.update(item!!, values, null, null)
+                }
+            } else {
+                Toast.makeText(activity?.applicationContext, "외부저장소 엑세스 접근 실패", Toast.LENGTH_SHORT).show()
+            }
+        }*/
+    }
+
+    private fun getImageUri(inContext: Context, inImage: Bitmap?): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(inContext?.contentResolver, inImage, "finalResult", null)
+        return Uri.parse(path)
+    }
+
+    private fun isExternalStorageWritable(): Boolean {
+        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
     }
 }
