@@ -39,6 +39,6 @@ class ApiGenerator {
 
     companion object {
         const val HOST = "http://10.0.2.2:5000"
-        const val SPRING_HOST = "http://10.0.2.2:8080"
+        const val SPRING_HOST = "http://10.0.2.2:7000"
     }
 }

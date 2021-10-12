@@ -44,6 +44,9 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var signupDialog: SignupDialogFragment = SignupDialogFragment()
+        signupDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+
         // 닉네임 작성 확인 (작성 확인시, 닉네임 중복확인 버튼 활성화)
         // TODO: 닉네임 10자 이내의 영문, 숫자, 한글만 허용한다.
         nickname_edit_text.addTextChangedListener(object : TextWatcher {
@@ -67,12 +70,42 @@ class SignupFragment : Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-        // TODO: 닉네임 중복 확인
         nickname_check.setOnClickListener {
+            val nickname = nickname_edit_text.text.toString()
 
-            // 성공시
-            nicknameCheck = true
-            checkEditTextAndCheckBox()
+            runBlocking {
+                UserApi.instance.checkNickname(
+                    nickname = nickname
+                ).enqueue(object : Callback<SpringResponse<String>> {
+                    override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
+                        Log.d("retrofit fail", t.message)
+                    }
+
+                    override fun onResponse(
+                        call: Call<SpringResponse<String>>,
+                        response: Response<SpringResponse<String>>
+                    ) {
+                        if (response.isSuccessful) {
+                            when (response.body()?.result_code) {
+                                "DATA OK" -> {
+                                    activity?.supportFragmentManager?.let { it1 -> signupDialog.show(it1, "Nickname Check OK") }
+
+                                    // 성공시
+                                    nicknameCheck = true
+                                    checkEditTextAndCheckBox()
+                                }
+                                "ERROR" -> {
+                                    activity?.supportFragmentManager?.let { it1 -> signupDialog.show(it1, "Nickname Check ERROR") }
+
+                                    // 실패시
+                                    nicknameCheck = false
+                                    checkEditTextAndCheckBox()
+                                }
+                            }
+                        }
+                    }
+                })
+            }
         }
 
         // 이메일 형식 확인 (형식 확인시, 이메일 중복확인 버튼 활성화)
@@ -99,12 +132,42 @@ class SignupFragment : Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-        // TODO: 이메일 중복 확인
         email_check.setOnClickListener {
+            val email = email_edit_text.text.toString()
 
-            // 성공시
-            emailCheck = true
-            checkEditTextAndCheckBox()
+            runBlocking {
+                UserApi.instance.checkEmail(
+                    email = email
+                ).enqueue(object : Callback<SpringResponse<String>> {
+                    override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
+                        Log.d("retrofit fail", t.message)
+                    }
+
+                    override fun onResponse(
+                        call: Call<SpringResponse<String>>,
+                        response: Response<SpringResponse<String>>
+                    ) {
+                        if (response.isSuccessful) {
+                            when (response.body()?.result_code) {
+                                "DATA OK" -> {
+                                    activity?.supportFragmentManager?.let { it1 -> signupDialog.show(it1, "Email Check OK") }
+
+                                    // 성공시
+                                    emailCheck = true
+                                    checkEditTextAndCheckBox()
+                                }
+                                "ERROR" -> {
+                                    activity?.supportFragmentManager?.let { it1 -> signupDialog.show(it1, "Email Check ERROR") }
+
+                                    // 실패시
+                                    emailCheck = false
+                                    checkEditTextAndCheckBox()
+                                }
+                            }
+                        }
+                    }
+                })
+            }
         }
 
         // 비밀번호 제약 확인
@@ -118,9 +181,6 @@ class SignupFragment : Fragment() {
         agree_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
             checkEditTextAndCheckBox()
         }
-
-        var signupFailureDialog: SignupFailureDialogFragment = SignupFailureDialogFragment()
-        signupFailureDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
 
         // 계정생성 버튼 클릭시, 서버에 회원가입하기
         create_account_button.setOnClickListener{
@@ -148,12 +208,12 @@ class SignupFragment : Fragment() {
                             when (response.body()?.result_code) {
                                 "OK" -> {
                                     // TODO: 회원가입 성공! 로그인하러가기
-                                    activity?.supportFragmentManager?.beginTransaction()?.apply {
-                                        replace(R.id.frameLayout, LoginFragment())
-                                    }?.commit()
+
+                                    val transaction = activity?.supportFragmentManager!!.beginTransaction()
+                                    transaction.replace(R.id.frameLayout, LoginFragment())
                                 }
                                 "ERROR" -> {
-                                    activity?.supportFragmentManager?.let { it1 -> signupFailureDialog.show(it1, "Signup Failure") }
+                                    activity?.supportFragmentManager?.let { it1 -> signupDialog.show(it1, "Signup Failure") }
                                 }
                             }
                         }

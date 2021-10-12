@@ -8,9 +8,19 @@ import retrofit2.http.*
 
 interface UserApi {
 
-    @POST("/api/v1/user/join")
+    @POST("/api/v1/user/signup")
     fun signup(
         @Body data: HashMap<String, String>
+    ): Call<SpringResponse<String>>
+
+    @GET("/api/v1/user/checkNickname")
+    fun checkNickname(
+        @Query("nickname") nickname: String
+    ): Call<SpringResponse<String>>
+
+    @GET("/api/v1/user/checkEmail")
+    fun checkEmail(
+        @Query("email") email: String
     ): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/login")
