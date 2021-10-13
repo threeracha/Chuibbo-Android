@@ -3,13 +3,14 @@ package com.example.chuibbo_android.home
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import java.time.LocalDateTime
 
 class JobPostListViewModel(val dataSource: JobPostDataSource) : ViewModel() {
 
     val jobPostsLiveData = dataSource.getJobPostList()
 
     /* If the name and description are present, create new JobPost and add it to the datasource */
-    fun insertJobPost(id: Int?, companyName: String?, companyDsc: String?, companyDeadline: Int?, companyLogo: String?, companyLink: String?) {
+    fun insertJobPost(id: Int?, companyName: String?, companyDsc: String?, companyDeadline: Int?, companyLogo: String?, companyLink: String?, startDate: LocalDateTime, endDate: LocalDateTime) {
         if (id == null || companyName == null || companyDsc == null || companyLogo == null || companyDeadline == null || companyLink == null) {
             return
         }
@@ -20,7 +21,9 @@ class JobPostListViewModel(val dataSource: JobPostDataSource) : ViewModel() {
             companyDsc,
             companyDeadline,
             companyLogo,
-            companyLink
+            companyLink,
+            startDate,
+            endDate
         )
 
         dataSource.addJobPost(newJobPost)
