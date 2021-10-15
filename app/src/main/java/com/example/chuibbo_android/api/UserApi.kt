@@ -2,9 +2,11 @@ package com.example.chuibbo_android.api
 
 import com.example.chuibbo_android.api.response.ApiResponse
 import com.example.chuibbo_android.api.response.SpringResponse
+import com.example.chuibbo_android.api.response.User
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
+import kotlin.collections.HashMap
 
 interface UserApi {
 
@@ -23,13 +25,15 @@ interface UserApi {
         @Query("email") email: String
     ): Call<SpringResponse<String>>
 
-    @GET("/api/v1/user/login")
+    @POST("/api/v1/user/login/")
     fun login(
-        @PartMap(encoding = "params") data: HashMap<String, RequestBody>
-    ): Call<ApiResponse<String>>
+        @Body data: HashMap<String, String>
+    ): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/logout")
-    fun logout(): Call<ApiResponse<String>>
+    fun logout(
+        @Header("Authorization") access_token: String
+    ): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/login/google")
     fun loginGoogle(): Call<ApiResponse<String>>
@@ -44,15 +48,15 @@ interface UserApi {
         @PartMap(encoding = "params") data: HashMap<String, RequestBody>
     ): Call<ApiResponse<String>>
 
-    @GET("/api/v1/user/info/{userEmail}")
+    @GET("/api/v1/user/info")
     fun userInfo(
-        @Path("userEmail") userEmail: String,
-    ): Call<ApiResponse<String>>
+        @Header("Authorization") access_token: String,
+    ): Call<SpringResponse<User>>
 
-    @DELETE("/api/v1/user/withdraw/{userId}")
+    @DELETE("/api/v1/user/withdraw")
     fun withdraw(
-        @Path("userId") userId: Int
-    ): Call<ApiResponse<String>>
+        @Header("Authorization") access_token: String,
+    ): Call<SpringResponse<String>>
 
     @POST("/api/v1/user/find-password")
     fun findPassword(

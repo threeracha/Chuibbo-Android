@@ -35,11 +35,11 @@ class SignupDialogFragment : DialogFragment() {
 
         } else if (activity?.supportFragmentManager?.findFragmentByTag("Email Check OK") != null) {
             fragment = activity?.supportFragmentManager?.findFragmentByTag("Email Check OK")!!
-            view.dialog_message.text = "아이디를 사용할 수 있습니다."
+            view.dialog_message.text = "이메일을 사용할 수 있습니다."
 
         } else if (activity?.supportFragmentManager?.findFragmentByTag("Email Check ERROR") != null) {
             fragment = activity?.supportFragmentManager?.findFragmentByTag("Email Check ERROR")!!
-            view.dialog_message.text = "이미 존재하는 아이디 입니다."
+            view.dialog_message.text = "이미 존재하는 이메일 입니다."
 
         } else if (activity?.supportFragmentManager?.findFragmentByTag("Signup Failure") != null) {
             fragment = activity?.supportFragmentManager?.findFragmentByTag("Signup Failure")!!

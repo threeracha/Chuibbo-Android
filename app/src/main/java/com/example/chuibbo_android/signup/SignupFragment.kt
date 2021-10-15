@@ -209,8 +209,9 @@ class SignupFragment : Fragment() {
                                 "OK" -> {
                                     // TODO: 회원가입 성공! 로그인하러가기
 
-                                    val transaction = activity?.supportFragmentManager!!.beginTransaction()
-                                    transaction.replace(R.id.frameLayout, LoginFragment())
+                                    activity?.supportFragmentManager?.beginTransaction()?.apply {
+                                        replace(R.id.frameLayout, LoginFragment())
+                                    }?.commit()
                                 }
                                 "ERROR" -> {
                                     activity?.supportFragmentManager?.let { it1 -> signupDialog.show(it1, "Signup Failure") }

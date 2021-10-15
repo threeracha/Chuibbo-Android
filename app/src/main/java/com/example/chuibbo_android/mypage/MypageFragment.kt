@@ -1,8 +1,10 @@
 package com.example.chuibbo_android.mypage
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +13,20 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.api.UserApi
+import com.example.chuibbo_android.api.response.SpringResponse
+import com.example.chuibbo_android.api.response.User
 import com.example.chuibbo_android.home.PhotoAlbumViewModel
 import com.example.chuibbo_android.home.PhotoAlbumViewModelFactory
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.preferences.PreferencesFragment
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.mypage_fragment.*
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MypageFragment : Fragment() {
 
@@ -35,6 +45,42 @@ class MypageFragment : Fragment() {
     ): View? {
 
         var view: View = inflater.inflate(R.layout.mypage_fragment, container, false)
+
+        val preferences = activity?.getSharedPreferences(
+            "MY_APP",
+            Context.MODE_PRIVATE
+        )
+        val access_token = preferences?.getString("access_token", "")
+
+        if (access_token != "") {
+            runBlocking {
+                UserApi.instance.userInfo(
+                    access_token!!
+                ).enqueue(object : Callback<SpringResponse<User>> {
+                    override fun onFailure(call: Call<SpringResponse<User>>, t: Throwable) {
+                        Log.d("retrofit fail", t.message)
+                    }
+
+                    override fun onResponse(
+                        call: Call<SpringResponse<User>>,
+                        response: Response<SpringResponse<User>>
+                    ) {
+                        if (response.isSuccessful) {
+                            when (response.body()?.result_code) {
+                                "DATA OK" -> {
+                                    user_name.text = response.body()?.data?.nickname.toString() + " 님"
+                                    user_name1.text = response.body()?.data?.nickname.toString()
+                                    user_name2.text = response.body()?.data?.nickname.toString()
+                                }
+                                "ERROR" -> {
+
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        }
 
         // photoAlbum recyclerview
         val recyclerviewPhotoAlbum: RecyclerView = view.recyclerview_resume_photo

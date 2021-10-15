@@ -1,13 +1,15 @@
 package com.example.chuibbo_android.main
 
 import GuidelineFragment
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.calendar.CalendarFragment
 import com.example.chuibbo_android.home.HomeFragment
+import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
@@ -59,11 +61,25 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.mypage_item -> {
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, MypageFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-                return true
+                val preferences = getSharedPreferences(
+                    "MY_APP",
+                    Context.MODE_PRIVATE
+                )
+                val access_token = preferences?.getString("access_token", "")
+
+                if (access_token == "") { // 로그인이 안되어있을 때,
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.frameLayout, LoginFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    return true
+                } else { // 로그인이 되어있을 때,
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.frameLayout, MypageFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    return true
+                }
             }
         }
         return false

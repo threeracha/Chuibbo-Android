@@ -5,10 +5,11 @@ data class SpringResponse<T>(
     val result_code: String?,
     val description: String?,
     val data: T? = null,
-    val token: String? = null
+    val access_token: String? = null,
+    val refresh_token: String? = null,
 ) {
     companion object {
         inline fun <reified T> error(description: String? = null) =
-            SpringResponse("", "ERROR", "ERROR", null as T?, null)
+            SpringResponse("", "ERROR", "ERROR", null as T?, null, null)
     }
 }

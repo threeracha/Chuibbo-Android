@@ -1,6 +1,7 @@
 package com.example.chuibbo_android.preferences
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,7 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
-import com.example.chuibbo_android.api.response.ApiResponse
+import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.home.HomeFragment
 import kotlinx.android.synthetic.main.dialog_fragment.view.*
 import kotlinx.coroutines.runBlocking
@@ -35,21 +36,39 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
 
         val fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Logout")
         view.dialog_yes.setOnClickListener {
+            val preferences = activity?.getSharedPreferences(
+                "MY_APP",
+                Context.MODE_PRIVATE
+            )
+            val access_token = preferences?.getString("access_token", "")
+
+            val dialogFragment: DialogFragment = fragment as DialogFragment
+            dialogFragment.dismiss()
+
             runBlocking {
-                UserApi.instance.logout().enqueue(object : Callback<ApiResponse<String>> {
-                    override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
+                UserApi.instance.logout(
+                    access_token!!
+                ).enqueue(object : Callback<SpringResponse<String>> {
+                    override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
 
                     override fun onResponse(
-                        call: Call<ApiResponse<String>>,
-                        response: Response<ApiResponse<String>>
+                        call: Call<SpringResponse<String>>,
+                        response: Response<SpringResponse<String>>
                     ) {
                         if (response.isSuccessful) {
-                            when (response.body()?.success) {
-                                true -> {
-                                    val transaction = activity?.supportFragmentManager!!.beginTransaction()
-                                    transaction.replace(R.id.frameLayout, HomeFragment())
+                            when (response.body()?.result_code) {
+                                "DATA OK" -> {
+                                    preferences?.edit()?.remove("access_token")?.apply()
+
+                                    activity?.supportFragmentManager?.beginTransaction()?.apply {
+                                        replace(R.id.frameLayout, HomeFragment())
+                                        addToBackStack(null)
+                                    }?.commit()
+                                }
+                                "ERROR" -> {
+
                                 }
                             }
                         }
