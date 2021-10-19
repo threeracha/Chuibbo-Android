@@ -1,5 +1,6 @@
 package com.example.chuibbo_android.api
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApiGenerator {
-    var gson = GsonBuilder()
+    var gson: Gson = GsonBuilder()
         .setLenient()
         .create()
 

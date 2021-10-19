@@ -14,4 +14,11 @@
     <color name="gray_300">#FFB1B1B1</color>
     <color name="red">#FFFF0000</color>
     <color name="yellow">#FFD400</color>
+    <color name="date_selected">#FFB1C1FB</color>
+    <color name="duration1">#FFC2F8CB</color>
+    <color name="duration2">#FFEB4763</color>
+    <color name="duration3">#FF7774FA</color>
+    <color name="duration4">#FFFFEE99</color>
+    <color name="duration5">#FFFFA630</color>
+    <color name="dday">#FFA5A5A6</color>
 </resources>

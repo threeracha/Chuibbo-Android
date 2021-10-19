@@ -80,7 +80,6 @@ class FaceCorrectionFragment : Fragment(), IUploadCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setFragmentResultListener("requestBackgroundKey") { key, bundle ->
             filePath = bundle.getString("bundleBackgroundPathKey")!!
             file = File(filePath)
@@ -89,8 +88,10 @@ class FaceCorrectionFragment : Fragment(), IUploadCallback {
             result = bundle.getParcelable<Bitmap>("bundleBackgroundBitmapKey")!!
             img_face_correction!!.setImageBitmap(result)
         }
+        //img_face_correction!!.setImageBitmap(BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result1.jpg"))
 
         activity?.btn_next!!.setOnClickListener {
+            // TODO: 보정 완료 사진 보내기
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, DownloadFragment())
                 addToBackStack(null)
@@ -123,8 +124,6 @@ class FaceCorrectionFragment : Fragment(), IUploadCallback {
                 makeupService.uploadFile(body)
                     .enqueue(object : Callback<String> {
                         override fun onResponse(call: Call<String>, response: Response<String>) {
-                            // image_view.setImageURI(selectedUri)
-                            Log.d("결과", "성공 : //{response.raw()}")
                             Toast.makeText(context, "사진 전송에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                         }
 

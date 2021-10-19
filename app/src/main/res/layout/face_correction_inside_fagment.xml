@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingBottom="40dp">
+    android:paddingBottom="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +49,7 @@
     <ImageView
         android:id="@+id/img_faceline"
         android:layout_width="45dp"
-        android:layout_height="53dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="15dp"
         android:background="@drawable/ic_faceline"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -60,6 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="터치보정"
+        android:textSize="10sp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="@+id/img_faceline"
         app:layout_constraintStart_toStartOf="@+id/img_faceline"
@@ -68,7 +69,7 @@
     <ImageView
         android:id="@+id/img_facespot"
         android:layout_width="45dp"
-        android:layout_height="53dp"
+        android:layout_height="50dp"
         android:background="@drawable/ic_facespot"
         app:layout_constraintLeft_toRightOf="@id/img_faceline"
         app:layout_constraintRight_toRightOf="parent"
@@ -78,6 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="잡티제거"
+        android:textSize="10sp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="@+id/img_facespot"
         app:layout_constraintStart_toStartOf="@+id/img_facespot"
