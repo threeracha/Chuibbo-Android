@@ -16,6 +16,7 @@
         <ImageView
             android:id="@+id/resume_photo"
             android:layout_width="129dp"
-            android:layout_height="172dp" />
+            android:layout_height="172dp"
+            android:scaleType="fitXY"/>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

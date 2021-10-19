@@ -15,13 +15,13 @@ class PhotoAlbumDataSource(resources: Resources) {
         ),
         PhotoAlbum(
             2,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
+            "https://t1.daumcdn.net/cfile/blog/99547E455C4535D805",
             "2021.08.13",
             "긴머리, 정장1"
         ),
         PhotoAlbum(
             3,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
+            "https://t1.daumcdn.net/cfile/blog/997C693E5B4EACA613",
             "2021.08.13",
             "긴머리, 정장1"
         ),

@@ -18,7 +18,6 @@ import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.api.response.User
 import com.example.chuibbo_android.home.PhotoAlbumViewModel
 import com.example.chuibbo_android.home.PhotoAlbumViewModelFactory
-import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.preferences.PreferencesFragment
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.mypage_fragment.*
@@ -123,13 +122,6 @@ class MypageFragment : Fragment() {
         activity?.settings_button!!.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, PreferencesFragment())
-                addToBackStack(null)
-            }?.commit()
-        }
-
-        view.login_button.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frameLayout, LoginFragment())
                 addToBackStack(null)
             }?.commit()
         }

@@ -42,9 +42,6 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
             )
             val access_token = preferences?.getString("access_token", "")
 
-            val dialogFragment: DialogFragment = fragment as DialogFragment
-            dialogFragment.dismiss()
-
             runBlocking {
                 UserApi.instance.logout(
                     access_token!!
@@ -66,9 +63,13 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
                                         replace(R.id.frameLayout, HomeFragment())
                                         addToBackStack(null)
                                     }?.commit()
+
+                                    val dialogFragment: DialogFragment = fragment as DialogFragment
+                                    dialogFragment.dismiss()
                                 }
                                 "ERROR" -> {
-
+                                    val dialogFragment: DialogFragment = fragment as DialogFragment
+                                    dialogFragment.dismiss()
                                 }
                             }
                         }

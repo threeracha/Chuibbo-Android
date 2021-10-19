@@ -42,9 +42,6 @@ class PreferencesWithdrawalDialogFragment : DialogFragment() {
             )
             val access_token = preferences?.getString("access_token", "")
 
-            val dialogFragment: DialogFragment = fragment as DialogFragment
-            dialogFragment.dismiss()
-
             runBlocking {
                 UserApi.instance.withdraw(
                     access_token!!
@@ -62,14 +59,16 @@ class PreferencesWithdrawalDialogFragment : DialogFragment() {
                                 "OK" -> {
                                     preferences?.edit()?.remove("access_token")?.apply()
 
-                                    // TODO: 홈화면으로 돌아가지 않는 버그 수정하기 (아래 코드가 안먹음)
                                     activity?.supportFragmentManager?.beginTransaction()?.apply {
                                         replace(R.id.frameLayout, HomeFragment())
                                     }?.commit()
+
+                                    val dialogFragment: DialogFragment = fragment as DialogFragment
+                                    dialogFragment.dismiss()
                                 }
                                 "ERROR" -> {
-
-
+                                    val dialogFragment: DialogFragment = fragment as DialogFragment
+                                    dialogFragment.dismiss()
                                 }
                             }
                         }

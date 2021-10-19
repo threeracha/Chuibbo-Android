@@ -7,12 +7,19 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.api.UserApi
+import com.example.chuibbo_android.api.response.SpringResponse
+import com.example.chuibbo_android.api.response.User
 import com.example.chuibbo_android.calendar.CalendarFragment
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
 
@@ -67,19 +74,48 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 )
                 val access_token = preferences?.getString("access_token", "")
 
-                if (access_token == "") { // 로그인이 안되어있을 때,
-                    val transaction = supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.frameLayout, LoginFragment())
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                    return true
-                } else { // 로그인이 되어있을 때,
-                    val transaction = supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.frameLayout, MypageFragment())
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                    return true
+                // TODO: 로그인 되었을 때, 마이페이지 전환 전, 로그인 살짝 뜨는 것 제거
+                if (access_token != "") { // 로그인 토큰이 있을 때,
+                    runBlocking {
+                        UserApi.instance.userInfo(
+                            access_token!!
+                        ).enqueue(object : Callback<SpringResponse<User>> {
+                            override fun onFailure(call: Call<SpringResponse<User>>, t: Throwable) {
+                                Log.d("retrofit fail", t.message)
+                            }
+
+                            override fun onResponse(
+                                call: Call<SpringResponse<User>>,
+                                response: Response<SpringResponse<User>>
+                            ) {
+                                if (response.isSuccessful) {
+                                    when (response.body()?.result_code) {
+                                        "DATA OK" -> {
+                                            val transaction = supportFragmentManager.beginTransaction()
+                                            transaction.replace(R.id.frameLayout, MypageFragment())
+                                            transaction.addToBackStack(null)
+                                            transaction.commit()
+                                            return
+                                        }
+                                        "ERROR" -> {
+                                            val transaction = supportFragmentManager.beginTransaction()
+                                            transaction.replace(R.id.frameLayout, LoginFragment())
+                                            transaction.addToBackStack(null)
+                                            transaction.commit()
+                                            return
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    }
                 }
+                // 로그인 토큰이 없을 때,
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frameLayout, LoginFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
+                return true
             }
         }
         return false
