@@ -60,8 +60,14 @@ interface UserApi {
 
     @POST("/api/v1/user/find-password")
     fun findPassword(
-        @Body data: HashMap<String, RequestBody>,
-    ): Call<ApiResponse<String>>
+        @Body data: RequestBody,
+    ): Call<SpringResponse<String>>
+
+    @PUT("/api/v1/user/change-password")
+    fun changePassword(
+        @Header("Authorization") access_token: String,
+        @Body data: RequestBody,
+    ): Call<SpringResponse<String>>
 
     companion object {
         val instance = ApiGenerator().generateSpring(UserApi::class.java)
