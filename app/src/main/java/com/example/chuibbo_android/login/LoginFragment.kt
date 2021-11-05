@@ -73,11 +73,7 @@ class LoginFragment : Fragment() {
 
                                     // 내부에 로그인 정보 저장
                                     val nickname = response.body()?.data?.nickname
-                                    val preferences = activity!!.getSharedPreferences(
-                                        "USER_INFO",
-                                        Context.MODE_PRIVATE
-                                    )
-                                    preferences.edit().putString("user_info", nickname).apply()
+                                    sessionManager.saveUserInfo(nickname.toString())
 
                                     // TODO: 로그인 성공! 홈으로 가기
                                     activity?.supportFragmentManager?.beginTransaction()?.apply {

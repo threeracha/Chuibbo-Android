@@ -139,11 +139,7 @@ class PreferencesPasswordForgetFragment : Fragment() {
 
                                     // 내부에 로그인 정보 저장
                                     val nickname = response.body()?.data?.nickname
-                                    val preferences = activity!!.getSharedPreferences(
-                                        "USER_INFO",
-                                        Context.MODE_PRIVATE
-                                    )
-                                    preferences.edit().putString("user_info", nickname).apply()
+                                    sessionManager.saveUserInfo(nickname.toString())
 
                                     activity?.supportFragmentManager?.let { it1 -> preferencesDialog.show(it1, "Check and Change Password") }
 

@@ -77,11 +77,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.mypage_item -> {
-                val preferences = getSharedPreferences(
-                    "USER_INFO",
-                    Context.MODE_PRIVATE
-                )
-                val user_info = preferences?.getString("user_info", "")
+                val user_info = sessionManager.fetchUserInfo()
 
                 if (user_info != "") { // 로그인 유효시,
                     val transaction = supportFragmentManager.beginTransaction()

@@ -39,11 +39,9 @@ class MypageFragment : Fragment() {
 
         var view: View = inflater.inflate(R.layout.mypage_fragment, container, false)
 
-        val preferences = activity?.getSharedPreferences(
-            "USER_INFO",
-            Context.MODE_PRIVATE
-        )
-        val user_info = preferences?.getString("user_info", "")
+        sessionManager = SessionManager(requireContext())
+
+        val user_info = sessionManager.fetchUserInfo()
 
         view.user_name.text = "$user_info 님"
         view.user_name1.text = user_info
