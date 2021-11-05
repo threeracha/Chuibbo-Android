@@ -1,7 +1,6 @@
 package com.example.chuibbo_android.preferences
 
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,6 +15,7 @@ import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
 import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.home.HomeFragment
+import com.example.chuibbo_android.utils.SessionManager
 import kotlinx.android.synthetic.main.dialog_fragment.view.*
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
@@ -23,6 +23,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PreferencesLogoutDialogFragment : DialogFragment() {
+
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,17 +37,13 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
         view.dialog_message.text = "정말 로그아웃 하시겠습니까?"
 
         val fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Logout")
+
+        sessionManager = SessionManager(requireContext())
+
         view.dialog_yes.setOnClickListener {
-            val preferences = activity?.getSharedPreferences(
-                "MY_APP",
-                Context.MODE_PRIVATE
-            )
-            val access_token = preferences?.getString("access_token", "")
 
             runBlocking {
-                UserApi.instance.logout(
-                    access_token!!
-                ).enqueue(object : Callback<SpringResponse<String>> {
+                UserApi.instance(requireContext()).logout().enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
@@ -57,7 +55,7 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
                         if (response.isSuccessful) {
                             when (response.body()?.result_code) {
                                 "DATA OK" -> {
-                                    preferences?.edit()?.remove("access_token")?.apply()
+                                    sessionManager.removeAccessToken()
 
                                     activity?.supportFragmentManager?.beginTransaction()?.apply {
                                         replace(R.id.frameLayout, HomeFragment())

@@ -74,7 +74,7 @@ class SignupFragment : Fragment() {
             val nickname = nickname_edit_text.text.toString()
 
             runBlocking {
-                UserApi.instance.checkNickname(
+                UserApi.instance(requireContext()).checkNickname(
                     nickname = nickname
                 ).enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
@@ -136,7 +136,7 @@ class SignupFragment : Fragment() {
             val email = email_edit_text.text.toString()
 
             runBlocking {
-                UserApi.instance.checkEmail(
+                UserApi.instance(requireContext()).checkEmail(
                     email = email
                 ).enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
@@ -193,7 +193,7 @@ class SignupFragment : Fragment() {
             signupInfo["password"] = password
 
             runBlocking {
-                UserApi.instance.signup(
+                UserApi.instance(requireContext()).signup(
                     data = signupInfo
                 ).enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {

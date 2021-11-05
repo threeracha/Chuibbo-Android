@@ -1,5 +1,6 @@
 package com.example.chuibbo_android.api
 
+import android.content.Context
 import com.example.chuibbo_android.api.response.ApiResponse
 import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.api.response.User
@@ -28,12 +29,10 @@ interface UserApi {
     @POST("/api/v1/user/login/")
     fun login(
         @Body data: HashMap<String, String>
-    ): Call<SpringResponse<String>>
+    ): Call<SpringResponse<User>>
 
     @GET("/api/v1/user/logout")
-    fun logout(
-        @Header("Authorization") access_token: String
-    ): Call<SpringResponse<String>>
+    fun logout(): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/login/google")
     fun loginGoogle(): Call<ApiResponse<String>>
@@ -49,14 +48,10 @@ interface UserApi {
     ): Call<ApiResponse<String>>
 
     @GET("/api/v1/user/info")
-    fun userInfo(
-        @Header("Authorization") access_token: String,
-    ): Call<SpringResponse<User>>
+    fun userInfo(): Call<SpringResponse<User>>
 
     @DELETE("/api/v1/user/withdraw")
-    fun withdraw(
-        @Header("Authorization") access_token: String,
-    ): Call<SpringResponse<String>>
+    fun withdraw(): Call<SpringResponse<String>>
 
     @POST("/api/v1/user/find-password")
     fun findPassword(
@@ -65,11 +60,12 @@ interface UserApi {
 
     @PUT("/api/v1/user/change-password")
     fun changePassword(
-        @Header("Authorization") access_token: String,
         @Body data: RequestBody,
     ): Call<SpringResponse<String>>
 
     companion object {
-        val instance = ApiGenerator().generateSpring(UserApi::class.java)
+        fun instance(context: Context): UserApi {
+            return ApiGenerator().generateSpring(UserApi::class.java, context)
+        }
     }
 }

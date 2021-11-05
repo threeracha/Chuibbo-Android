@@ -11,9 +11,11 @@ import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
 import com.example.chuibbo_android.api.response.ApiResponse
 import com.example.chuibbo_android.api.response.SpringResponse
+import com.example.chuibbo_android.api.response.User
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.preferences.PreferencesPasswordForgetFragment
 import com.example.chuibbo_android.signup.SignupFragment
+import com.example.chuibbo_android.utils.SessionManager
 import kotlinx.android.synthetic.main.login_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.coroutines.runBlocking
@@ -22,6 +24,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class LoginFragment : Fragment() {
+
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +43,8 @@ class LoginFragment : Fragment() {
         var loginFailureDialog: LoginFailureDialogFragment = LoginFailureDialogFragment()
         loginFailureDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
 
+        sessionManager = SessionManager(requireContext())
+
         login_button.setOnClickListener {
 
             val email = email_edit_text.text.toString()
@@ -48,27 +54,30 @@ class LoginFragment : Fragment() {
             loginInfo["password"] = password
 
             runBlocking {
-                UserApi.instance.login(
+                UserApi.instance(requireContext()).login(
                     data = loginInfo
-                ).enqueue(object : Callback<SpringResponse<String>> {
-                    override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
+                ).enqueue(object : Callback<SpringResponse<User>> {
+                    override fun onFailure(call: Call<SpringResponse<User>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
 
                     override fun onResponse(
-                        call: Call<SpringResponse<String>>,
-                        response: Response<SpringResponse<String>>
+                        call: Call<SpringResponse<User>>,
+                        response: Response<SpringResponse<User>>
                     ) {
                         if (response.isSuccessful) {
                             when (response.body()?.result_code) {
                                 "DATA OK" -> {
                                     // 내부에 토큰 저장
-                                    val token = response.body()?.access_token
+                                    sessionManager.saveAccessToken(response.body()?.access_token.toString())
+
+                                    // 내부에 로그인 정보 저장
+                                    val nickname = response.body()?.data?.nickname
                                     val preferences = activity!!.getSharedPreferences(
-                                        "MY_APP",
+                                        "USER_INFO",
                                         Context.MODE_PRIVATE
                                     )
-                                    preferences.edit().putString("access_token", token).apply()
+                                    preferences.edit().putString("user_info", nickname).apply()
 
                                     // TODO: 로그인 성공! 홈으로 가기
                                     activity?.supportFragmentManager?.beginTransaction()?.apply {
@@ -101,7 +110,7 @@ class LoginFragment : Fragment() {
 
         google_social_login_image.setOnClickListener {
             runBlocking {
-                UserApi.instance.loginGoogle(
+                UserApi.instance(requireContext()).loginGoogle(
                 ).enqueue(object : Callback<ApiResponse<String>> {
                     override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)

@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
 import com.example.chuibbo_android.api.response.SpringResponse
+import com.example.chuibbo_android.api.response.User
+import com.example.chuibbo_android.utils.SessionManager
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_password_forget_fragment.*
 import kotlinx.android.synthetic.main.preferences_password_forget_fragment.email_text
@@ -27,6 +29,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PreferencesPasswordForgetFragment : Fragment() {
+
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +46,8 @@ class PreferencesPasswordForgetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
+
         email_text.addTextChangedListener(EditTextWatcher())
 
         var preferencesDialog: PreferencesDialogFragment = PreferencesDialogFragment()
@@ -53,7 +59,7 @@ class PreferencesPasswordForgetFragment : Fragment() {
 
             // 기존에 이메일이 있는지 확인
             runBlocking {
-                UserApi.instance.checkEmail(
+                UserApi.instance(requireContext()).checkEmail(
                     email = emailString
                 ).enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
@@ -71,7 +77,7 @@ class PreferencesPasswordForgetFragment : Fragment() {
                                 }
                                 "ERROR" -> {
                                     runBlocking {
-                                        UserApi.instance.findPassword(
+                                        UserApi.instance(requireContext()).findPassword(
                                             data = email
                                         ).enqueue(object : Callback<SpringResponse<String>> {
                                             override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
@@ -114,27 +120,30 @@ class PreferencesPasswordForgetFragment : Fragment() {
             loginInfo["password"] = password
 
             runBlocking {
-                UserApi.instance.login(
+                UserApi.instance(requireContext()).login(
                     data = loginInfo
-                ).enqueue(object : Callback<SpringResponse<String>> {
-                    override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
+                ).enqueue(object : Callback<SpringResponse<User>> {
+                    override fun onFailure(call: Call<SpringResponse<User>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
 
                     override fun onResponse(
-                        call: Call<SpringResponse<String>>,
-                        response: Response<SpringResponse<String>>
+                        call: Call<SpringResponse<User>>,
+                        response: Response<SpringResponse<User>>
                     ) {
                         if (response.isSuccessful) {
                             when (response.body()?.result_code) {
                                 "DATA OK" -> {
                                     // 내부에 토큰 저장
-                                    val token = response.body()?.access_token
+                                    sessionManager.saveAccessToken(response.body()?.access_token.toString())
+
+                                    // 내부에 로그인 정보 저장
+                                    val nickname = response.body()?.data?.nickname
                                     val preferences = activity!!.getSharedPreferences(
-                                        "MY_APP",
+                                        "USER_INFO",
                                         Context.MODE_PRIVATE
                                     )
-                                    preferences.edit().putString("access_token", token).apply()
+                                    preferences.edit().putString("user_info", nickname).apply()
 
                                     activity?.supportFragmentManager?.let { it1 -> preferencesDialog.show(it1, "Check and Change Password") }
 

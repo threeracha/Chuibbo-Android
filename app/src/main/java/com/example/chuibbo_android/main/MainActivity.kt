@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
 import com.example.chuibbo_android.api.response.SpringResponse
@@ -14,6 +15,7 @@ import com.example.chuibbo_android.calendar.CalendarFragment
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.mypage.MypageFragment
+import com.example.chuibbo_android.utils.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.coroutines.runBlocking
@@ -23,9 +25,15 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
 
+    private lateinit var sessionManager: SessionManager
+    private lateinit var context: Context
+
     override fun onStart() {
         super.onStart()
         // Timber.i("onStart Called")
+
+        sessionManager = SessionManager(this)
+        context = this
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +53,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
         when (item.itemId) {
             R.id.home_item -> {
                 val transaction = supportFragmentManager.beginTransaction()
@@ -69,46 +78,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.mypage_item -> {
                 val preferences = getSharedPreferences(
-                    "MY_APP",
+                    "USER_INFO",
                     Context.MODE_PRIVATE
                 )
-                val access_token = preferences?.getString("access_token", "")
+                val user_info = preferences?.getString("user_info", "")
 
-                // TODO: 로그인 되었을 때, 마이페이지 전환 전, 로그인 살짝 뜨는 것 제거
-                if (access_token != "") { // 로그인 토큰이 있을 때,
-                    runBlocking {
-                        UserApi.instance.userInfo(
-                            access_token!!
-                        ).enqueue(object : Callback<SpringResponse<User>> {
-                            override fun onFailure(call: Call<SpringResponse<User>>, t: Throwable) {
-                                Log.d("retrofit fail", t.message)
-                            }
-
-                            override fun onResponse(
-                                call: Call<SpringResponse<User>>,
-                                response: Response<SpringResponse<User>>
-                            ) {
-                                if (response.isSuccessful) {
-                                    when (response.body()?.result_code) {
-                                        "DATA OK" -> {
-                                            val transaction = supportFragmentManager.beginTransaction()
-                                            transaction.replace(R.id.frameLayout, MypageFragment())
-                                            transaction.addToBackStack(null)
-                                            transaction.commit()
-                                            return
-                                        }
-                                        "ERROR" -> {
-                                            val transaction = supportFragmentManager.beginTransaction()
-                                            transaction.replace(R.id.frameLayout, LoginFragment())
-                                            transaction.addToBackStack(null)
-                                            transaction.commit()
-                                            return
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                    }
+                if (user_info != "") { // 로그인 유효시,
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.frameLayout, MypageFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    return true
                 }
                 // 로그인 토큰이 없을 때,
                 val transaction = supportFragmentManager.beginTransaction()

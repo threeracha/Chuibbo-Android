@@ -1,6 +1,5 @@
 package com.example.chuibbo_android.preferences
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -55,15 +54,8 @@ class PreferencesPasswordModificationFragment : Fragment() {
         ok_button.setOnClickListener {
             val password = password_text.text.toString().toRequestBody()
 
-            val preferences = activity?.getSharedPreferences(
-                "MY_APP",
-                Context.MODE_PRIVATE
-            )
-            val access_token = preferences?.getString("access_token", "")
-
             runBlocking {
-                UserApi.instance.changePassword(
-                    access_token!!,
+                UserApi.instance(requireContext()).changePassword(
                     data = password
                 ).enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
