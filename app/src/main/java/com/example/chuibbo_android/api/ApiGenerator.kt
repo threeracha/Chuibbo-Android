@@ -29,6 +29,13 @@ class ApiGenerator {
         .build()
         .create(api)
 
+    fun <T> generateSpring2(api: Class<T>): T = Retrofit.Builder()
+        .baseUrl(SPRING_HOST)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .client(okHttpClient)
+        .build()
+        .create(api)
+
     var okHttpClient: OkHttpClient = OkHttpClient().newBuilder()
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(120, TimeUnit.SECONDS)

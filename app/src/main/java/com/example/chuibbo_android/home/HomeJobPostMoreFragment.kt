@@ -98,7 +98,7 @@ class HomeJobPostMoreFragment : Fragment() {
 
     /* Opens companyLink of JobPost when RecyclerView item is clicked. */
     private fun adapterOnClick(jobPost: JobPost, view: View) {
-        val url: String = jobPost.companyLink
+        val url: String = jobPost.descriptionUrl
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         view.context.startActivity(intent)

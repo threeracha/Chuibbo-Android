@@ -3,8 +3,7 @@ package com.example.chuibbo_android.calendar
 import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.chuibbo_android.home.JobPost
-import com.example.chuibbo_android.home.JobPostDataSource
+import com.example.chuibbo_android.home.*
 import java.time.LocalDateTime
 
 class BookMarkDataSource(resources: Resources) {
@@ -15,55 +14,63 @@ class BookMarkDataSource(resources: Resources) {
             1,
             JobPost(
                 1,
-                "롯데제과1",
-                "롯데제과 채용공고1",
-                3,
                 "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
+                "롯데제과",
+                "롯데제과 채용공고",
                 "https://www.lotteconf.co.kr/",
-                LocalDateTime.of(2021, 9, 30, 12, 0, 0),
-                LocalDateTime.of(2021, 10, 20, 12, 0, 0)
+                "2021-11-27 23:59:59",
+                "2021-11-27 23:59:59",
+                listOf(Area(1, "")),
+                listOf(Job(1, "")),
+                listOf(CareerType(1, ""))
             )
         ),
         BookMark(
             2,
             1,
             JobPost(
-                2,
-                "두산1",
-                "두산 채용1",
-                2,
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-                "https://www.doosan.com/kr",
-                LocalDateTime.of(2021, 8, 30, 12, 0, 0),
-                LocalDateTime.of(2021, 9, 10, 12, 0, 0)
+                1,
+                "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
+                "롯데제과",
+                "롯데제과 채용공고",
+                "https://www.lotteconf.co.kr/",
+                "2021-11-27 23:59:59",
+                "2021-11-27 23:59:59",
+                listOf(Area(1, "")),
+                listOf(Job(1, "")),
+                listOf(CareerType(1, ""))
             )
         ),
         BookMark(
             3,
             1,
             JobPost(
-                3,
-                "두산",
-                "두산 채용",
-                2,
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-                "https://www.doosan.com/kr",
-                LocalDateTime.of(2021, 8, 26, 12, 0, 0),
-                LocalDateTime.of(2021, 8, 30, 12, 0, 0)
+                1,
+                "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
+                "롯데제과",
+                "롯데제과 채용공고",
+                "https://www.lotteconf.co.kr/",
+                "2021-11-27 23:59:59",
+                "2021-11-27 23:59:59",
+                listOf(Area(1, "")),
+                listOf(Job(1, "")),
+                listOf(CareerType(1, ""))
             )
         ),
         BookMark(
             4,
             1,
             JobPost(
-                4,
-                "금강제과",
-                "금강제과 채용공고",
-                3,
+                1,
                 "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
+                "롯데제과",
+                "롯데제과 채용공고",
                 "https://www.lotteconf.co.kr/",
-                LocalDateTime.of(2021, 10, 1, 12, 0, 0),
-                LocalDateTime.of(2021, 10, 11, 12, 0, 0)
+                "2021-11-27 23:59:59",
+                "2021-11-27 23:59:59",
+                listOf(Area(1, "")),
+                listOf(Job(1, "")),
+                listOf(CareerType(1, ""))
             )
         ),
         BookMark(
@@ -71,27 +78,31 @@ class BookMarkDataSource(resources: Resources) {
             1,
             JobPost(
                 1,
-                "롯데제과2",
-                "롯데제과 채용공고2",
-                3,
                 "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
+                "롯데제과",
+                "롯데제과 채용공고",
                 "https://www.lotteconf.co.kr/",
-                LocalDateTime.of(2021, 9, 30, 12, 0, 0),
-                LocalDateTime.of(2021, 10, 20, 12, 0, 0)
+                "2021-11-27 23:59:59",
+                "2021-11-27 23:59:59",
+                listOf(Area(1, "")),
+                listOf(Job(1, "")),
+                listOf(CareerType(1, ""))
             )
         ),
         BookMark(
             6,
             1,
             JobPost(
-                2,
-                "두산2",
-                "두산 채용2",
-                2,
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-                "https://www.doosan.com/kr",
-                LocalDateTime.of(2021, 8, 30, 12, 0, 0),
-                LocalDateTime.of(2021, 9, 10, 12, 0, 0)
+                1,
+                "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
+                "롯데제과",
+                "롯데제과 채용공고",
+                "https://www.lotteconf.co.kr/",
+                "2021-11-27 23:59:59",
+                "2021-11-27 23:59:59",
+                listOf(Area(1, "")),
+                listOf(Job(1, "")),
+                listOf(CareerType(1, ""))
             )
         )
     )

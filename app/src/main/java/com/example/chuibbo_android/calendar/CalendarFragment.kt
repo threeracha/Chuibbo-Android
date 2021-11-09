@@ -40,7 +40,7 @@ class CalendarFragment : Fragment(R.layout.calendar_fragment) {
     }
 
     private fun adapterOnClick(bookMark: BookMark, view: View) {
-        val url: String? = bookMark.jobPost?.companyLink
+        val url: String? = bookMark.jobPost?.logoUrl
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         view.context.startActivity(intent)
