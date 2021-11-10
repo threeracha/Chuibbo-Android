@@ -1,17 +1,31 @@
 package com.example.chuibbo_android.login
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.api.UserApi
+import com.example.chuibbo_android.api.response.ApiResponse
+import com.example.chuibbo_android.api.response.SpringResponse
+import com.example.chuibbo_android.api.response.User
+import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.preferences.PreferencesPasswordForgetFragment
 import com.example.chuibbo_android.signup.SignupFragment
+import com.example.chuibbo_android.utils.SessionManager
 import kotlinx.android.synthetic.main.login_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginFragment : Fragment() {
+
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,11 +40,54 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var dialog: LoginFailureDialogFragment = LoginFailureDialogFragment()
-        dialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+        var loginFailureDialog: LoginFailureDialogFragment = LoginFailureDialogFragment()
+        loginFailureDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+
+        sessionManager = SessionManager(requireContext())
 
         login_button.setOnClickListener {
-            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "Login Failure") }
+
+            val email = email_edit_text.text.toString()
+            val password = password_edit_text.text.toString()
+
+            var loginInfo = hashMapOf("email" to email)
+            loginInfo["password"] = password
+
+            runBlocking {
+                UserApi.instance(requireContext()).login(
+                    data = loginInfo
+                ).enqueue(object : Callback<SpringResponse<User>> {
+                    override fun onFailure(call: Call<SpringResponse<User>>, t: Throwable) {
+                        Log.d("retrofit fail", t.message)
+                    }
+
+                    override fun onResponse(
+                        call: Call<SpringResponse<User>>,
+                        response: Response<SpringResponse<User>>
+                    ) {
+                        if (response.isSuccessful) {
+                            when (response.body()?.result_code) {
+                                "DATA OK" -> {
+                                    // 내부에 토큰 저장
+                                    sessionManager.saveAccessToken(response.body()?.access_token.toString())
+
+                                    // 내부에 로그인 정보 저장
+                                    val nickname = response.body()?.data?.nickname
+                                    sessionManager.saveUserInfo(nickname.toString())
+
+                                    // TODO: 로그인 성공! 홈으로 가기
+                                    activity?.supportFragmentManager?.beginTransaction()?.apply {
+                                        replace(R.id.frameLayout, HomeFragment())
+                                    }?.commit()
+                                }
+                                "ERROR" -> {
+                                    activity?.supportFragmentManager?.let { it1 -> loginFailureDialog.show(it1, "Login Failure") }
+                                }
+                            }
+                        }
+                    }
+                })
+            }
         }
 
         question_password_text.setOnClickListener {
@@ -45,6 +102,35 @@ class LoginFragment : Fragment() {
                 replace(R.id.frameLayout, SignupFragment())
                 addToBackStack(null)
             }?.commit()
+        }
+
+        google_social_login_image.setOnClickListener {
+            runBlocking {
+                UserApi.instance(requireContext()).loginGoogle(
+                ).enqueue(object : Callback<ApiResponse<String>> {
+                    override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
+                        Log.d("retrofit fail", t.message)
+                    }
+
+                    override fun onResponse(
+                        call: Call<ApiResponse<String>>,
+                        response: Response<ApiResponse<String>>
+                    ) {
+                        if (response.isSuccessful) {
+                            when (response.body()?.success) {
+                                true -> {
+                                    val transaction = activity?.supportFragmentManager!!.beginTransaction()
+                                    transaction.replace(R.id.frameLayout, HomeFragment())
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        }
+
+        naver_social_login_image.setOnClickListener {
+
         }
     }
 }

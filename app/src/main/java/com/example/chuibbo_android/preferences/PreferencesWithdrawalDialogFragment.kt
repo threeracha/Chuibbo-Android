@@ -22,7 +22,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PreferencesLogoutDialogFragment : DialogFragment() {
+class PreferencesWithdrawalDialogFragment : DialogFragment() {
 
     private lateinit var sessionManager: SessionManager
 
@@ -34,16 +34,15 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
 
         val view: View = inflater.inflate(R.layout.dialog_fragment, container, false)
 
-        view.dialog_message.text = "정말 로그아웃 하시겠습니까?"
+        view.dialog_message.text = "정말 탈퇴 하시겠습니까?"
 
-        val fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Logout")
+        val fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Withdrawal")
 
         sessionManager = SessionManager(requireContext())
 
         view.dialog_yes.setOnClickListener {
-
             runBlocking {
-                UserApi.instance(requireContext()).logout().enqueue(object : Callback<SpringResponse<String>> {
+                UserApi.instance(requireContext()).withdraw().enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
@@ -54,12 +53,11 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
                     ) {
                         if (response.isSuccessful) {
                             when (response.body()?.result_code) {
-                                "DATA OK" -> {
+                                "OK" -> {
                                     sessionManager.removeAccessToken()
 
                                     activity?.supportFragmentManager?.beginTransaction()?.apply {
                                         replace(R.id.frameLayout, HomeFragment())
-                                        addToBackStack(null)
                                     }?.commit()
 
                                     val dialogFragment: DialogFragment = fragment as DialogFragment
@@ -80,7 +78,6 @@ class PreferencesLogoutDialogFragment : DialogFragment() {
             val dialogFragment: DialogFragment = fragment as DialogFragment
             dialogFragment.dismiss()
         }
-
         return view
     }
 

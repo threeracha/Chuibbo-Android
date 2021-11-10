@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.Period
+import java.time.format.DateTimeFormatter
 
 class BookMarkAdapter(private val onClick: (BookMark) -> Unit) :
     ListAdapter<BookMark, BookMarkAdapter.BookMarkViewHolder>(BookMarkDiffCallback){
@@ -33,9 +35,11 @@ class BookMarkAdapter(private val onClick: (BookMark) -> Unit) :
         fun bind(bookMark: BookMark) {
             currentBookMark = bookMark
 
-            bookMarkTitleTextView.text = currentBookMark!!.jobPost?.companyDesc
+            bookMarkTitleTextView.text = currentBookMark!!.jobPost?.subject
             bookMarkDurationTextView.text = currentBookMark!!.jobPost?.startDate.toString() + " ~ " + currentBookMark!!.jobPost?.endDate.toString()
-            val period = Period.between(LocalDate.now(), currentBookMark!!.jobPost?.endDate?.toLocalDate())
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val date = LocalDateTime.parse(currentBookMark!!.jobPost?.endDate?.replace("T", " "), formatter)
+            val period = Period.between(LocalDate.now(), date.toLocalDate())
             if (period.getDays() >= 1)
                 bookMarkDdayTextView.text = "D-" + period.getDays()
             else if (period.getDays() == 0)

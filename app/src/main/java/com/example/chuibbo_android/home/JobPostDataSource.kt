@@ -1,136 +1,47 @@
 package com.example.chuibbo_android.home
 
 import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import java.time.LocalDateTime
+import com.example.chuibbo_android.api.JobPostApi
+import com.example.chuibbo_android.api.response.SpringResponse2
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /* Handles operations on jobPostsLiveData and holds details about it. */
 class JobPostDataSource(resources: Resources) {
-    private val initialJobPostList = listOf(
-        JobPost(
-            1,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/",
-            LocalDateTime.of(2021, 9, 30, 12, 0, 0),
-            LocalDateTime.of(2021, 10, 20, 12, 0, 0)
-        ),
-        JobPost(
-            2,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr",
-            LocalDateTime.of(2021, 8, 30, 12, 0, 0),
-            LocalDateTime.of(2021, 9, 10, 12, 0, 0)
-        ),
-        JobPost(
-            3,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr",
-            LocalDateTime.of(2021, 8, 26, 12, 0, 0),
-            LocalDateTime.of(2021, 8, 30, 12, 0, 0)
-        ),
-        JobPost(
-            1,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/",
-            LocalDateTime.of(2021, 10, 1, 12, 0, 0),
-            LocalDateTime.of(2021, 10, 11, 12, 0, 0)
-        ),
-        JobPost(
-            2,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr",
-            LocalDateTime.of(2021, 10, 14, 12, 0, 0),
-            LocalDateTime.of(2021, 10, 19, 12, 0, 0)
-        ),
-        JobPost(
-            3,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr",
-            LocalDateTime.of(2021, 10, 30, 12, 0, 0),
-            LocalDateTime.of(2021, 11, 4, 12, 0, 0)
-        ),
-        JobPost(
-            1,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/",
-            LocalDateTime.of(2021, 9, 30, 12, 0, 0),
-            LocalDateTime.of(2021, 10, 8, 12, 0, 0)
-        ),
-        JobPost(
-            2,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr",
-            LocalDateTime.of(2021, 9, 10, 12, 0, 0),
-            LocalDateTime.of(2021, 9, 20, 12, 0, 0)
-        ),
-        JobPost(
-            3,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr",
-            LocalDateTime.of(2021, 9, 30, 12, 0, 0),
-            LocalDateTime.of(2021, 10, 20, 12, 0, 0)
-        ),
-        JobPost(
-            1,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/",
-            LocalDateTime.of(2021, 10, 3, 12, 0, 0),
-            LocalDateTime.of(2021, 10, 20, 12, 0, 0)
-        ),
-        JobPost(
-            2,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr",
-            LocalDateTime.of(2021, 11, 15, 12, 0, 0),
-            LocalDateTime.of(2021, 11, 20, 12, 0, 0)
-        ),
-        JobPost(
-            3,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr",
-            LocalDateTime.of(2021, 12, 30, 12, 0, 0),
-            LocalDateTime.of(2021, 12, 20, 12, 0, 0)
-        ),
-    )
+    private val jobPostsLiveData = init()
 
-    private val jobPostsLiveData = MutableLiveData(initialJobPostList)
+    private fun init(): MutableLiveData<List<JobPost>> {
+        val data = MutableLiveData<List<JobPost>>()
+
+        JobPostApi.instance.getJobPosts().enqueue(object :
+            Callback<SpringResponse2<List<JobPost>>> {
+            override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
+                Log.d("retrofit fail", t.message)
+            }
+
+            override fun onResponse(
+                call: Call<SpringResponse2<List<JobPost>>>,
+                response: Response<SpringResponse2<List<JobPost>>>
+            ) {
+                if (response.isSuccessful) {
+                    when (response.body()?.status) {
+                        "OK" -> {
+                            data.value = response.body()!!.data!!
+                        }
+                        "ERROR" -> {
+                            // TODO
+                        }
+                    }
+                }
+            }
+        })
+
+        return data
+    }
 
     /* Adds jobPost to liveData and posts value. */
     fun addJobPost(jobPost: JobPost) {

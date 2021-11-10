@@ -1,5 +1,6 @@
 package com.example.chuibbo_android.mypage
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.home.PhotoAlbumViewModel
 import com.example.chuibbo_android.home.PhotoAlbumViewModelFactory
-import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.preferences.PreferencesFragment
+import com.example.chuibbo_android.utils.SessionManager
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
 
 class MypageFragment : Fragment() {
+
+    private lateinit var sessionManager: SessionManager
 
     private val photoAlbumViewModel by viewModels<PhotoAlbumViewModel> {
         context?.let { PhotoAlbumViewModelFactory(it) }!!
@@ -35,6 +38,14 @@ class MypageFragment : Fragment() {
     ): View? {
 
         var view: View = inflater.inflate(R.layout.mypage_fragment, container, false)
+
+        sessionManager = SessionManager(requireContext())
+
+        val user_info = sessionManager.fetchUserInfo()
+
+        view.user_name.text = "$user_info 님"
+        view.user_name1.text = user_info
+        view.user_name2.text = user_info
 
         // photoAlbum recyclerview
         val recyclerviewPhotoAlbum: RecyclerView = view.recyclerview_resume_photo

@@ -14,6 +14,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.Period
+import java.time.format.DateTimeFormatter
 
 class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
     ListAdapter<JobPost, JobPostAdapter.JobPostViewHolder>(JobPostDiffCallback) {
@@ -45,13 +49,28 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
             currentJobPost = jobPost
 
             companyName.text = jobPost.companyName
-            companyDesc.text = jobPost.companyDesc
-            companyDeadline.text = "D-" + jobPost.companyDeadline
-            if (jobPost.companyLogo != null) {
+
+            if (jobPost.subject.length > 10) {
+                companyDesc.text = jobPost.subject.slice(IntRange(0,9)) + "..."
+            } else {
+                companyDesc.text = jobPost.subject
+            }
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val date = LocalDateTime.parse(jobPost?.endDate.replace("T", " "), formatter)
+            val period = Period.between(LocalDate.now(), date.toLocalDate())
+            if (period.getDays() >= 1)
+                companyDeadline.text = "D-" + period.getDays()
+            else if (period.getDays() == 0)
+                companyDeadline.text = "D-Day"
+            else
+                companyDeadline.text = "마감"
+
+            if (jobPost.logoUrl != null) {
 
                 CoroutineScope(Dispatchers.Main).launch {
                     val bitmap = withContext(Dispatchers.IO) {
-                        ImageLoader.loadImage(jobPost.companyLogo)
+                        ImageLoader.loadImage(jobPost.logoUrl)
                     }
                     companyLogo.setImageBitmap(bitmap)
                 }

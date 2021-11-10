@@ -11,7 +11,7 @@ import android.view.Window
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
-import kotlinx.android.synthetic.main.login_failure_dialog_fragment.view.*
+import kotlinx.android.synthetic.main.failure_dialog_fragment.view.*
 
 class LoginFailureDialogFragment : DialogFragment() {
 
@@ -21,7 +21,9 @@ class LoginFailureDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var view: View = inflater.inflate(R.layout.login_failure_dialog_fragment, container, false)
+        var view: View = inflater.inflate(R.layout.failure_dialog_fragment, container, false)
+
+        view.dialog_message.text = "로그인에 실패하였습니다."
 
         var fragment: Fragment? = activity?.supportFragmentManager?.findFragmentByTag("Login Failure")
         view.dialog_ok.setOnClickListener {

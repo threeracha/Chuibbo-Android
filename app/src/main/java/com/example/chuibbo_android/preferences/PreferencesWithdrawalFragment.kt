@@ -43,6 +43,12 @@ class PreferencesWithdrawalFragment : Fragment() {
                 view.withdrawal_button.setTextColor(Color.DKGRAY)
             }
         }
+
+        var withdrawalDialog: PreferencesWithdrawalDialogFragment = PreferencesWithdrawalDialogFragment()
+        withdrawalDialog.isCancelable = false // dialog 영영 밖(외부) 클릭 시, dismiss되는 현상 막기
+        view.withdrawal_button.setOnClickListener{
+            activity?.supportFragmentManager?.let { it -> withdrawalDialog.show(it, "Withdrawal") }
+        }
     }
 
     override fun onDestroyView() {

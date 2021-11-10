@@ -1,29 +1,38 @@
 package com.example.chuibbo_android.home
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import java.time.LocalDateTime
 
 class JobPostListViewModel(val dataSource: JobPostDataSource) : ViewModel() {
 
     val jobPostsLiveData = dataSource.getJobPostList()
 
     /* If the name and description are present, create new JobPost and add it to the datasource */
-    fun insertJobPost(id: Int?, companyName: String?, companyDsc: String?, companyDeadline: Int?, companyLogo: String?, companyLink: String?, startDate: LocalDateTime, endDate: LocalDateTime) {
-        if (id == null || companyName == null || companyDsc == null || companyLogo == null || companyDeadline == null || companyLink == null) {
+    fun insertJobPost(id: Int?, logoUrl: String, companyName: String?, subject: String?, descriptionUrl: String?, startDate: String?, endDate: String?) { // TODO: 수정
+        if (id == null || companyName == null || subject == null || descriptionUrl == null || startDate == null || endDate == null) { // TODO: 수정
             return
+        }
+
+        lateinit var _logoUrl: String
+        if (logoUrl == null) {
+            _logoUrl = ""
+        } else {
+            _logoUrl = logoUrl
         }
 
         val newJobPost = JobPost(
             id,
+            _logoUrl,
             companyName,
-            companyDsc,
-            companyDeadline,
-            companyLogo,
-            companyLink,
+            subject,
+            descriptionUrl,
             startDate,
-            endDate
+            endDate,
+            listOf(Area(1, "")), // TODO: 수정
+            listOf(Job(1, "")), // TODO: 수정
+            listOf(CareerType(1, "")) // TODO: 수정
         )
 
         dataSource.addJobPost(newJobPost)
