@@ -37,7 +37,7 @@ class PhotoAlbumViewModelFactory(private val context: Context) : ViewModelProvid
         if (modelClass.isAssignableFrom(PhotoAlbumViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return PhotoAlbumViewModel(
-                dataSource = PhotoAlbumDataSource.getDataSource(context.resources)
+                dataSource = PhotoAlbumDataSource.getDataSource(context.resources, context)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

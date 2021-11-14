@@ -1,6 +1,5 @@
 package com.example.chuibbo_android.mypage
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.home.JobPost
 import com.example.chuibbo_android.home.PhotoAlbumViewModel
 import com.example.chuibbo_android.home.PhotoAlbumViewModelFactory
 import com.example.chuibbo_android.preferences.PreferencesFragment
@@ -58,6 +58,8 @@ class MypageFragment : Fragment() {
             it?.let {
                 photoAlbumAdapter.submitList(it as MutableList<PhotoAlbum>)
             }
+
+            view.resume_photo_count.text = photoAlbumViewModel.getSize().toString()
         })
 
         // likeJobPost recyclerview
@@ -69,12 +71,13 @@ class MypageFragment : Fragment() {
 
         likeJobPostListViewModel.likeJobPostsLiveData.observe(viewLifecycleOwner, {
             it?.let {
-                likeJobPostAdapter.submitList(it as MutableList<LikeJobPost>)
+                likeJobPostAdapter.submitList(it as MutableList<JobPost>)
             }
+
+            view.like_job_posting_count.text = likeJobPostListViewModel.getSize().toString()
         })
 
-        view.resume_photo_count.text = photoAlbumViewModel.getSize().toString()
-        view.like_job_posting_count.text = likeJobPostListViewModel.getSize().toString()
+        // TODO: 앨범 & 관심있는 채용공고 data null일 때, default 이미지 적용
 
         activity?.toolbar_title!!.text = "마이페이지"
         activity?.settings_button!!.visibility = View.VISIBLE
@@ -114,8 +117,8 @@ class MypageFragment : Fragment() {
     }
 
     /* Opens companyLink of LikeJobPost when RecyclerView item is clicked. */
-    private fun likeJobPostAdapterOnClick(likeJobPost: LikeJobPost, view: View) {
-        val url: String = likeJobPost.companyLink
+    private fun likeJobPostAdapterOnClick(likeJobPost: JobPost, view: View) {
+        val url: String = likeJobPost.descriptionUrl
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         view.context.startActivity(intent)

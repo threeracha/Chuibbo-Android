@@ -56,6 +56,7 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
                 companyDesc.text = jobPost.subject
             }
 
+            // TODO: day만 계산되고, month, year은 계산 안됨
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val date = LocalDateTime.parse(jobPost?.endDate.replace("T", " "), formatter)
             val period = Period.between(LocalDate.now(), date.toLocalDate())

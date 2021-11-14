@@ -1,87 +1,48 @@
 package com.example.chuibbo_android.mypage
 
+import android.content.Context
 import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.chuibbo_android.api.ResumePhotoApi
+import com.example.chuibbo_android.api.response.SpringResponse2
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /* Handles operations on photoAlbumsLiveData and holds details about it. */
-class PhotoAlbumDataSource(resources: Resources) {
-    private val initialPhotoAlbumList = listOf(
-        PhotoAlbum(
-            1,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            2,
-            "https://t1.daumcdn.net/cfile/blog/99547E455C4535D805",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            3,
-            "https://t1.daumcdn.net/cfile/blog/997C693E5B4EACA613",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            1,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            2,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            3,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            1,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            2,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            3,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            1,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            2,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        ),
-        PhotoAlbum(
-            3,
-            "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMTJfNjEg/MDAxNTEzMDcyODYyNzk2.51XmH8Ergh3D0UaIQgrEbvkRyskQxcaWx6AM-PKTfoog.QePEYG4fGLrGj4iopbHKfIPuvPi1yaqOr_FitKRQwdgg.JPEG.pinacoll/q3.jpg?type=w800",
-            "2021.08.13",
-            "긴머리, 정장1"
-        )
-    )
+class PhotoAlbumDataSource(resources: Resources, context: Context) {
+    private val photoAlbumsLiveData = init(context)
 
-    private val photoAlbumsLiveData = MutableLiveData(initialPhotoAlbumList)
+    private fun init(context: Context): MutableLiveData<List<PhotoAlbum>> {
+        val data = MutableLiveData<List<PhotoAlbum>>()
+
+        ResumePhotoApi.instance(context).getResumePhotos().enqueue(object :
+            Callback<SpringResponse2<List<PhotoAlbum>>> {
+            override fun onFailure(call: Call<SpringResponse2<List<PhotoAlbum>>>, t: Throwable) {
+                Log.d("retrofit fail", t.message)
+            }
+
+            override fun onResponse(
+                call: Call<SpringResponse2<List<PhotoAlbum>>>,
+                response: Response<SpringResponse2<List<PhotoAlbum>>>
+            ) {
+                if (response.isSuccessful) {
+                    when (response.body()?.status) {
+                        "OK" -> {
+                            data.value = response.body()!!.data!!
+                        }
+                        "ERROR" -> {
+                            // TODO
+                        }
+                    }
+                }
+            }
+        })
+
+        return data
+    }
 
     /* Adds photoAlbum to liveData and posts value. */
     fun addPhotoAlbum(photoAlbum: PhotoAlbum) {
@@ -118,15 +79,17 @@ class PhotoAlbumDataSource(resources: Resources) {
     }
 
     fun getPhotoAlbumSize(): Int {
+        if (photoAlbumsLiveData.value == null)
+            return 0
         return photoAlbumsLiveData.value?.toMutableList()!!.size
     }
 
     companion object {
         private var INSTANCE: PhotoAlbumDataSource? = null
 
-        fun getDataSource(resources: Resources): PhotoAlbumDataSource {
+        fun getDataSource(resources: Resources, context: Context): PhotoAlbumDataSource {
             return synchronized(PhotoAlbumDataSource::class) {
-                val newInstance = INSTANCE ?: PhotoAlbumDataSource(resources)
+                val newInstance = INSTANCE ?: PhotoAlbumDataSource(resources, context)
                 INSTANCE = newInstance
                 newInstance
             }

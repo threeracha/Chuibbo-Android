@@ -31,6 +31,7 @@ class HomeJobPostMoreFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.home_job_posting_more_fragment, container, false)
 
+        // TODO: enum class
         // dropdown setting
         val career = arrayOf("신입", "경력")
         val job = arrayOf("기획/마케팅", "디자인", "IT")
