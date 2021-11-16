@@ -1,6 +1,5 @@
 package com.example.chuibbo_android.login
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,8 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
 import com.example.chuibbo_android.api.response.ApiResponse
-import com.example.chuibbo_android.api.response.SpringResponse
-import com.example.chuibbo_android.api.response.User
+import com.example.chuibbo_android.api.response.UserResponse
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.preferences.PreferencesPasswordForgetFragment
 import com.example.chuibbo_android.signup.SignupFragment
@@ -56,34 +54,34 @@ class LoginFragment : Fragment() {
             runBlocking {
                 UserApi.instance(requireContext()).login(
                     data = loginInfo
-                ).enqueue(object : Callback<SpringResponse<User>> {
-                    override fun onFailure(call: Call<SpringResponse<User>>, t: Throwable) {
+                ).enqueue(object : Callback<UserResponse> {
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
 
                     override fun onResponse(
-                        call: Call<SpringResponse<User>>,
-                        response: Response<SpringResponse<User>>
+                        call: Call<UserResponse>,
+                        response: Response<UserResponse>
                     ) {
                         if (response.isSuccessful) {
-                            when (response.body()?.result_code) {
-                                "DATA OK" -> {
+//                            when (response.body()?.result_code) {
+//                                "DATA OK" -> {
                                     // 내부에 토큰 저장
                                     sessionManager.saveAccessToken(response.body()?.access_token.toString())
 
                                     // 내부에 로그인 정보 저장
-                                    val nickname = response.body()?.data?.nickname
+                                    val nickname = response.body()?.nickname
                                     sessionManager.saveUserInfo(nickname.toString())
 
                                     // TODO: 로그인 성공! 홈으로 가기
                                     activity?.supportFragmentManager?.beginTransaction()?.apply {
                                         replace(R.id.frameLayout, HomeFragment())
                                     }?.commit()
-                                }
-                                "ERROR" -> {
-                                    activity?.supportFragmentManager?.let { it1 -> loginFailureDialog.show(it1, "Login Failure") }
-                                }
-                            }
+//                                }
+//                                "ERROR" -> {
+//                                    activity?.supportFragmentManager?.let { it1 -> loginFailureDialog.show(it1, "Login Failure") }
+//                                }
+//                            }
                         }
                     }
                 })

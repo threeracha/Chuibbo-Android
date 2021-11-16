@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.chuibbo_android.api.ResumePhotoApi
-import com.example.chuibbo_android.api.response.SpringResponse2
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,24 +18,17 @@ class PhotoAlbumDataSource(resources: Resources, context: Context) {
         val data = MutableLiveData<List<PhotoAlbum>>()
 
         ResumePhotoApi.instance(context).getResumePhotos().enqueue(object :
-            Callback<SpringResponse2<List<PhotoAlbum>>> {
-            override fun onFailure(call: Call<SpringResponse2<List<PhotoAlbum>>>, t: Throwable) {
+            Callback<List<PhotoAlbum>> {
+            override fun onFailure(call: Call<List<PhotoAlbum>>, t: Throwable) {
                 Log.d("retrofit fail", t.message)
             }
 
             override fun onResponse(
-                call: Call<SpringResponse2<List<PhotoAlbum>>>,
-                response: Response<SpringResponse2<List<PhotoAlbum>>>
+                call: Call<List<PhotoAlbum>>,
+                response: Response<List<PhotoAlbum>>
             ) {
                 if (response.isSuccessful) {
-                    when (response.body()?.status) {
-                        "OK" -> {
-                            data.value = response.body()!!.data!!
-                        }
-                        "ERROR" -> {
-                            // TODO
-                        }
-                    }
+                            data.value = response.body()
                 }
             }
         })

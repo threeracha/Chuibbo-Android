@@ -77,6 +77,7 @@ class MypageFragment : Fragment() {
             view.like_job_posting_count.text = likeJobPostListViewModel.getSize().toString()
         })
 
+        // TODO: fragment 전환시, unbookmark된 관심 채용공고가 계속 남아있는 문제 해결 == fragment 전환할때마다 datasource를 불러와야함
         // TODO: 앨범 & 관심있는 채용공고 data null일 때, default 이미지 적용
 
         activity?.toolbar_title!!.text = "마이페이지"
@@ -94,8 +95,6 @@ class MypageFragment : Fragment() {
                 addToBackStack(null)
             }?.commit()
         }
-
-        // TODO: star 클릭시 color 변화
     }
 
     override fun onDestroyView() {
@@ -111,7 +110,7 @@ class MypageFragment : Fragment() {
         // 데이터 전달
         val args = Bundle()
         args.putString("image", photoAlbum.image)
-        args.putString("dateAndDesc", photoAlbum.date + "\n" + photoAlbum.desc)
+        args.putString("dateAndDesc", photoAlbum.date.replace("T", " ") + "\n" + photoAlbum.faceShape + ", " + photoAlbum.hair + ", " + photoAlbum.suit)
         myalbumDialog.arguments = args
         activity?.let { it1 -> myalbumDialog.show(it1.supportFragmentManager, "CustomDialog") }
     }

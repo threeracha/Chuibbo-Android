@@ -9,7 +9,7 @@ import retrofit2.http.GET
 interface ResumePhotoApi {
 
     @GET("/api/v1/resume-photo/photos")
-    fun getResumePhotos() : Call<SpringResponse2<List<PhotoAlbum>>>
+    fun getResumePhotos() : Call<List<PhotoAlbum>>
 
     companion object {
         fun instance(context: Context): ResumePhotoApi {
