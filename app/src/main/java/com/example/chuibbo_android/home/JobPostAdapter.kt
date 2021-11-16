@@ -14,10 +14,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.Period
+import java.time.*
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
     ListAdapter<JobPost, JobPostAdapter.JobPostViewHolder>(JobPostDiffCallback) {
@@ -56,16 +55,7 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
                 companyDesc.text = jobPost.subject
             }
 
-            // TODO: day만 계산되고, month, year은 계산 안됨
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val date = LocalDateTime.parse(jobPost?.endDate.replace("T", " "), formatter)
-            val period = Period.between(LocalDate.now(), date.toLocalDate())
-            if (period.getDays() >= 1)
-                companyDeadline.text = "D-" + period.getDays()
-            else if (period.getDays() == 0)
-                companyDeadline.text = "D-Day"
-            else
-                companyDeadline.text = "마감"
+            companyDeadline.text = calculateDday(jobPost.endDate)
 
             if (jobPost.logoUrl != null) {
 
@@ -76,6 +66,23 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
                     companyLogo.setImageBitmap(bitmap)
                 }
             }
+        }
+
+        private fun calculateDday(end: String): String {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val endDateTime = LocalDateTime.parse(end.replace("T", " "), formatter)
+            val todayDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
+            var difference = ChronoUnit.DAYS.between(todayDateTime.toLocalDate(), endDateTime.toLocalDate()).toInt() // 날짜만 계산
+
+            if (endDateTime.isAfter(todayDateTime)) {
+                if (endDateTime.year == todayDateTime.year && endDateTime.monthValue == todayDateTime.monthValue
+                    && endDateTime.dayOfMonth == todayDateTime.dayOfMonth) {
+                    return "D-Day"
+                } else {
+                    return "D-$difference"
+                }
+            } else
+                return "마감"
         }
     }
 
