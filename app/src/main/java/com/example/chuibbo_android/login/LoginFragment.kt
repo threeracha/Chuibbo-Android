@@ -68,6 +68,7 @@ class LoginFragment : Fragment() {
 //                                "DATA OK" -> {
                                     // 내부에 토큰 저장
                                     sessionManager.saveAccessToken(response.body()?.access_token.toString())
+                                    sessionManager.saveRefreshToken(response.body()?.refresh_token.toString())
 
                                     // 내부에 로그인 정보 저장
                                     val nickname = response.body()?.nickname

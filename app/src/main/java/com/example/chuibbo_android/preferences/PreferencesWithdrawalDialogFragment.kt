@@ -55,6 +55,8 @@ class PreferencesWithdrawalDialogFragment : DialogFragment() {
                             when (response.body()?.result_code) {
                                 "OK" -> {
                                     sessionManager.removeAccessToken()
+                                    sessionManager.removeRefreshToken()
+                                    sessionManager.removeUserInfo()
 
                                     activity?.supportFragmentManager?.beginTransaction()?.apply {
                                         replace(R.id.frameLayout, HomeFragment())

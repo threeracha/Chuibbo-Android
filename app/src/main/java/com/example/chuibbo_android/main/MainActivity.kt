@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.mypage_item -> {
+                // TODO: 토큰이 유효한지 서버로 확인
                 val user_info = sessionManager.fetchUserInfo()
 
                 if (user_info != "") { // 로그인 유효시,
