@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import kotlinx.android.synthetic.main.home_job_posting.view.*
+import kotlinx.android.synthetic.main.home_job_posting.view.company_deadline
+import kotlinx.android.synthetic.main.home_job_posting.view.company_desc
+import kotlinx.android.synthetic.main.home_job_posting.view.company_logo
+import kotlinx.android.synthetic.main.home_job_posting.view.company_name
+import kotlinx.android.synthetic.main.home_job_posting.view.star
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,11 +22,11 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
+class JobPostAdapter(private val onClick: (JobPost) -> Unit, private val onStarClick: (JobPost, itemView: View) -> Unit) :
     ListAdapter<JobPost, JobPostAdapter.JobPostViewHolder>(JobPostDiffCallback) {
 
     /* ViewHolder for JobPost, takes in the inflated view and the onClick behavior. */
-    class JobPostViewHolder(itemView: View, val onClick: (JobPost) -> Unit) :
+    class JobPostViewHolder(itemView: View, val onClick: (JobPost) -> Unit, private val onStarClick: (JobPost, itemView: View) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val companyName: TextView = itemView.company_name
         private val companyDesc: TextView = itemView.company_desc
@@ -38,7 +42,7 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
             }
             itemView.star.setOnClickListener {
                 currentJobPost?.let {
-                    onClick(it)
+                    onStarClick(it, itemView)
                 }
             }
         }
@@ -49,13 +53,13 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
 
             companyName.text = jobPost.companyName
 
-            if (jobPost.subject.length > 10) {
-                companyDesc.text = jobPost.subject.slice(IntRange(0,9)) + "..."
-            } else {
-                companyDesc.text = jobPost.subject
-            }
+            if (jobPost.subject.length > 10) companyDesc.text = jobPost.subject.slice(IntRange(0,9)) + "..."
+            else companyDesc.text = jobPost.subject
 
             companyDeadline.text = calculateDday(jobPost.endDate)
+
+            if (jobPost.bookmark) itemView.star.setImageResource(R.drawable.ic_star_fill)
+            else itemView.star.setImageResource(R.drawable.ic_star_empty)
 
             if (jobPost.logoUrl != null) {
 
@@ -89,7 +93,7 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
     /* Creates and inflates view and return JobPostViewHolder. */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobPostViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.home_job_posting, parent, false)
-        return JobPostViewHolder(view, onClick)
+        return JobPostViewHolder(view, onClick, onStarClick)
     }
 
     /* Gets current jobPost and uses it to bind view. */

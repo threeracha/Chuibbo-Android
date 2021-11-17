@@ -12,7 +12,8 @@ data class JobPost(
     @SerializedName("end_date") val endDate: String,
     @SerializedName("areas") val areas: List<Area>,
     @SerializedName("jobs") val jobs: List<Job>,
-    @SerializedName("career_types") val careerTypes: List<CareerType>
+    @SerializedName("career_types") val careerTypes: List<CareerType>,
+    @SerializedName("bookmark") var bookmark: Boolean
 )
 
 data class Area(

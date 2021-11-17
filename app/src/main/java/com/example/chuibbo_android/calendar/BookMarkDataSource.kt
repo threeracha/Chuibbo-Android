@@ -22,7 +22,8 @@ class BookMarkDataSource(resources: Resources) {
                 "2021-11-27 23:59:59",
                 listOf(Area(1, "")),
                 listOf(Job(1, "")),
-                listOf(CareerType(1, ""))
+                listOf(CareerType(1, "")),
+                true
             )
         ),
         BookMark(
@@ -38,7 +39,8 @@ class BookMarkDataSource(resources: Resources) {
                 "2021-11-27 23:59:59",
                 listOf(Area(1, "")),
                 listOf(Job(1, "")),
-                listOf(CareerType(1, ""))
+                listOf(CareerType(1, "")),
+                true
             )
         ),
         BookMark(
@@ -54,7 +56,8 @@ class BookMarkDataSource(resources: Resources) {
                 "2021-11-27 23:59:59",
                 listOf(Area(1, "")),
                 listOf(Job(1, "")),
-                listOf(CareerType(1, ""))
+                listOf(CareerType(1, "")),
+                true
             )
         ),
         BookMark(
@@ -70,7 +73,8 @@ class BookMarkDataSource(resources: Resources) {
                 "2021-11-27 23:59:59",
                 listOf(Area(1, "")),
                 listOf(Job(1, "")),
-                listOf(CareerType(1, ""))
+                listOf(CareerType(1, "")),
+                true
             )
         ),
         BookMark(
@@ -86,7 +90,8 @@ class BookMarkDataSource(resources: Resources) {
                 "2021-11-27 23:59:59",
                 listOf(Area(1, "")),
                 listOf(Job(1, "")),
-                listOf(CareerType(1, ""))
+                listOf(CareerType(1, "")),
+                true
             )
         ),
         BookMark(
@@ -102,7 +107,8 @@ class BookMarkDataSource(resources: Resources) {
                 "2021-11-27 23:59:59",
                 listOf(Area(1, "")),
                 listOf(Job(1, "")),
-                listOf(CareerType(1, ""))
+                listOf(CareerType(1, "")),
+                true
             )
         )
     )

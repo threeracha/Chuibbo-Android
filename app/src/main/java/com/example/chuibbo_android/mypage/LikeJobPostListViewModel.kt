@@ -13,8 +13,10 @@ class LikeJobPostListViewModel(val dataSource: LikeJobPostDataSource) : ViewMode
     val likeJobPostsLiveData = dataSource.getLikeJobPostList()
 
     /* If the name and description are present, create new LikeJobPost and add it to the datasource */
-    fun insertLikeJobPost(id: Int?, logoUrl: String, companyName: String?, subject: String?, descriptionUrl: String?, startDate: String?, endDate: String?) { // TODO: 수정
-        if (id == null || companyName == null || subject == null || descriptionUrl == null || startDate == null || endDate == null) { // TODO: 수정
+    fun insertLikeJobPost(id: Int?, logoUrl: String, companyName: String?, subject: String?, descriptionUrl: String?, startDate: String?, endDate: String?,
+                            area: List<Area>, job: List<Job>, careerType: List<CareerType>, bookmark: Boolean) {
+        if (id == null || companyName == null || subject == null || descriptionUrl == null || startDate == null || endDate == null ||
+            area == null || job == null || careerType == null) {
             return
         }
 
@@ -33,9 +35,10 @@ class LikeJobPostListViewModel(val dataSource: LikeJobPostDataSource) : ViewMode
             descriptionUrl,
             startDate,
             endDate,
-            listOf(Area(1, "")), // TODO: 수정
-            listOf(Job(1, "")), // TODO: 수정
-            listOf(CareerType(1, "")) // TODO: 수정
+            area,
+            job,
+            careerType,
+            bookmark
         )
 
         dataSource.addLikeJobPost(newLikeJobPost)

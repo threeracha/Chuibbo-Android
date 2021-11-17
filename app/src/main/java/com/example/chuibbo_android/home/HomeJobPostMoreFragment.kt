@@ -3,6 +3,7 @@ package com.example.chuibbo_android.home
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,15 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
+import com.example.chuibbo_android.api.JobPostApi
+import com.example.chuibbo_android.api.response.SpringResponse2
 import kotlinx.android.synthetic.main.home_fragment.view.recyclerview
+import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.home_job_posting_more_fragment.view.*
 import kotlinx.android.synthetic.main.main_activity.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeJobPostMoreFragment : Fragment() {
 
@@ -73,7 +80,7 @@ class HomeJobPostMoreFragment : Fragment() {
             }
         }
 
-        val jobPostAdapter = JobPostAdapter { jobPost -> adapterOnClick(jobPost, view) }
+        val jobPostAdapter = JobPostAdapter ({ jobPost -> adapterOnClick(jobPost, view) }, { jobPost, itemView -> adapterStarOnClick(jobPost, itemView) })
 
         val recyclerView: RecyclerView = view.recyclerview
         val numberOfColumns = 2
@@ -103,5 +110,46 @@ class HomeJobPostMoreFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         view.context.startActivity(intent)
+    }
+
+    private fun adapterStarOnClick(jobPost: JobPost, itemView: View) {
+        // TODO: 로그인 토큰 NULL 혹은 NOT VALIDATION 일 때, dialog 띄우기
+
+        // 로그인 되어있을시
+        if (itemView.star.drawable.constantState == context?.resources?.getDrawable(R.drawable.ic_star_fill)?.constantState) {
+            JobPostApi.instance(requireContext()).deleteBookmark(jobPost!!.id).enqueue(object :
+                Callback<SpringResponse2<String>> {
+                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<SpringResponse2<String>>,
+                    response: Response<SpringResponse2<String>>
+                ) {
+                    if (response.isSuccessful) {
+                        itemView.star.setImageResource(R.drawable.ic_star_empty)
+                        jobPostListViewModel.deleteBookmark(jobPost.id)
+                    }
+                }
+            })
+        } else {
+            JobPostApi.instance(requireContext()).saveBookmark(jobPost!!.id).enqueue(object :
+                Callback<SpringResponse2<String>> {
+                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<SpringResponse2<String>>,
+                    response: Response<SpringResponse2<String>>
+                ) {
+                    if (response.isSuccessful) {
+                        itemView.star.setImageResource(R.drawable.ic_star_fill)
+                        jobPostListViewModel.saveBookmark(jobPost.id)
+                    }
+                }
+            })
+        }
     }
 }
