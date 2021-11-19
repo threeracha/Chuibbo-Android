@@ -3,6 +3,7 @@ package com.example.chuibbo_android.mypage
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,17 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.home.JobPost
-import com.example.chuibbo_android.home.PhotoAlbumViewModel
-import com.example.chuibbo_android.home.PhotoAlbumViewModelFactory
+import com.example.chuibbo_android.api.JobPostApi
+import com.example.chuibbo_android.api.response.SpringResponse2
+import com.example.chuibbo_android.home.*
 import com.example.chuibbo_android.preferences.PreferencesFragment
 import com.example.chuibbo_android.utils.SessionManager
+import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MypageFragment : Fragment() {
 
@@ -29,6 +34,10 @@ class MypageFragment : Fragment() {
 
     private val likeJobPostListViewModel by viewModels<LikeJobPostListViewModel> {
         context?.let { LikeJobPostListViewModelFactory(it) }!!
+    }
+
+    private val jobPostListViewModel by viewModels<JobPostListViewModel> {
+        context?.let { JobPostListViewModelFactory(it) }!!
     }
 
     override fun onCreateView(
@@ -65,7 +74,8 @@ class MypageFragment : Fragment() {
         // likeJobPost recyclerview
         val recyclerviewLikeJobPost: RecyclerView = view.recyclerview_like_job_posting
         recyclerviewLikeJobPost.layoutManager = LinearLayoutManager(context)
-        val likeJobPostAdapter = LikeJobPostAdapter { likeJobPost -> likeJobPostAdapterOnClick(likeJobPost, view) }
+        val likeJobPostAdapter = LikeJobPostAdapter ({ likeJobPost -> likeJobPostAdapterOnClick(likeJobPost, view) },
+            { likeJobPost, itemView -> likeJobPostAdapterStarOnClick(likeJobPost, itemView)})
 
         recyclerviewLikeJobPost.adapter = likeJobPostAdapter
 
@@ -77,7 +87,6 @@ class MypageFragment : Fragment() {
             view.like_job_posting_count.text = likeJobPostListViewModel.getSize().toString()
         })
 
-        // TODO: fragment 전환시, unbookmark된 관심 채용공고가 계속 남아있는 문제 해결 == fragment 전환할때마다 datasource를 불러와야함
         // TODO: 앨범 & 관심있는 채용공고 data null일 때, default 이미지 적용
 
         activity?.toolbar_title!!.text = "마이페이지"
@@ -121,5 +130,27 @@ class MypageFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         view.context.startActivity(intent)
+    }
+
+    private fun likeJobPostAdapterStarOnClick(likeJobPost: JobPost, itemView: View) {
+        if (itemView.star.drawable.constantState == context?.resources?.getDrawable(R.drawable.ic_star_fill)?.constantState) {
+            JobPostApi.instance(requireContext()).deleteBookmark(likeJobPost!!.id).enqueue(object :
+                Callback<SpringResponse2<String>> {
+                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<SpringResponse2<String>>,
+                    response: Response<SpringResponse2<String>>
+                ) {
+                    if (response.isSuccessful) {
+                        itemView.star.setImageResource(R.drawable.ic_star_empty)
+                        likeJobPostListViewModel.deleteLikeJobPost(likeJobPost.id)
+                        jobPostListViewModel.deleteBookmark(likeJobPost.id)
+                    }
+                }
+            })
+        }
     }
 }

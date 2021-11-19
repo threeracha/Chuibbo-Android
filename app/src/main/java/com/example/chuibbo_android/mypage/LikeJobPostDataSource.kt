@@ -52,13 +52,14 @@ class LikeJobPostDataSource(resources: Resources, context: Context) {
             likeJobPostsLiveData.postValue(listOf(likeJobPost))
         } else {
             val updatedList = currentList.toMutableList()
+            // TODO: 마감순 기준으로 정렬할 수 있도록 add
             updatedList.add(0, likeJobPost)
             likeJobPostsLiveData.postValue(updatedList)
         }
     }
 
     /* Removes likeJobPost from liveData and posts value. */
-    fun removeJobPost(likeJobPost: JobPost) {
+    fun removeLikeJobPost(likeJobPost: JobPost) {
         val currentList = likeJobPostsLiveData.value
         if (currentList != null) {
             val updatedList = currentList.toMutableList()

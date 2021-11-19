@@ -16,6 +16,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.JobPostApi
 import com.example.chuibbo_android.api.response.SpringResponse2
+import com.example.chuibbo_android.mypage.LikeJobPostListViewModel
+import com.example.chuibbo_android.mypage.LikeJobPostListViewModelFactory
 import kotlinx.android.synthetic.main.home_fragment.view.*
 import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.main_activity.*
@@ -36,6 +38,10 @@ class HomeFragment : Fragment() {
 
     private val jobPostListViewModel by viewModels<JobPostListViewModel> {
         context?.let { JobPostListViewModelFactory(it) }!!
+    }
+
+    private val likeJobPostListViewModel by viewModels<LikeJobPostListViewModel> {
+        context?.let { LikeJobPostListViewModelFactory(it) }!!
     }
 
     override fun onCreateView(
@@ -150,6 +156,7 @@ class HomeFragment : Fragment() {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_empty)
                         jobPostListViewModel.deleteBookmark(jobPost.id)
+                        likeJobPostListViewModel.deleteLikeJobPost(jobPost.id)
                     }
                 }
             })
@@ -167,6 +174,8 @@ class HomeFragment : Fragment() {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_fill)
                         jobPostListViewModel.saveBookmark(jobPost.id)
+                        val jobPost = jobPostListViewModel.getJobPostForId(jobPost.id)
+                        likeJobPostListViewModel.insertLikeJobPost(jobPost)
                     }
                 }
             })

@@ -3,9 +3,6 @@ package com.example.chuibbo_android.mypage
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.chuibbo_android.home.Area
-import com.example.chuibbo_android.home.CareerType
-import com.example.chuibbo_android.home.Job
 import com.example.chuibbo_android.home.JobPost
 
 class LikeJobPostListViewModel(val dataSource: LikeJobPostDataSource) : ViewModel() {
@@ -13,35 +10,36 @@ class LikeJobPostListViewModel(val dataSource: LikeJobPostDataSource) : ViewMode
     val likeJobPostsLiveData = dataSource.getLikeJobPostList()
 
     /* If the name and description are present, create new LikeJobPost and add it to the datasource */
-    fun insertLikeJobPost(id: Int?, logoUrl: String, companyName: String?, subject: String?, descriptionUrl: String?, startDate: String?, endDate: String?,
-                            area: List<Area>, job: List<Job>, careerType: List<CareerType>, bookmark: Boolean) {
-        if (id == null || companyName == null || subject == null || descriptionUrl == null || startDate == null || endDate == null ||
-            area == null || job == null || careerType == null) {
-            return
-        }
+    fun insertLikeJobPost(jobPost: JobPost) {
 
-        lateinit var _logoUrl: String
-        if (logoUrl == null) {
-            _logoUrl = ""
+        lateinit var logoUrl: String
+        if (jobPost.logoUrl == null) {
+            logoUrl = ""
         } else {
-            _logoUrl = logoUrl
+            logoUrl = jobPost.logoUrl
         }
 
         val newLikeJobPost = JobPost(
-            id,
-            _logoUrl,
-            companyName,
-            subject,
-            descriptionUrl,
-            startDate,
-            endDate,
-            area,
-            job,
-            careerType,
-            bookmark
+            jobPost.id,
+            logoUrl,
+            jobPost.companyName,
+            jobPost.subject,
+            jobPost.descriptionUrl,
+            jobPost.startDate,
+            jobPost.endDate,
+            jobPost.areas,
+            jobPost.jobs,
+            jobPost.careerTypes,
+            true
         )
 
         dataSource.addLikeJobPost(newLikeJobPost)
+    }
+
+    fun deleteLikeJobPost(id: Int) {
+        val jobPost: JobPost? = dataSource.getLikeJobPostForId(id)
+        if (jobPost != null)
+            dataSource.removeLikeJobPost(jobPost)
     }
 
     fun getSize(): Int {

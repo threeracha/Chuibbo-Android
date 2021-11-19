@@ -1,7 +1,6 @@
 package com.example.chuibbo_android.home
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -57,6 +56,11 @@ class JobPostListViewModel(val dataSource: JobPostDataSource) : ViewModel() {
             jobPost.bookmark = false
             dataSource.updateJobPost(jobPost, index)
         }
+    }
+
+    fun getJobPostForId(id: Int): JobPost {
+        val jobPost: JobPost? = dataSource.getJobPostForId(id)
+        return jobPost!!
     }
 }
 
