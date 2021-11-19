@@ -40,6 +40,10 @@ class HomeFragment : Fragment() {
         context?.let { JobPostListViewModelFactory(it) }!!
     }
 
+    private val jobPostMoreListViewModel by viewModels<JobPostMoreListViewModel> {
+        context?.let { JobPostMoreListViewModelFactory(it) }!!
+    }
+
     private val likeJobPostListViewModel by viewModels<LikeJobPostListViewModel> {
         context?.let { LikeJobPostListViewModelFactory(it) }!!
     }
@@ -156,6 +160,7 @@ class HomeFragment : Fragment() {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_empty)
                         jobPostListViewModel.deleteBookmark(jobPost.id)
+                        jobPostMoreListViewModel.deleteBookmark(jobPost.id)
                         likeJobPostListViewModel.deleteLikeJobPost(jobPost.id)
                     }
                 }
@@ -174,6 +179,7 @@ class HomeFragment : Fragment() {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_fill)
                         jobPostListViewModel.saveBookmark(jobPost.id)
+                        jobPostMoreListViewModel.saveBookmark(jobPost.id)
                         val jobPost = jobPostListViewModel.getJobPostForId(jobPost.id)
                         likeJobPostListViewModel.insertLikeJobPost(jobPost)
                     }

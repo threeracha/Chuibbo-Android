@@ -40,6 +40,10 @@ class MypageFragment : Fragment() {
         context?.let { JobPostListViewModelFactory(it) }!!
     }
 
+    private val jobPostMoreListViewModel by viewModels<JobPostMoreListViewModel> {
+        context?.let { JobPostMoreListViewModelFactory(it) }!!
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -148,6 +152,7 @@ class MypageFragment : Fragment() {
                         itemView.star.setImageResource(R.drawable.ic_star_empty)
                         likeJobPostListViewModel.deleteLikeJobPost(likeJobPost.id)
                         jobPostListViewModel.deleteBookmark(likeJobPost.id)
+                        jobPostMoreListViewModel.deleteBookmark(likeJobPost.id)
                     }
                 }
             })

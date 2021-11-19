@@ -42,19 +42,23 @@ class JobPostListViewModel(val dataSource: JobPostDataSource) : ViewModel() {
 
     fun saveBookmark(id: Int) {
         val jobPost: JobPost? = dataSource.getJobPostForId(id)
-        val index: Int? = dataSource.getJobPostIndex(jobPost!!)
-        if (jobPost != null && index != null) {
-            jobPost.bookmark = true
-            dataSource.updateJobPost(jobPost, index)
+        if (jobPost != null) {
+            val index: Int? = dataSource.getJobPostIndex(jobPost!!)
+            if (index != null) {
+                jobPost.bookmark = true
+                dataSource.updateJobPost(jobPost, index)
+            }
         }
     }
 
     fun deleteBookmark(id: Int) {
         val jobPost: JobPost? = dataSource.getJobPostForId(id)
-        val index: Int? = dataSource.getJobPostIndex(jobPost!!)
-        if (jobPost != null && index != null) {
-            jobPost.bookmark = false
-            dataSource.updateJobPost(jobPost, index)
+        if (jobPost != null) {
+            val index: Int? = dataSource.getJobPostIndex(jobPost!!)
+            if (index != null) {
+                jobPost.bookmark = false
+                dataSource.updateJobPost(jobPost, index)
+            }
         }
     }
 

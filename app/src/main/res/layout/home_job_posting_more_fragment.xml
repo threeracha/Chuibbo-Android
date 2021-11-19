@@ -98,7 +98,7 @@
                 app:layout_constraintLeft_toLeftOf="parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview"
+                    android:id="@+id/recyclerview_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"

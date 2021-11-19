@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.JobPostApi
 import com.example.chuibbo_android.api.response.SpringResponse2
-import kotlinx.android.synthetic.main.home_fragment.view.recyclerview
+import com.example.chuibbo_android.mypage.LikeJobPostListViewModel
+import com.example.chuibbo_android.mypage.LikeJobPostListViewModelFactory
 import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.home_job_posting_more_fragment.view.*
 import kotlinx.android.synthetic.main.main_activity.*
@@ -26,8 +27,16 @@ import retrofit2.Response
 
 class HomeJobPostMoreFragment : Fragment() {
 
+    private val jobPostMoreListViewModel by viewModels<JobPostMoreListViewModel> {
+        context?.let { JobPostMoreListViewModelFactory(it) }!!
+    }
+
     private val jobPostListViewModel by viewModels<JobPostListViewModel> {
         context?.let { JobPostListViewModelFactory(it) }!!
+    }
+
+    private val likeJobPostListViewModel by viewModels<LikeJobPostListViewModel> {
+        context?.let { LikeJobPostListViewModelFactory(it) }!!
     }
 
     override fun onCreateView(
@@ -82,12 +91,12 @@ class HomeJobPostMoreFragment : Fragment() {
 
         val jobPostAdapter = JobPostAdapter ({ jobPost -> adapterOnClick(jobPost, view) }, { jobPost, itemView -> adapterStarOnClick(jobPost, itemView) })
 
-        val recyclerView: RecyclerView = view.recyclerview
+        val recyclerView: RecyclerView = view.recyclerview_more
         val numberOfColumns = 2
         recyclerView.layoutManager = GridLayoutManager(context, numberOfColumns)
         recyclerView.adapter = jobPostAdapter
 
-        jobPostListViewModel.jobPostsLiveData.observe(viewLifecycleOwner, {
+        jobPostMoreListViewModel.jobPostMoreLiveData.observe(viewLifecycleOwner, {
             it?.let {
                 jobPostAdapter.submitList(it as MutableList<JobPost>)
             }
@@ -129,7 +138,9 @@ class HomeJobPostMoreFragment : Fragment() {
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_empty)
+                        jobPostMoreListViewModel.deleteBookmark(jobPost.id)
                         jobPostListViewModel.deleteBookmark(jobPost.id)
+                        likeJobPostListViewModel.deleteLikeJobPost(jobPost.id)
                     }
                 }
             })
@@ -146,7 +157,10 @@ class HomeJobPostMoreFragment : Fragment() {
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_fill)
+                        jobPostMoreListViewModel.saveBookmark(jobPost.id)
                         jobPostListViewModel.saveBookmark(jobPost.id)
+                        val jobPost = jobPostMoreListViewModel.getJobPostMoreForId(jobPost.id)
+                        likeJobPostListViewModel.insertLikeJobPost(jobPost)
                     }
                 }
             })
