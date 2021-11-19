@@ -45,13 +45,13 @@ class JobPostMoreDataSource(resources: Resources, context: Context) {
     }
 
     /* Adds jobPostMore to liveData and posts value. */
-    fun addJobPostMore(jobPostMore: JobPost) {
+    fun addJobPostMoreList(jobPostMoreList: List<JobPost>) {
         val currentList = jobPostMoreLiveData.value
         if (currentList == null) {
-            jobPostMoreLiveData.postValue(listOf(jobPostMore))
+            jobPostMoreLiveData.postValue(jobPostMoreList)
         } else {
             val updatedList = currentList.toMutableList()
-            updatedList.add(0, jobPostMore)
+            updatedList.addAll(updatedList.size, jobPostMoreList)
             jobPostMoreLiveData.postValue(updatedList)
         }
     }

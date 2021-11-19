@@ -27,6 +27,8 @@ import retrofit2.Response
 
 class HomeJobPostMoreFragment : Fragment() {
 
+    private var page = 1
+
     private val jobPostMoreListViewModel by viewModels<JobPostMoreListViewModel> {
         context?.let { JobPostMoreListViewModelFactory(it) }!!
     }
@@ -95,6 +97,42 @@ class HomeJobPostMoreFragment : Fragment() {
         val numberOfColumns = 2
         recyclerView.layoutManager = GridLayoutManager(context, numberOfColumns)
         recyclerView.adapter = jobPostAdapter
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // TODO: 로딩중 progress bar 삽입
+
+                // 스크롤이 끝에 도달했는지 확인
+                if (!recyclerView.canScrollVertically(1)) {
+                    JobPostApi.instance(requireContext()).getJobPostsMore(++page).enqueue(object :
+                        Callback<SpringResponse2<List<JobPost>>> {
+                        override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
+                            Log.d("retrofit fail", t.message)
+                        }
+
+                        override fun onResponse(
+                            call: Call<SpringResponse2<List<JobPost>>>,
+                            response: Response<SpringResponse2<List<JobPost>>>
+                        ) {
+                            if (response.isSuccessful) {
+                                when (response.body()?.status) {
+                                    "OK" -> {
+                                        jobPostMoreListViewModel.insertJobPostMoreList(response.body()?.data!!)
+                                    }
+                                    "ERROR" -> {
+                                        // TODO
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        })
+
+        // TODO: 당겨서 새로고침 적용
 
         jobPostMoreListViewModel.jobPostMoreLiveData.observe(viewLifecycleOwner, {
             it?.let {

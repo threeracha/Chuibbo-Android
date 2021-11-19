@@ -9,29 +9,8 @@ class JobPostMoreListViewModel(val dataSource: JobPostMoreDataSource) : ViewMode
     val jobPostMoreLiveData = dataSource.getJobPostMoreList()
 
     /* If the name and description are present, create new JobPost and add it to the datasource */
-    fun insertJobPostMore(jobPost: JobPost) {
-        lateinit var logoUrl: String
-        if (jobPost.logoUrl == null) {
-            logoUrl = ""
-        } else {
-            logoUrl = jobPost.logoUrl
-        }
-
-        val newLikeJobPost = JobPost(
-            jobPost.id,
-            logoUrl,
-            jobPost.companyName,
-            jobPost.subject,
-            jobPost.descriptionUrl,
-            jobPost.startDate,
-            jobPost.endDate,
-            jobPost.areas,
-            jobPost.jobs,
-            jobPost.careerTypes,
-            true
-        )
-
-        dataSource.addJobPostMore(newLikeJobPost)
+    fun insertJobPostMoreList(jobPostList: List<JobPost>) {
+        dataSource.addJobPostMoreList(jobPostList)
     }
 
     fun saveBookmark(id: Int) {
