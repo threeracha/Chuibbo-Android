@@ -1,6 +1,5 @@
 package com.example.chuibbo_android.calendar
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.Period
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class BookMarkAdapter(private val onClick: (BookMark) -> Unit) :
     ListAdapter<BookMark, BookMarkAdapter.BookMarkViewHolder>(BookMarkDiffCallback){
@@ -36,17 +35,26 @@ class BookMarkAdapter(private val onClick: (BookMark) -> Unit) :
             currentBookMark = bookMark
 
             bookMarkTitleTextView.text = currentBookMark!!.jobPost?.subject
-            bookMarkDurationTextView.text = currentBookMark!!.jobPost?.startDate.toString() + " ~ " + currentBookMark!!.jobPost?.endDate.toString()
+            bookMarkDurationTextView.text = currentBookMark!!.jobPost?.startDate.toString().replace("T", " ") + " ~ " +
+                currentBookMark!!.jobPost?.endDate.toString().replace("T", " ")
+            bookMarkDdayTextView.text = calculateDday(currentBookMark!!.jobPost?.endDate.toString().replace("T", " "))
+        }
+
+        private fun calculateDday(end: String): String {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val date = LocalDateTime.parse(currentBookMark!!.jobPost?.endDate?.replace("T", " "), formatter)
-            val period = Period.between(LocalDate.now(), date.toLocalDate())
-            if (period.getDays() >= 1)
-                bookMarkDdayTextView.text = "D-" + period.getDays()
-            else if (period.getDays() == 0)
-                bookMarkDdayTextView.text = "D-Day"
-            else
-                bookMarkDdayTextView.text = "마감"
-            Log.d("haha", currentBookMark!!.id.toString())
+            val endDateTime = LocalDateTime.parse(end.replace("T", " "), formatter)
+            val todayDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
+            var difference = ChronoUnit.DAYS.between(todayDateTime.toLocalDate(), endDateTime.toLocalDate()).toInt() // 날짜만 계산
+
+            if (endDateTime.isAfter(todayDateTime)) {
+                if (endDateTime.year == todayDateTime.year && endDateTime.monthValue == todayDateTime.monthValue
+                    && endDateTime.dayOfMonth == todayDateTime.dayOfMonth) {
+                    return "D-Day"
+                } else {
+                    return "D-$difference"
+                }
+            } else
+                return "마감"
         }
     }
 

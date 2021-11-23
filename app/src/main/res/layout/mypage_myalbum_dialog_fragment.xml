@@ -17,7 +17,7 @@
         android:layout_marginTop="27dp"
         android:text="yyyy.mm.dd\n머리0, 정장0"
         android:textColor="@color/black"
-        android:textSize="9sp"
+        android:textSize="11sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

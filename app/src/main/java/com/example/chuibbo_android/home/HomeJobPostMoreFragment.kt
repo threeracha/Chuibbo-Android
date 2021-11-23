@@ -3,6 +3,7 @@ package com.example.chuibbo_android.home
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +14,31 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import kotlinx.android.synthetic.main.home_fragment.view.recyclerview
+import com.example.chuibbo_android.api.JobPostApi
+import com.example.chuibbo_android.api.response.SpringResponse2
+import com.example.chuibbo_android.mypage.LikeJobPostListViewModel
+import com.example.chuibbo_android.mypage.LikeJobPostListViewModelFactory
+import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.home_job_posting_more_fragment.view.*
 import kotlinx.android.synthetic.main.main_activity.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeJobPostMoreFragment : Fragment() {
 
+    private var page = 1
+
+    private val jobPostMoreListViewModel by viewModels<JobPostMoreListViewModel> {
+        context?.let { JobPostMoreListViewModelFactory(it) }!!
+    }
+
     private val jobPostListViewModel by viewModels<JobPostListViewModel> {
         context?.let { JobPostListViewModelFactory(it) }!!
+    }
+
+    private val likeJobPostListViewModel by viewModels<LikeJobPostListViewModel> {
+        context?.let { LikeJobPostListViewModelFactory(it) }!!
     }
 
     override fun onCreateView(
@@ -31,6 +49,7 @@ class HomeJobPostMoreFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.home_job_posting_more_fragment, container, false)
 
+        // TODO: enum class
         // dropdown setting
         val career = arrayOf("신입", "경력")
         val job = arrayOf("기획/마케팅", "디자인", "IT")
@@ -72,14 +91,50 @@ class HomeJobPostMoreFragment : Fragment() {
             }
         }
 
-        val jobPostAdapter = JobPostAdapter { jobPost -> adapterOnClick(jobPost, view) }
+        val jobPostAdapter = JobPostAdapter ({ jobPost -> adapterOnClick(jobPost, view) }, { jobPost, itemView -> adapterStarOnClick(jobPost, itemView) })
 
-        val recyclerView: RecyclerView = view.recyclerview
+        val recyclerView: RecyclerView = view.recyclerview_more
         val numberOfColumns = 2
         recyclerView.layoutManager = GridLayoutManager(context, numberOfColumns)
         recyclerView.adapter = jobPostAdapter
 
-        jobPostListViewModel.jobPostsLiveData.observe(viewLifecycleOwner, {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // TODO: 로딩중 progress bar 삽입
+
+                // 스크롤이 끝에 도달했는지 확인
+                if (!recyclerView.canScrollVertically(1)) {
+                    JobPostApi.instance(requireContext()).getJobPostsMore(++page).enqueue(object :
+                        Callback<SpringResponse2<List<JobPost>>> {
+                        override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
+                            Log.d("retrofit fail", t.message)
+                        }
+
+                        override fun onResponse(
+                            call: Call<SpringResponse2<List<JobPost>>>,
+                            response: Response<SpringResponse2<List<JobPost>>>
+                        ) {
+                            if (response.isSuccessful) {
+                                when (response.body()?.status) {
+                                    "OK" -> {
+                                        jobPostMoreListViewModel.insertJobPostMoreList(response.body()?.data!!)
+                                    }
+                                    "ERROR" -> {
+                                        // TODO
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        })
+
+        // TODO: 당겨서 새로고침 적용
+
+        jobPostMoreListViewModel.jobPostMoreLiveData.observe(viewLifecycleOwner, {
             it?.let {
                 jobPostAdapter.submitList(it as MutableList<JobPost>)
             }
@@ -102,5 +157,51 @@ class HomeJobPostMoreFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         view.context.startActivity(intent)
+    }
+
+    private fun adapterStarOnClick(jobPost: JobPost, itemView: View) {
+        // TODO: 로그인 토큰 NULL 혹은 NOT VALIDATION 일 때, dialog 띄우기
+
+        // 로그인 되어있을시
+        if (itemView.star.drawable.constantState == context?.resources?.getDrawable(R.drawable.ic_star_fill)?.constantState) {
+            JobPostApi.instance(requireContext()).deleteBookmark(jobPost!!.id).enqueue(object :
+                Callback<SpringResponse2<String>> {
+                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<SpringResponse2<String>>,
+                    response: Response<SpringResponse2<String>>
+                ) {
+                    if (response.isSuccessful) {
+                        itemView.star.setImageResource(R.drawable.ic_star_empty)
+                        jobPostMoreListViewModel.deleteBookmark(jobPost.id)
+                        jobPostListViewModel.deleteBookmark(jobPost.id)
+                        likeJobPostListViewModel.deleteLikeJobPost(jobPost.id)
+                    }
+                }
+            })
+        } else {
+            JobPostApi.instance(requireContext()).saveBookmark(jobPost!!.id).enqueue(object :
+                Callback<SpringResponse2<String>> {
+                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<SpringResponse2<String>>,
+                    response: Response<SpringResponse2<String>>
+                ) {
+                    if (response.isSuccessful) {
+                        itemView.star.setImageResource(R.drawable.ic_star_fill)
+                        jobPostMoreListViewModel.saveBookmark(jobPost.id)
+                        jobPostListViewModel.saveBookmark(jobPost.id)
+                        val jobPost = jobPostMoreListViewModel.getJobPostMoreForId(jobPost.id)
+                        likeJobPostListViewModel.insertLikeJobPost(jobPost)
+                    }
+                }
+            })
+        }
     }
 }

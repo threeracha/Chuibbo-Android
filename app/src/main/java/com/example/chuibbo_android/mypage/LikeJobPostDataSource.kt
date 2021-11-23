@@ -1,127 +1,65 @@
 package com.example.chuibbo_android.mypage
 
+import android.content.Context
 import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.chuibbo_android.api.JobPostApi
+import com.example.chuibbo_android.api.response.SpringResponse2
+import com.example.chuibbo_android.home.JobPost
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /* Handles operations on likeJobPostsLiveData and holds details about it. */
-class LikeJobPostDataSource(resources: Resources) {
-    private val initialLikeJobPostList = listOf(
-        LikeJobPost(
-            1,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/"
-        ),
-        LikeJobPost(
-            2,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/"
-        ),
-        LikeJobPost(
-            3,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr"
-        ),
-        LikeJobPost(
-            1,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/"
-        ),
-        LikeJobPost(
-            2,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/"
-        ),
-        LikeJobPost(
-            3,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr"
-        ),
-        LikeJobPost(
-            1,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/"
-        ),
-        LikeJobPost(
-            2,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/"
-        ),
-        LikeJobPost(
-            3,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr"
-        ),
-        LikeJobPost(
-            1,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/"
-        ),
-        LikeJobPost(
-            2,
-            "롯데제과",
-            "롯데제과 채용공고",
-            3,
-            "http://image.newdaily.co.kr/site/data/img/2020/06/18/2020061800019_0.png",
-            "https://www.lotteconf.co.kr/"
-        ),
-        LikeJobPost(
-            3,
-            "두산",
-            "두산 채용",
-            2,
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Doosan_logo.svg/1200px-Doosan_logo.svg.png",
-            "https://www.doosan.com/kr"
-        )
+class LikeJobPostDataSource(resources: Resources, context: Context) {
+    private val likeJobPostsLiveData = init(context)
 
-    )
+    private fun init(context: Context): MutableLiveData<List<JobPost>> {
+        val data = MutableLiveData<List<JobPost>>()
 
-    private val likeJobPostsLiveData = MutableLiveData(initialLikeJobPostList)
+        JobPostApi.instance(context).getBookmarks().enqueue(object :
+            Callback<SpringResponse2<List<JobPost>>> {
+            override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
+                Log.d("retrofit fail", t.message)
+            }
+
+            override fun onResponse(
+                call: Call<SpringResponse2<List<JobPost>>>,
+                response: Response<SpringResponse2<List<JobPost>>>
+            ) {
+                if (response.isSuccessful) {
+                    when (response.body()?.status) {
+                        "OK" -> {
+                            data.value = response.body()!!.data!!
+                        }
+                        "ERROR" -> {
+                            // TODO
+                        }
+                    }
+                }
+            }
+        })
+
+        return data
+    }
 
     /* Adds likeJobPost to liveData and posts value. */
-    fun addLikeJobPost(likeJobPost: LikeJobPost) {
+    fun addLikeJobPost(likeJobPost: JobPost) {
         val currentList = likeJobPostsLiveData.value
         if (currentList == null) {
             likeJobPostsLiveData.postValue(listOf(likeJobPost))
         } else {
             val updatedList = currentList.toMutableList()
+            // TODO: 마감순 기준으로 정렬할 수 있도록 add
             updatedList.add(0, likeJobPost)
             likeJobPostsLiveData.postValue(updatedList)
         }
     }
 
     /* Removes likeJobPost from liveData and posts value. */
-    fun removeJobPost(likeJobPost: LikeJobPost) {
+    fun removeLikeJobPost(likeJobPost: JobPost) {
         val currentList = likeJobPostsLiveData.value
         if (currentList != null) {
             val updatedList = currentList.toMutableList()
@@ -131,27 +69,29 @@ class LikeJobPostDataSource(resources: Resources) {
     }
 
     /* Returns likeJobPost given an ID. */
-    fun getLikeJobPostForId(id: Int): LikeJobPost? {
+    fun getLikeJobPostForId(id: Int): JobPost? {
         likeJobPostsLiveData.value?.let { likeJobPosts ->
             return likeJobPosts.firstOrNull{ it.id == id}
         }
         return null
     }
 
-    fun getLikeJobPostList(): LiveData<List<LikeJobPost>> {
+    fun getLikeJobPostList(): LiveData<List<JobPost>> {
         return likeJobPostsLiveData
     }
 
     fun getLikeJobPostSize(): Int {
+        if (likeJobPostsLiveData.value == null)
+            return 0
         return likeJobPostsLiveData.value?.toMutableList()!!.size
     }
 
     companion object {
         private var INSTANCE: LikeJobPostDataSource? = null
 
-        fun getDataSource(resources: Resources): LikeJobPostDataSource {
+        fun getDataSource(resources: Resources, context: Context): LikeJobPostDataSource {
             return synchronized(LikeJobPostDataSource::class) {
-                val newInstance = INSTANCE ?: LikeJobPostDataSource(resources)
+                val newInstance = INSTANCE ?: LikeJobPostDataSource(resources, context)
                 INSTANCE = newInstance
                 newInstance
             }

@@ -9,21 +9,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import kotlinx.android.synthetic.main.home_job_posting.view.*
+import kotlinx.android.synthetic.main.home_job_posting.view.company_deadline
+import kotlinx.android.synthetic.main.home_job_posting.view.company_desc
+import kotlinx.android.synthetic.main.home_job_posting.view.company_logo
+import kotlinx.android.synthetic.main.home_job_posting.view.company_name
+import kotlinx.android.synthetic.main.home_job_posting.view.star
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.Period
+import java.time.*
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
-class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
+class JobPostAdapter(private val onClick: (JobPost) -> Unit, private val onStarClick: (JobPost, itemView: View) -> Unit) :
     ListAdapter<JobPost, JobPostAdapter.JobPostViewHolder>(JobPostDiffCallback) {
 
     /* ViewHolder for JobPost, takes in the inflated view and the onClick behavior. */
-    class JobPostViewHolder(itemView: View, val onClick: (JobPost) -> Unit) :
+    class JobPostViewHolder(itemView: View, val onClick: (JobPost) -> Unit, private val onStarClick: (JobPost, itemView: View) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val companyName: TextView = itemView.company_name
         private val companyDesc: TextView = itemView.company_desc
@@ -39,7 +42,7 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
             }
             itemView.star.setOnClickListener {
                 currentJobPost?.let {
-                    onClick(it)
+                    onStarClick(it, itemView)
                 }
             }
         }
@@ -50,21 +53,13 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
 
             companyName.text = jobPost.companyName
 
-            if (jobPost.subject.length > 10) {
-                companyDesc.text = jobPost.subject.slice(IntRange(0,9)) + "..."
-            } else {
-                companyDesc.text = jobPost.subject
-            }
+            if (jobPost.subject.length > 10) companyDesc.text = jobPost.subject.slice(IntRange(0,9)) + "..."
+            else companyDesc.text = jobPost.subject
 
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val date = LocalDateTime.parse(jobPost?.endDate.replace("T", " "), formatter)
-            val period = Period.between(LocalDate.now(), date.toLocalDate())
-            if (period.getDays() >= 1)
-                companyDeadline.text = "D-" + period.getDays()
-            else if (period.getDays() == 0)
-                companyDeadline.text = "D-Day"
-            else
-                companyDeadline.text = "마감"
+            companyDeadline.text = calculateDday(jobPost.endDate)
+
+            if (jobPost.bookmark) itemView.star.setImageResource(R.drawable.ic_star_fill)
+            else itemView.star.setImageResource(R.drawable.ic_star_empty)
 
             if (jobPost.logoUrl != null) {
 
@@ -76,12 +71,29 @@ class JobPostAdapter(private val onClick: (JobPost) -> Unit) :
                 }
             }
         }
+
+        private fun calculateDday(end: String): String {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val endDateTime = LocalDateTime.parse(end.replace("T", " "), formatter)
+            val todayDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
+            var difference = ChronoUnit.DAYS.between(todayDateTime.toLocalDate(), endDateTime.toLocalDate()).toInt() // 날짜만 계산
+
+            if (endDateTime.isAfter(todayDateTime)) {
+                if (endDateTime.year == todayDateTime.year && endDateTime.monthValue == todayDateTime.monthValue
+                    && endDateTime.dayOfMonth == todayDateTime.dayOfMonth) {
+                    return "D-Day"
+                } else {
+                    return "D-$difference"
+                }
+            } else
+                return "마감"
+        }
     }
 
     /* Creates and inflates view and return JobPostViewHolder. */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobPostViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.home_job_posting, parent, false)
-        return JobPostViewHolder(view, onClick)
+        return JobPostViewHolder(view, onClick, onStarClick)
     }
 
     /* Gets current jobPost and uses it to bind view. */

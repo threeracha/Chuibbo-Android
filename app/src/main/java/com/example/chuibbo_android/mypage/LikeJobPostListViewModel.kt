@@ -3,27 +3,43 @@ package com.example.chuibbo_android.mypage
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.chuibbo_android.home.JobPost
 
 class LikeJobPostListViewModel(val dataSource: LikeJobPostDataSource) : ViewModel() {
 
     val likeJobPostsLiveData = dataSource.getLikeJobPostList()
 
     /* If the name and description are present, create new LikeJobPost and add it to the datasource */
-    fun insertLikeJobPost(id: Int?, companyName: String?, companyDsc: String?, companyDeadline: Int?, companyLogo: String?, companyLink: String?) {
-        if (id == null || companyName == null || companyDsc == null || companyLogo == null || companyDeadline == null || companyLink == null) {
-            return
+    fun insertLikeJobPost(jobPost: JobPost) {
+
+        lateinit var logoUrl: String
+        if (jobPost.logoUrl == null) {
+            logoUrl = ""
+        } else {
+            logoUrl = jobPost.logoUrl
         }
 
-        val newLikeJobPost = LikeJobPost(
-            id,
-            companyName,
-            companyDsc,
-            companyDeadline,
-            companyLogo,
-            companyLink
+        val newLikeJobPost = JobPost(
+            jobPost.id,
+            logoUrl,
+            jobPost.companyName,
+            jobPost.subject,
+            jobPost.descriptionUrl,
+            jobPost.startDate,
+            jobPost.endDate,
+            jobPost.areas,
+            jobPost.jobs,
+            jobPost.careerTypes,
+            true
         )
 
         dataSource.addLikeJobPost(newLikeJobPost)
+    }
+
+    fun deleteLikeJobPost(id: Int) {
+        val jobPost: JobPost? = dataSource.getLikeJobPostForId(id)
+        if (jobPost != null)
+            dataSource.removeLikeJobPost(jobPost)
     }
 
     fun getSize(): Int {
@@ -37,7 +53,7 @@ class LikeJobPostListViewModelFactory(private val context: Context) : ViewModelP
         if (modelClass.isAssignableFrom(LikeJobPostListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return LikeJobPostListViewModel(
-                dataSource = LikeJobPostDataSource.getDataSource(context.resources)
+                dataSource = LikeJobPostDataSource.getDataSource(context.resources, context)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

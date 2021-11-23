@@ -1,7 +1,6 @@
 package com.example.chuibbo_android.home
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -10,8 +9,10 @@ class JobPostListViewModel(val dataSource: JobPostDataSource) : ViewModel() {
     val jobPostsLiveData = dataSource.getJobPostList()
 
     /* If the name and description are present, create new JobPost and add it to the datasource */
-    fun insertJobPost(id: Int?, logoUrl: String, companyName: String?, subject: String?, descriptionUrl: String?, startDate: String?, endDate: String?) { // TODO: 수정
-        if (id == null || companyName == null || subject == null || descriptionUrl == null || startDate == null || endDate == null) { // TODO: 수정
+    fun insertJobPost(id: Int?, logoUrl: String, companyName: String?, subject: String?, descriptionUrl: String?, startDate: String?, endDate: String?,
+                        area: List<Area>, job: List<Job>, careerType: List<CareerType>, bookmark: Boolean) {
+        if (id == null || companyName == null || subject == null || descriptionUrl == null || startDate == null || endDate == null ||
+            area == null || job == null || careerType == null) {
             return
         }
 
@@ -30,12 +31,40 @@ class JobPostListViewModel(val dataSource: JobPostDataSource) : ViewModel() {
             descriptionUrl,
             startDate,
             endDate,
-            listOf(Area(1, "")), // TODO: 수정
-            listOf(Job(1, "")), // TODO: 수정
-            listOf(CareerType(1, "")) // TODO: 수정
+            area,
+            job,
+            careerType,
+            bookmark
         )
 
         dataSource.addJobPost(newJobPost)
+    }
+
+    fun saveBookmark(id: Int) {
+        val jobPost: JobPost? = dataSource.getJobPostForId(id)
+        if (jobPost != null) {
+            val index: Int? = dataSource.getJobPostIndex(jobPost!!)
+            if (index != null) {
+                jobPost.bookmark = true
+                dataSource.updateJobPost(jobPost, index)
+            }
+        }
+    }
+
+    fun deleteBookmark(id: Int) {
+        val jobPost: JobPost? = dataSource.getJobPostForId(id)
+        if (jobPost != null) {
+            val index: Int? = dataSource.getJobPostIndex(jobPost!!)
+            if (index != null) {
+                jobPost.bookmark = false
+                dataSource.updateJobPost(jobPost, index)
+            }
+        }
+    }
+
+    fun getJobPostForId(id: Int): JobPost {
+        val jobPost: JobPost? = dataSource.getJobPostForId(id)
+        return jobPost!!
     }
 }
 
@@ -45,7 +74,7 @@ class JobPostListViewModelFactory(private val context: Context) : ViewModelProvi
         if (modelClass.isAssignableFrom(JobPostListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return JobPostListViewModel(
-                dataSource = JobPostDataSource.getDataSource(context.resources)
+                dataSource = JobPostDataSource.getDataSource(context.resources, context)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

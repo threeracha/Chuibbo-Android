@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.chuibbo_android.api.response.ApiResponse
 import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.api.response.User
+import com.example.chuibbo_android.api.response.UserResponse
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -29,7 +30,7 @@ interface UserApi {
     @POST("/api/v1/user/login/")
     fun login(
         @Body data: HashMap<String, String>
-    ): Call<SpringResponse<User>>
+    ): Call<UserResponse>
 
     @GET("/api/v1/user/logout")
     fun logout(): Call<SpringResponse<String>>

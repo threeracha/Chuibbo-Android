@@ -11,14 +11,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-/* Handles operations on jobPostsLiveData and holds details about it. */
-class JobPostDataSource(resources: Resources, context: Context) {
-    private val jobPostsLiveData = init(context)
+/* Handles operations on jobPostMoreLiveData and holds details about it. */
+class JobPostMoreDataSource(resources: Resources, context: Context) {
+    private val jobPostMoreLiveData = init(context)
 
     private fun init(context: Context): MutableLiveData<List<JobPost>> {
         val data = MutableLiveData<List<JobPost>>()
 
-        JobPostApi.instance(context).getJobPosts().enqueue(object :
+        JobPostApi.instance(context).getJobPostsMore(1).enqueue(object :
             Callback<SpringResponse2<List<JobPost>>> {
             override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
                 Log.d("retrofit fail", t.message)
@@ -44,62 +44,62 @@ class JobPostDataSource(resources: Resources, context: Context) {
         return data
     }
 
-    /* Adds jobPost to liveData and posts value. */
-    fun addJobPost(jobPost: JobPost) {
-        val currentList = jobPostsLiveData.value
+    /* Adds jobPostMore to liveData and posts value. */
+    fun addJobPostMoreList(jobPostMoreList: List<JobPost>) {
+        val currentList = jobPostMoreLiveData.value
         if (currentList == null) {
-            jobPostsLiveData.postValue(listOf(jobPost))
+            jobPostMoreLiveData.postValue(jobPostMoreList)
         } else {
             val updatedList = currentList.toMutableList()
-            updatedList.add(0, jobPost)
-            jobPostsLiveData.postValue(updatedList)
+            updatedList.addAll(updatedList.size, jobPostMoreList)
+            jobPostMoreLiveData.postValue(updatedList)
         }
     }
 
-    /* Removes jobPost from liveData and posts value. */
-    fun removeJobPost(jobPost: JobPost) {
-        val currentList = jobPostsLiveData.value
+    /* Removes jobPostMore from liveData and posts value. */
+    fun removeJobPostMore(jobPostMore: JobPost) {
+        val currentList = jobPostMoreLiveData.value
         if (currentList != null) {
             val updatedList = currentList.toMutableList()
-            updatedList.remove(jobPost)
-            jobPostsLiveData.postValue(updatedList)
+            updatedList.remove(jobPostMore)
+            jobPostMoreLiveData.postValue(updatedList)
         }
     }
 
-    fun updateJobPost(jobPost: JobPost, index: Int) {
-        val currentList = jobPostsLiveData.value
+    fun updateJobPostMore(jobPost: JobPost, index: Int) {
+        val currentList = jobPostMoreLiveData.value
         if (currentList != null) {
             val updatedList = currentList.toMutableList()
             updatedList[index] = jobPost
-            jobPostsLiveData.postValue(updatedList)
+            jobPostMoreLiveData.postValue(updatedList)
         }
     }
 
-    /* Returns jobPost given an ID. */
-    fun getJobPostForId(id: Int): JobPost? {
-        jobPostsLiveData.value?.let { jobPosts ->
-            return jobPosts.firstOrNull{ it.id == id}
+    /* Returns jobPostMore given an ID. */
+    fun getJobPostMoreForId(id: Int): JobPost? {
+        jobPostMoreLiveData.value?.let { jobPostMore ->
+            return jobPostMore.firstOrNull{ it.id == id}
         }
         return null
     }
 
-    fun getJobPostIndex(jobPost: JobPost): Int? {
-        jobPostsLiveData.value?.let { jobPosts ->
+    fun getJobPostMoreIndex(jobPost: JobPost): Int? {
+        jobPostMoreLiveData.value?.let { jobPosts ->
             return jobPosts.indexOf(jobPost)
         }
         return null
     }
 
-    fun getJobPostList(): LiveData<List<JobPost>> {
-        return jobPostsLiveData
+    fun getJobPostMoreList(): LiveData<List<JobPost>> {
+        return jobPostMoreLiveData
     }
 
     companion object {
-        private var INSTANCE: JobPostDataSource? = null
+        private var INSTANCE: JobPostMoreDataSource? = null
 
-        fun getDataSource(resources: Resources, context: Context): JobPostDataSource {
-            return synchronized(JobPostDataSource::class) {
-                val newInstance = INSTANCE ?: JobPostDataSource(resources, context)
+        fun getDataSource(resources: Resources, context: Context): JobPostMoreDataSource {
+            return synchronized(JobPostMoreDataSource::class) {
+                val newInstance = INSTANCE ?: JobPostMoreDataSource(resources, context)
                 INSTANCE = newInstance
                 newInstance
             }

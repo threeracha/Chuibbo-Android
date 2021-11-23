@@ -9,6 +9,7 @@ class SessionManager (context: Context) {
 
     companion object {
         const val ACCESS_TOKEN = "access_token"
+        const val REFRESH_TOKEN = "refresh_token"
         const val USER_INFO = "user_info"
     }
 
@@ -27,6 +28,22 @@ class SessionManager (context: Context) {
     fun removeAccessToken() {
         val editor = preferences.edit()
         editor.remove(ACCESS_TOKEN)
+        editor.apply()
+    }
+
+    fun saveRefreshToken(token: String) {
+        val editor = preferences.edit()
+        editor.putString(REFRESH_TOKEN, token)
+        editor.apply()
+    }
+
+    fun fetchRefreshToken(): String? {
+        return preferences.getString(REFRESH_TOKEN, "")
+    }
+
+    fun removeRefreshToken() {
+        val editor = preferences.edit()
+        editor.remove(REFRESH_TOKEN)
         editor.apply()
     }
 
