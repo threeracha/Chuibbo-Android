@@ -11,15 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.home.ImageLoader
 import com.example.chuibbo_android.home.JobPost
+import com.example.chuibbo_android.utils.Calc
 import kotlinx.android.synthetic.main.mypage_like_job_posting.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 
 class LikeJobPostAdapter(private val onClick: (JobPost) -> Unit, private val onStarClick: (JobPost, itemView: View) -> Unit) :
     ListAdapter<JobPost, LikeJobPostAdapter.LikeJobPostViewHolder>(LikeJobPostDiffCallback) {
@@ -53,7 +50,7 @@ class LikeJobPostAdapter(private val onClick: (JobPost) -> Unit, private val onS
             companyName.text = likeJobPost.companyName
             companyDesc.text = likeJobPost.subject
 
-            companyDeadline.text = calculateDday(likeJobPost.endDate)
+            companyDeadline.text = Calc().calculateDday(likeJobPost.endDate)
 
             if (likeJobPost.logoUrl != null) {
 
@@ -64,23 +61,6 @@ class LikeJobPostAdapter(private val onClick: (JobPost) -> Unit, private val onS
                     companyLogo.setImageBitmap(bitmap)
                 }
             }
-        }
-
-        private fun calculateDday(end: String): String {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val endDateTime = LocalDateTime.parse(end.replace("T", " "), formatter)
-            val todayDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
-            var difference = ChronoUnit.DAYS.between(todayDateTime.toLocalDate(), endDateTime.toLocalDate()).toInt() // 날짜만 계산
-
-            if (endDateTime.isAfter(todayDateTime)) {
-                if (endDateTime.year == todayDateTime.year && endDateTime.monthValue == todayDateTime.monthValue
-                    && endDateTime.dayOfMonth == todayDateTime.dayOfMonth) {
-                    return "D-Day"
-                } else {
-                    return "D-$difference"
-                }
-            } else
-                return "마감"
         }
     }
 
