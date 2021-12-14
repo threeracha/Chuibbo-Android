@@ -1,4 +1,4 @@
-package com.example.chuibbo_android.utils
+package com.example.chuibbo_android.auth
 
 import android.content.Context
 import okhttp3.Interceptor

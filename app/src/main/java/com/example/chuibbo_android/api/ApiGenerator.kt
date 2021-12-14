@@ -1,11 +1,10 @@
 package com.example.chuibbo_android.api
 
 import android.content.Context
-import com.example.chuibbo_android.utils.AuthInterceptor
+import com.example.chuibbo_android.auth.AuthInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit

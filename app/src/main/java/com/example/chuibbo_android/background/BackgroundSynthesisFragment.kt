@@ -22,7 +22,7 @@ import com.example.chuibbo_android.correction.FaceCorrectionFragment
 import com.example.chuibbo_android.image.Image
 import com.example.chuibbo_android.image.ImageViewModel
 import com.example.chuibbo_android.utils.Common
-import com.example.chuibbo_android.utils.SessionManager
+import com.example.chuibbo_android.auth.SessionManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.background_synthesis_fragment.*

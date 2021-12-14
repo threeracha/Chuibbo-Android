@@ -16,7 +16,7 @@ import com.example.chuibbo_android.api.UserApi
 import com.example.chuibbo_android.api.request.LoginRequest
 import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.api.response.UserResponse
-import com.example.chuibbo_android.utils.SessionManager
+import com.example.chuibbo_android.auth.SessionManager
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_password_forget_fragment.*
 import kotlinx.android.synthetic.main.preferences_password_forget_fragment.email_text

@@ -15,7 +15,7 @@ import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
 import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.home.HomeFragment
-import com.example.chuibbo_android.utils.SessionManager
+import com.example.chuibbo_android.auth.SessionManager
 import kotlinx.android.synthetic.main.dialog_fragment.view.*
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call

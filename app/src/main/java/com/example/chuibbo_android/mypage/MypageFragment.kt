@@ -16,7 +16,7 @@ import com.example.chuibbo_android.api.JobPostApi
 import com.example.chuibbo_android.api.response.SpringServerResponse
 import com.example.chuibbo_android.home.*
 import com.example.chuibbo_android.preferences.PreferencesFragment
-import com.example.chuibbo_android.utils.SessionManager
+import com.example.chuibbo_android.auth.SessionManager
 import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.mypage_fragment.view.*

@@ -10,7 +10,7 @@ import com.example.chuibbo_android.calendar.CalendarFragment
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.login.LoginFragment
 import com.example.chuibbo_android.mypage.MypageFragment
-import com.example.chuibbo_android.utils.SessionManager
+import com.example.chuibbo_android.auth.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 

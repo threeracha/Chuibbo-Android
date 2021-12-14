@@ -14,7 +14,7 @@ import com.example.chuibbo_android.api.response.UserResponse
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.preferences.PreferencesPasswordForgetFragment
 import com.example.chuibbo_android.signup.SignupFragment
-import com.example.chuibbo_android.utils.SessionManager
+import com.example.chuibbo_android.auth.SessionManager
 import kotlinx.android.synthetic.main.login_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.coroutines.runBlocking

@@ -151,7 +151,6 @@ class FaceCorrectionMakeupFragment : Fragment() {
     //메이크업 요청
     private fun makeupFace(r:Int, g:Int, b:Int, size:Int, index:Int) {
         val makeupRequest = MakeupRequest(r, g, b, size, index)
-
         makeupService.makeUpFace(makeupRequest).enqueue(object: Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 downloadFile()
