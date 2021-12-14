@@ -103,13 +103,8 @@ class FaceCorrectionMakeupFragment : Fragment() {
 
     // 파라미터 전달
     private fun uploadParameter(r:Int, g:Int, b:Int, size:Int, index:Int){
-        val input = HashMap<String, Int>()
-        input["rColor"] = r
-        input["gColor"] = g
-        input["bColor"] = b
-        input["size"] = size
-        input["index"] = index
-        makeupService.uploadParameter(input).enqueue(object : Callback<MakeupRequest>{
+        val makeupRequest = MakeupRequest(r, g, b, size, index)
+        makeupService.uploadParameter(makeupRequest).enqueue(object : Callback<MakeupRequest>{
             override fun onResponse(call: Call<MakeupRequest>, response: Response<MakeupRequest>) {
                 downloadFile()
             }
@@ -155,14 +150,9 @@ class FaceCorrectionMakeupFragment : Fragment() {
 
     //메이크업 요청
     private fun makeupFace(r:Int, g:Int, b:Int, size:Int, index:Int) {
-        val strong = 1
-        val input = HashMap<String, Int>()
-        input["rColor"] = r
-        input["gColor"] = g
-        input["bColor"] = b
-        input["size"] = size
-        input["index"] = index
-        makeupService.makeUpFace(input).enqueue(object: Callback<String> {
+        val makeupRequest = MakeupRequest(r, g, b, size, index)
+
+        makeupService.makeUpFace(makeupRequest).enqueue(object: Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 downloadFile()
             }

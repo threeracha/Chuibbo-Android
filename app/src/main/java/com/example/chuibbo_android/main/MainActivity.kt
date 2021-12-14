@@ -3,14 +3,9 @@ package com.example.chuibbo_android.main
 import GuidelineFragment
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.chuibbo_android.R
-import com.example.chuibbo_android.api.UserApi
-import com.example.chuibbo_android.api.response.SpringResponse
-import com.example.chuibbo_android.api.response.User
 import com.example.chuibbo_android.calendar.CalendarFragment
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.login.LoginFragment
@@ -18,10 +13,6 @@ import com.example.chuibbo_android.mypage.MypageFragment
 import com.example.chuibbo_android.utils.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener { // PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
 

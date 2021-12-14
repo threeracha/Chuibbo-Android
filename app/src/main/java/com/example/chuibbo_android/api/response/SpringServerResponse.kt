@@ -1,6 +1,6 @@
 package com.example.chuibbo_android.api.response
 
-data class SpringResponse2<T>(
+data class SpringServerResponse<T>(
     val transaction_time: String?,
     val status: String?,
     val message: String?,
@@ -9,7 +9,7 @@ data class SpringResponse2<T>(
     val refresh_token: String? = null,
 ) {
     companion object {
-        inline fun <reified T> error(description: String? = null) =
-            SpringResponse("", "ERROR", "ERROR", null as T?, null, null)
+        inline fun <reified T> error(transaction_time: String?, message: String? = null) =
+            SpringServerResponse(transaction_time, "ERROR", message, null as T?, null, null)
     }
 }

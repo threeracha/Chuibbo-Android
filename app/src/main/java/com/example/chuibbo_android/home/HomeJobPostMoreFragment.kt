@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.JobPostApi
-import com.example.chuibbo_android.api.response.SpringResponse2
+import com.example.chuibbo_android.api.response.SpringServerResponse
 import com.example.chuibbo_android.mypage.LikeJobPostListViewModel
 import com.example.chuibbo_android.mypage.LikeJobPostListViewModelFactory
 import kotlinx.android.synthetic.main.home_job_posting.view.*
@@ -107,14 +107,14 @@ class HomeJobPostMoreFragment : Fragment() {
                 // 스크롤이 끝에 도달했는지 확인
                 if (!recyclerView.canScrollVertically(1)) {
                     JobPostApi.instance(requireContext()).getJobPostsMore(++page).enqueue(object :
-                        Callback<SpringResponse2<List<JobPost>>> {
-                        override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
+                        Callback<SpringServerResponse<List<JobPost>>> {
+                        override fun onFailure(call: Call<SpringServerResponse<List<JobPost>>>, t: Throwable) {
                             Log.d("retrofit fail", t.message)
                         }
 
                         override fun onResponse(
-                            call: Call<SpringResponse2<List<JobPost>>>,
-                            response: Response<SpringResponse2<List<JobPost>>>
+                            call: Call<SpringServerResponse<List<JobPost>>>,
+                            response: Response<SpringServerResponse<List<JobPost>>>
                         ) {
                             if (response.isSuccessful) {
                                 when (response.body()?.status) {
@@ -165,14 +165,14 @@ class HomeJobPostMoreFragment : Fragment() {
         // 로그인 되어있을시
         if (itemView.star.drawable.constantState == context?.resources?.getDrawable(R.drawable.ic_star_fill)?.constantState) {
             JobPostApi.instance(requireContext()).deleteBookmark(jobPost!!.id).enqueue(object :
-                Callback<SpringResponse2<String>> {
-                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                Callback<SpringServerResponse<Int>> {
+                override fun onFailure(call: Call<SpringServerResponse<Int>>, t: Throwable) {
                     Log.d("retrofit fail", t.message)
                 }
 
                 override fun onResponse(
-                    call: Call<SpringResponse2<String>>,
-                    response: Response<SpringResponse2<String>>
+                    call: Call<SpringServerResponse<Int>>,
+                    response: Response<SpringServerResponse<Int>>
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_empty)
@@ -184,14 +184,14 @@ class HomeJobPostMoreFragment : Fragment() {
             })
         } else {
             JobPostApi.instance(requireContext()).saveBookmark(jobPost!!.id).enqueue(object :
-                Callback<SpringResponse2<String>> {
-                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                Callback<SpringServerResponse<JobPost>> {
+                override fun onFailure(call: Call<SpringServerResponse<JobPost>>, t: Throwable) {
                     Log.d("retrofit fail", t.message)
                 }
 
                 override fun onResponse(
-                    call: Call<SpringResponse2<String>>,
-                    response: Response<SpringResponse2<String>>
+                    call: Call<SpringServerResponse<JobPost>>,
+                    response: Response<SpringServerResponse<JobPost>>
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_fill)

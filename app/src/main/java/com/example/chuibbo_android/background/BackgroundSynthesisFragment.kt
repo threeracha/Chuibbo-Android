@@ -17,11 +17,12 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.BackgroundApi
-import com.example.chuibbo_android.api.response.ResumePhotoUploadResponse
+import com.example.chuibbo_android.api.response.FlaskServerResponse
 import com.example.chuibbo_android.correction.FaceCorrectionFragment
 import com.example.chuibbo_android.image.Image
 import com.example.chuibbo_android.image.ImageViewModel
 import com.example.chuibbo_android.utils.Common
+import com.example.chuibbo_android.utils.SessionManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.background_synthesis_fragment.*
@@ -46,6 +47,7 @@ class BackgroundSynthesisFragment : Fragment() {
     private lateinit var rgbColor: String
     private var gradationNumber = 0
     private var synthesisType: Int = 2 // default background
+    private lateinit var sessionManager: SessionManager
 
     @SuppressLint("ResourceAsColor")
     private fun changeView(index: Int) {
@@ -65,6 +67,7 @@ class BackgroundSynthesisFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sessionManager = SessionManager(requireContext())
         val common = Common(this, this.requireActivity())
 
         setFragmentResultListener("Picked Color") { resultKey, bundle ->
@@ -138,7 +141,7 @@ class BackgroundSynthesisFragment : Fragment() {
         activity?.btn_next!!.setOnClickListener {
             val fileBody = File(filePath).asRequestBody("multipart/form-data".toMediaTypeOrNull())
             val filePart = MultipartBody.Part.createFormData("photo", "photo.jpg", fileBody)
-            val idBody = "sss20_0".toRequestBody(("text/plain").toMediaTypeOrNull())
+            val idBody = sessionManager.fetchUserInfo()!!.toRequestBody(("text/plain").toMediaTypeOrNull()) // TODO: nickname이 아닌 id로 변경
 
             // 로컬DB에 이미지 데이터 저장
             var data = Image(0, filePath)
@@ -156,14 +159,14 @@ class BackgroundSynthesisFragment : Fragment() {
                     BackgroundApi.instance.backgroundSynthesisSolid(
                         filePart,
                         data = options
-                    ).enqueue(object : Callback<ResumePhotoUploadResponse> {
-                        override fun onFailure(call: Call<ResumePhotoUploadResponse>, t: Throwable) {
+                    ).enqueue(object : Callback<FlaskServerResponse> {
+                        override fun onFailure(call: Call<FlaskServerResponse>, t: Throwable) {
                             Log.d("retrofit fail", t.message)
                         }
 
                         override fun onResponse(
-                            call: Call<ResumePhotoUploadResponse>,
-                            response: Response<ResumePhotoUploadResponse>
+                            call: Call<FlaskServerResponse>,
+                            response: Response<FlaskServerResponse>
                         ) {
                             if (response.isSuccessful) {
                                 val result = response.body()?.code
@@ -202,14 +205,14 @@ class BackgroundSynthesisFragment : Fragment() {
                         filePart,
                         data = options,
                         filePart2
-                    ).enqueue(object : Callback<ResumePhotoUploadResponse> {
-                        override fun onFailure(call: Call<ResumePhotoUploadResponse>, t: Throwable) {
+                    ).enqueue(object : Callback<FlaskServerResponse> {
+                        override fun onFailure(call: Call<FlaskServerResponse>, t: Throwable) {
                             Log.d("retrofit fail", t.message)
                         }
 
                         override fun onResponse(
-                            call: Call<ResumePhotoUploadResponse>,
-                            response: Response<ResumePhotoUploadResponse>
+                            call: Call<FlaskServerResponse>,
+                            response: Response<FlaskServerResponse>
                         ) {
                             if (response.isSuccessful) {
                                 val result = response.body()?.code

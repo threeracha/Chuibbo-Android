@@ -1,36 +1,24 @@
 package com.example.chuibbo_android.correction
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.MakeupApi
-import com.example.chuibbo_android.api.request.MakeupRequest
-import com.example.chuibbo_android.api.request.MakeupStrongRequest
 import com.example.chuibbo_android.download.DownloadFragment
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.background_synthesis_fragment.*
 import kotlinx.android.synthetic.main.face_correction_fragment.*
-import kotlinx.android.synthetic.main.face_correction_makeup_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import okhttp3.MultipartBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.io.InputStream
-import java.util.HashMap
 
 class FaceCorrectionFragment : Fragment(), IUploadCallback {
     private lateinit var filePath: String

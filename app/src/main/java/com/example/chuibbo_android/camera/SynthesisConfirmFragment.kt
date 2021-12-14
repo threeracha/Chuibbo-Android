@@ -15,7 +15,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.BackgroundApi
-import com.example.chuibbo_android.api.response.ResumePhotoUploadResponse
+import com.example.chuibbo_android.api.response.FlaskServerResponse
 import com.example.chuibbo_android.background.BackgroundSynthesisFragment
 import com.example.chuibbo_android.image.Adapter
 import com.example.chuibbo_android.image.Image
@@ -90,14 +90,14 @@ class SynthesisConfirmFragment : Fragment() {
                 BackgroundApi.instance.removeBackground(
                     filePart,
                     data = options
-                ).enqueue(object : Callback<ResumePhotoUploadResponse> {
-                    override fun onFailure(call: Call<ResumePhotoUploadResponse>, t: Throwable) {
+                ).enqueue(object : Callback<FlaskServerResponse> {
+                    override fun onFailure(call: Call<FlaskServerResponse>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
 
                     override fun onResponse(
-                        call: Call<ResumePhotoUploadResponse>,
-                        response: Response<ResumePhotoUploadResponse>
+                        call: Call<FlaskServerResponse>,
+                        response: Response<FlaskServerResponse>
                     ) {
                         if (response.isSuccessful) {
                             when (response.body()?.code) {

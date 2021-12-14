@@ -6,7 +6,6 @@ import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
-import java.util.HashMap
 
 interface MakeupApi {
     @GET
@@ -17,13 +16,13 @@ interface MakeupApi {
     fun uploadFile(@Part file: MultipartBody.Part): Call<String>
 
     @POST("/api/parameter")
-    fun uploadParameter(@Body param: HashMap<String, Int>): Call<MakeupRequest>
+    fun uploadParameter(@Body makeupRequest: MakeupRequest): Call<MakeupRequest>
 
     @POST("/api/strong")
     fun uploadStrong(@Body strong: Int): Call<MakeupStrongRequest>
 
     @POST("/api/makeup")
-    fun makeUpFace(@Body param: HashMap<String, Int>): Call<String>
+    fun makeUpFace(@Body makeupRequest: MakeupRequest): Call<String>
 
     companion object {
         val instance = ApiGenerator().generate(MakeupApi::class.java)

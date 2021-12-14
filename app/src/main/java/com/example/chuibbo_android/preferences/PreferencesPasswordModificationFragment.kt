@@ -56,7 +56,7 @@ class PreferencesPasswordModificationFragment : Fragment() {
 
             runBlocking {
                 UserApi.instance(requireContext()).changePassword(
-                    data = password
+                    password = password
                 ).enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)

@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
-import com.example.chuibbo_android.api.response.ApiResponse
+import com.example.chuibbo_android.api.request.LoginRequest
+import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.api.response.UserResponse
 import com.example.chuibbo_android.home.HomeFragment
 import com.example.chuibbo_android.preferences.PreferencesPasswordForgetFragment
@@ -48,12 +49,11 @@ class LoginFragment : Fragment() {
             val email = email_edit_text.text.toString()
             val password = password_edit_text.text.toString()
 
-            var loginInfo = hashMapOf("email" to email)
-            loginInfo["password"] = password
+            val loginRequest = LoginRequest(email, password)
 
             runBlocking {
                 UserApi.instance(requireContext()).login(
-                    data = loginInfo
+                    loginRequest
                 ).enqueue(object : Callback<UserResponse> {
                     override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
@@ -106,18 +106,18 @@ class LoginFragment : Fragment() {
         google_social_login_image.setOnClickListener {
             runBlocking {
                 UserApi.instance(requireContext()).loginGoogle(
-                ).enqueue(object : Callback<ApiResponse<String>> {
-                    override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
+                ).enqueue(object : Callback<SpringResponse<String>> {
+                    override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
 
                     override fun onResponse(
-                        call: Call<ApiResponse<String>>,
-                        response: Response<ApiResponse<String>>
+                        call: Call<SpringResponse<String>>,
+                        response: Response<SpringResponse<String>>
                     ) {
                         if (response.isSuccessful) {
-                            when (response.body()?.success) {
-                                true -> {
+                            when (response.body()?.result_code) {
+                                "OK" -> {
                                     val transaction = activity?.supportFragmentManager!!.beginTransaction()
                                     transaction.replace(R.id.frameLayout, HomeFragment())
                                 }

@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.chuibbo_android.api.JobPostApi
-import com.example.chuibbo_android.api.response.SpringResponse2
+import com.example.chuibbo_android.api.response.SpringServerResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,14 +19,14 @@ class JobPostMoreDataSource(resources: Resources, context: Context) {
         val data = MutableLiveData<List<JobPost>>()
 
         JobPostApi.instance(context).getJobPostsMore(1).enqueue(object :
-            Callback<SpringResponse2<List<JobPost>>> {
-            override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
+            Callback<SpringServerResponse<List<JobPost>>> {
+            override fun onFailure(call: Call<SpringServerResponse<List<JobPost>>>, t: Throwable) {
                 Log.d("retrofit fail", t.message)
             }
 
             override fun onResponse(
-                call: Call<SpringResponse2<List<JobPost>>>,
-                response: Response<SpringResponse2<List<JobPost>>>
+                call: Call<SpringServerResponse<List<JobPost>>>,
+                response: Response<SpringServerResponse<List<JobPost>>>
             ) {
                 if (response.isSuccessful) {
                     when (response.body()?.status) {

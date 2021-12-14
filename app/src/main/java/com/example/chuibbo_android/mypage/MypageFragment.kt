@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.JobPostApi
-import com.example.chuibbo_android.api.response.SpringResponse2
+import com.example.chuibbo_android.api.response.SpringServerResponse
 import com.example.chuibbo_android.home.*
 import com.example.chuibbo_android.preferences.PreferencesFragment
 import com.example.chuibbo_android.utils.SessionManager
@@ -139,14 +139,14 @@ class MypageFragment : Fragment() {
     private fun likeJobPostAdapterStarOnClick(likeJobPost: JobPost, itemView: View) {
         if (itemView.star.drawable.constantState == context?.resources?.getDrawable(R.drawable.ic_star_fill)?.constantState) {
             JobPostApi.instance(requireContext()).deleteBookmark(likeJobPost!!.id).enqueue(object :
-                Callback<SpringResponse2<String>> {
-                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                Callback<SpringServerResponse<Int>> {
+                override fun onFailure(call: Call<SpringServerResponse<Int>>, t: Throwable) {
                     Log.d("retrofit fail", t.message)
                 }
 
                 override fun onResponse(
-                    call: Call<SpringResponse2<String>>,
-                    response: Response<SpringResponse2<String>>
+                    call: Call<SpringServerResponse<Int>>,
+                    response: Response<SpringServerResponse<Int>>
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_empty)
