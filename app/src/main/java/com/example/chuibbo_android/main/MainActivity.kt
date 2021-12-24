@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         bottomNavigationView.selectedItemId = R.id.home_item
 
         // setSupportActionBar(toolbar)
+        back_button.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -45,48 +48,43 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
+        // TODO: 클릭 한 번 시, 기존에 수행하던 fragment 제공
+        // TODO: 클릭 두 번 시, 새 fragment 제공
+
+        val transaction = supportFragmentManager.beginTransaction()
+
         when (item.itemId) {
             R.id.home_item -> {
-                val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, HomeFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-                return true
+                transaction.addToBackStack("home")
             }
             R.id.calendar_item -> {
-                val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, CalendarFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-                return true
+                transaction.addToBackStack("calendar")
             }
             R.id.camera_item -> {
-                val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayout, GuidelineFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-                return true
+                transaction.addToBackStack("camera")
             }
             R.id.mypage_item -> {
                 // TODO: 토큰이 유효한지 서버로 확인
                 val user_info = sessionManager.fetchUserInfo()
 
                 if (user_info != "") { // 로그인 유효시,
-                    val transaction = supportFragmentManager.beginTransaction()
                     transaction.replace(R.id.frameLayout, MypageFragment())
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                    return true
+                    transaction.addToBackStack("mypage")
+
+                } else { // 로그인 토큰이 없을 때,
+                    transaction.replace(R.id.frameLayout, LoginFragment())
+                    transaction.addToBackStack("login")
                 }
-                // 로그인 토큰이 없을 때,
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, LoginFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-                return true
             }
         }
-        return false
+
+        transaction.commit()
+        transaction.isAddToBackStackAllowed
+        return true
     }
+
     // TODO: 뒤로가기 버튼을 뺏어올 리스너 등록
 }

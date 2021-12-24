@@ -1,10 +1,7 @@
 package com.example.chuibbo_android.download
 
-import android.R.attr.bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +12,6 @@ import com.example.chuibbo_android.utils.Common
 import kotlinx.android.synthetic.main.download_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 
@@ -35,18 +31,18 @@ class DownloadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val common = Common(this, this.requireActivity())
-        val what = BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result4.jpg")
-
-        img_download?.setImageBitmap(what)
+        val result = BitmapFactory.decodeFile(activity?.cacheDir?.toString()+"/result4.jpg")
+        img_download?.setImageBitmap(result)
 
         activity?.download_button!!.setOnClickListener {
+            context?.deleteFile("origin.jpg")
             context?.deleteFile("result.jpg")
             context?.deleteFile("result2.jpg")
             context?.deleteFile("result3.jpg")
 
             val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale("ko", "KR"))
             val fileName = "result" + dateFormat.format(Date(System.currentTimeMillis()))
-            common.saveBitmapToGallery(what, fileName)
+            common.saveBitmapToGallery(result, fileName)
             Toast.makeText(context, "이미지 저장 성공", Toast.LENGTH_SHORT).show()
 
             // TODO: 2021/04/09 이미지 서버에 다운로드

@@ -10,9 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
@@ -130,18 +128,16 @@ class BackgroundSynthesisFragment : Fragment() {
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(
             ImageViewModel::class.java)
 
-        setFragmentResultListener("requestRembgKey") { key, bundle ->
-            filePath = bundle.getString("bundleRembgPathKey")!!
-            result = bundle.getParcelable<Bitmap>("bundleRembgBitmapKey")!!
-            background_synthesis_image!!.setImageBitmap(result)
-            defaultFilePath = bundle.getString("bundleDefaultPathKey")!!
-            defaultResult = bundle.getParcelable<Bitmap>("bundleDefaultBitmapKey")!!
-        }
+        defaultFilePath = activity?.cacheDir!!.toString() + "/result.jpg"
+        defaultResult = BitmapFactory.decodeFile(defaultFilePath)
+        filePath = activity?.cacheDir!!.toString() + "/result2.jpg"
+        result = BitmapFactory.decodeFile(filePath)
+        background_synthesis_image!!.setImageBitmap(result)
 
         activity?.btn_next!!.setOnClickListener {
             val fileBody = File(filePath).asRequestBody("multipart/form-data".toMediaTypeOrNull())
             val filePart = MultipartBody.Part.createFormData("photo", "photo.jpg", fileBody)
-            val idBody = sessionManager.fetchUserInfo()!!.toRequestBody(("text/plain").toMediaTypeOrNull()) // TODO: nickname이 아닌 id로 변경
+            val idBody = "sss20_0".toRequestBody(("text/plain").toMediaTypeOrNull()) // TODO: nickname이 아닌 id로 변경
 
             // 로컬DB에 이미지 데이터 저장
             var data = Image(0, filePath)
@@ -175,14 +171,12 @@ class BackgroundSynthesisFragment : Fragment() {
                                         val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
                                         val bitmapResultImage = BitmapFactory.decodeByteArray(decode_img, 0, decode_img.size)
 
-                                        val fileName = "result3"
-                                        common.saveBitmapToJpeg(bitmapResultImage, fileName)
+                                        common.saveBitmapToJpeg(bitmapResultImage, "result3")
+                                        common.saveBitmapToJpeg(bitmapResultImage, "result4")
 
-                                        val path = activity?.cacheDir!!.toString() + "/" + fileName + ".jpg"
-                                        setFragmentResult("requestBackgroundKey", bundleOf("bundleBackgroundBitmapKey" to bitmapResultImage,
-                                            "bundleBackgroundPathKey" to path))
                                         val transaction = activity?.supportFragmentManager!!.beginTransaction()
                                         transaction.replace(R.id.frameLayout, FaceCorrectionFragment())
+                                        transaction.addToBackStack("camera")
                                         transaction.commitAllowingStateLoss()
                                     }
                                 }
@@ -221,15 +215,12 @@ class BackgroundSynthesisFragment : Fragment() {
                                         val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
                                         val bitmapResultImage = BitmapFactory.decodeByteArray(decode_img, 0, decode_img.size)
 
-                                        val fileName = "result3"
-                                        common.saveBitmapToJpeg(bitmapResultImage, fileName)
-
-                                        val path = activity?.cacheDir!!.toString() + "/" + fileName + ".jpg"
-                                        setFragmentResult("requestBackgroundKey", bundleOf("bundleBackgroundBitmapKey" to bitmapResultImage,
-                                            "bundleBackgroundPathKey" to path))
+                                        common.saveBitmapToJpeg(bitmapResultImage, "result3")
+                                        common.saveBitmapToJpeg(bitmapResultImage, "result4")
 
                                         val transaction = activity?.supportFragmentManager!!.beginTransaction()
                                         transaction.replace(R.id.frameLayout, FaceCorrectionFragment())
+                                        transaction.addToBackStack("camera")
                                         transaction.commitAllowingStateLoss()
                                     }
                                 }
@@ -239,10 +230,12 @@ class BackgroundSynthesisFragment : Fragment() {
                 }
             } else { // 아무것도 선택하지 않았을 때, 기본 배경을 설정해준다.
                 // TODO: 기본 배경으로 설정해준다는 dialog 띄우기
-                setFragmentResult("requestBackgroundKey", bundleOf("bundleBackgroundBitmapKey" to defaultResult,
-                    "bundleBackgroundPathKey" to defaultFilePath))
+                common.saveBitmapToJpeg(defaultResult, "result3")
+                common.saveBitmapToJpeg(defaultResult, "result4")
+
                 val transaction = activity?.supportFragmentManager!!.beginTransaction()
                 transaction.replace(R.id.frameLayout, FaceCorrectionFragment())
+                transaction.addToBackStack("camera")
                 transaction.commitAllowingStateLoss()
             }
         }

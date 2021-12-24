@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.BackgroundApi
@@ -66,11 +63,9 @@ class SynthesisConfirmFragment : Fragment() {
 //            adapter = ad
 //        }
 
-        setFragmentResultListener("requestSynthesisKey") { key, bundle ->
-            filePath = bundle.getString("bundleSynthesisPathKey")!!
-            result = bundle.getParcelable<Bitmap>("bundleSynthesisBitmapKey")!!
-            img_synthesis!!.setImageBitmap(result)
-        }
+        filePath = activity?.cacheDir!!.toString() + "/result.jpg"
+        result = BitmapFactory.decodeFile(filePath)
+        img_synthesis!!.setImageBitmap(result)
 
         activity?.btn_next?.setOnClickListener {
             val fileBody = File(filePath).asRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -79,7 +74,7 @@ class SynthesisConfirmFragment : Fragment() {
 
             // 로컬DB에 이미지 데이터 저장
             var data = Image(0, filePath)
-            vm.delete()
+            // vm.delete()
             vm.insert(data)
             Log.d("item count = ", adapter.itemCount.toString())
 
@@ -105,17 +100,11 @@ class SynthesisConfirmFragment : Fragment() {
                                     val decode_img = Base64.decode(response.body()?.data, Base64.DEFAULT)
                                     val bitmapResultImage = BitmapFactory.decodeByteArray(decode_img, 0, decode_img.size)
 
-                                    val fileName = "result2"
-                                    common.saveBitmapToJpeg(bitmapResultImage, fileName)
-
-                                    val path = activity?.cacheDir!!.toString() + "/" + fileName + ".jpg"
-                                    setFragmentResult("requestRembgKey", bundleOf("bundleRembgBitmapKey" to bitmapResultImage,
-                                        "bundleRembgPathKey" to path,
-                                        "bundleDefaultBitmapKey" to result,
-                                        "bundleDefaultPathKey" to filePath))
+                                    common.saveBitmapToJpeg(bitmapResultImage, "result2")
 
                                     val transaction = activity?.supportFragmentManager!!.beginTransaction()
                                     transaction.replace(R.id.frameLayout, BackgroundSynthesisFragment())
+                                    transaction.addToBackStack("camera")
                                     transaction.commitAllowingStateLoss()
                                 }
                             }

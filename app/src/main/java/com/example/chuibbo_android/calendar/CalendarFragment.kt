@@ -24,7 +24,6 @@ class CalendarFragment : Fragment(R.layout.calendar_fragment) {
     ): View? {
         val view = inflater.inflate(R.layout.calendar_fragment, container, false)
         activity?.toolbar_title!!.text = "취뽀 채용달력"
-        activity?.back_button!!.visibility = View.VISIBLE
 
         val bookMarkAdapter = BookMarkAdapter{ bookMark -> adapterOnClick(bookMark, view) }
         val recyclerView: RecyclerView = view.findViewById(R.id.job_schedule_view)
