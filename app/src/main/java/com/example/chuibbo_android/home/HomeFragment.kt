@@ -106,14 +106,14 @@ class HomeFragment : Fragment() {
         view.more.setOnClickListener(View.OnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, HomeJobPostMoreFragment())
-                addToBackStack(null)
+                addToBackStack("home")
             }?.commit()
         })
 
         view.plus.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, HomeJobPostMoreFragment())
-                addToBackStack(null)
+                addToBackStack("home")
             }?.commit()
         }
 

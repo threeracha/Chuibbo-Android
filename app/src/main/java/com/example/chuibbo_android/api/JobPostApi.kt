@@ -29,6 +29,11 @@ interface JobPostApi {
         @Path("job_post_id") id: Int
     ): Call<SpringServerResponse<Int>>
 
+    @GET("/api/v1/job_posts/search/query")
+    fun getSearchJobPosts(
+        @Query("query") query: String
+    ): Call<SpringServerResponse<List<JobPost>>>
+
     companion object {
         val instance = ApiGenerator().generateSpring2(JobPostApi::class.java)
 
