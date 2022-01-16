@@ -53,12 +53,15 @@ class SearchJobPostFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.home_job_posting_more_fragment, container, false)
 
-        // TODO: enum class
         // dropdown setting
-        val career = arrayOf("신입", "경력")
-        val job = arrayOf("기획/마케팅", "디자인", "IT")
-        val area = arrayOf("서울", "경기", "인천", "강원", "충청", "전라", "경상", "제주")
-        val sort = arrayOf("최신순", "마감순")
+        var career = ArrayList<String>()
+        JobPostSearchFilter.CareerType.values().forEach { career.add(it.koName) }
+        val job = ArrayList<String>()
+        JobPostSearchFilter.JobFieldType.values().forEach { job.add(it.koName) }
+        val area = ArrayList<String>()
+        JobPostSearchFilter.Area.values().forEach { area.add(it.koName) }
+        val sort = ArrayList<String>()
+        JobPostSearchFilter.SortType.values().forEach { sort.add(it.koName) }
 
         val careerAdapter = context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, career) }
         view.dropdown_career.adapter = careerAdapter

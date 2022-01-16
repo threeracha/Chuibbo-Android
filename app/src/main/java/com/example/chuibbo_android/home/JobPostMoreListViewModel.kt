@@ -8,9 +8,13 @@ class JobPostMoreListViewModel(val dataSource: JobPostMoreDataSource) : ViewMode
 
     val jobPostMoreLiveData = dataSource.getJobPostMoreList()
 
+    fun initJobPostMoreList(jobPostList: List<JobPost>) {
+        dataSource.initJobPostMoreList(jobPostList)
+    }
+
     /* If the name and description are present, create new JobPost and add it to the datasource */
-    fun insertJobPostMoreList(jobPostList: List<JobPost>) {
-        dataSource.addJobPostMoreList(jobPostList)
+    fun insertJobPostMoreList(jobPostMoreList: List<JobPost>) {
+        dataSource.addJobPostMoreList(jobPostMoreList)
     }
 
     fun saveBookmark(id: Int) {
@@ -47,7 +51,7 @@ class JobPostMoreListViewModelFactory(private val context: Context) : ViewModelP
         if (modelClass.isAssignableFrom(JobPostMoreListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return JobPostMoreListViewModel(
-                dataSource = JobPostMoreDataSource.getDataSource(context.resources, context)
+                dataSource = JobPostMoreDataSource.getDataSource(context.resources)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

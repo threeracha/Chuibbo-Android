@@ -12,39 +12,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 /* Handles operations on jobPostsLiveData and holds details about it. */
-class SearchJobPostDataSource(resources: Resources, context: Context) {
-    private val searchJobPostsLiveData = init(context)
-
-    private fun init(context: Context): MutableLiveData<List<JobPost>> {
-        val data = MutableLiveData<List<JobPost>>()
-
-        return data
-    }
+class SearchJobPostDataSource(resources: Resources) {
+    private val searchJobPostsLiveData = MutableLiveData<List<JobPost>>()
 
     fun initSearchJobPostList(searchJobPostList: List<JobPost>) {
         searchJobPostsLiveData.postValue(searchJobPostList)
-    }
-
-    /* Adds jobPost to liveData and posts value. */
-    fun addSearchJobPostList(searchJobPostList: List<JobPost>) {
-        val currentList = searchJobPostsLiveData.value
-        if (currentList == null) {
-            searchJobPostsLiveData.postValue(searchJobPostList)
-        } else {
-            val updatedList = currentList.toMutableList()
-            updatedList.addAll(updatedList.size, searchJobPostList)
-            searchJobPostsLiveData.postValue(updatedList)
-        }
-    }
-
-    /* Removes jobPost from liveData and posts value. */
-    fun removeSearchJobPost(jobPost: JobPost) {
-        val currentList = searchJobPostsLiveData.value
-        if (currentList != null) {
-            val updatedList = currentList.toMutableList()
-            updatedList.remove(jobPost)
-            searchJobPostsLiveData.postValue(updatedList)
-        }
     }
 
     fun updateSearchJobPost(jobPost: JobPost, index: Int) {
@@ -78,9 +50,9 @@ class SearchJobPostDataSource(resources: Resources, context: Context) {
     companion object {
         private var INSTANCE: SearchJobPostDataSource? = null
 
-        fun getDataSource(resources: Resources, context: Context): SearchJobPostDataSource {
+        fun getDataSource(resources: Resources): SearchJobPostDataSource {
             return synchronized(SearchJobPostDataSource::class) {
-                val newInstance = INSTANCE ?: SearchJobPostDataSource(resources, context)
+                val newInstance = INSTANCE ?: SearchJobPostDataSource(resources)
                 INSTANCE = newInstance
                 newInstance
             }

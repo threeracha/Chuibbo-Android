@@ -21,6 +21,7 @@ import com.example.chuibbo_android.mypage.LikeJobPostListViewModelFactory
 import kotlinx.android.synthetic.main.home_fragment.view.*
 import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.coroutines.runBlocking
 import me.relex.circleindicator.CircleIndicator3
 import retrofit2.Call
 import retrofit2.Callback
@@ -94,6 +95,34 @@ class HomeFragment : Fragment() {
                 jobPostAdapter.submitList(it as MutableList<JobPost>)
             }
         })
+
+        runBlocking {
+            JobPostApi.instance(requireContext()).getJobPosts().enqueue(object :
+                Callback<SpringServerResponse<List<JobPost>>> {
+                override fun onFailure(
+                    call: Call<SpringServerResponse<List<JobPost>>>,
+                    t: Throwable
+                ) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<SpringServerResponse<List<JobPost>>>,
+                    response: Response<SpringServerResponse<List<JobPost>>>
+                ) {
+                    if (response.isSuccessful) {
+                        when (response.body()?.status) {
+                            "OK" -> {
+                                jobPostListViewModel.initJobPostList(response.body()?.data!!)
+                            }
+                            "ERROR" -> {
+                                // TODO
+                            }
+                        }
+                    }
+                }
+            })
+        }
 
         activity?.toolbar_title!!.text = "취뽀"
 

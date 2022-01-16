@@ -1,39 +1,15 @@
 package com.example.chuibbo_android.mypage
 
-import android.content.Context
 import android.content.res.Resources
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.chuibbo_android.api.ResumePhotoApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 /* Handles operations on photoAlbumsLiveData and holds details about it. */
-class PhotoAlbumDataSource(resources: Resources, context: Context) {
-    private val photoAlbumsLiveData = init(context)
+class PhotoAlbumDataSource(resources: Resources) {
+    private val photoAlbumsLiveData = MutableLiveData<List<PhotoAlbum>>()
 
-    private fun init(context: Context): MutableLiveData<List<PhotoAlbum>> {
-        val data = MutableLiveData<List<PhotoAlbum>>()
-
-        ResumePhotoApi.instance(context).getResumePhotos().enqueue(object :
-            Callback<List<PhotoAlbum>> {
-            override fun onFailure(call: Call<List<PhotoAlbum>>, t: Throwable) {
-                Log.d("retrofit fail", t.message)
-            }
-
-            override fun onResponse(
-                call: Call<List<PhotoAlbum>>,
-                response: Response<List<PhotoAlbum>>
-            ) {
-                if (response.isSuccessful) {
-                            data.value = response.body()
-                }
-            }
-        })
-
-        return data
+    fun initPhotoAlbumList(photoAlbumList: List<PhotoAlbum>) {
+        photoAlbumsLiveData.postValue(photoAlbumList)
     }
 
     /* Adds photoAlbum to liveData and posts value. */
@@ -79,9 +55,9 @@ class PhotoAlbumDataSource(resources: Resources, context: Context) {
     companion object {
         private var INSTANCE: PhotoAlbumDataSource? = null
 
-        fun getDataSource(resources: Resources, context: Context): PhotoAlbumDataSource {
+        fun getDataSource(resources: Resources): PhotoAlbumDataSource {
             return synchronized(PhotoAlbumDataSource::class) {
-                val newInstance = INSTANCE ?: PhotoAlbumDataSource(resources, context)
+                val newInstance = INSTANCE ?: PhotoAlbumDataSource(resources)
                 INSTANCE = newInstance
                 newInstance
             }

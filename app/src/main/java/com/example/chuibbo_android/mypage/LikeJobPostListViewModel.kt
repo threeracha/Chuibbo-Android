@@ -9,6 +9,10 @@ class LikeJobPostListViewModel(val dataSource: LikeJobPostDataSource) : ViewMode
 
     val likeJobPostsLiveData = dataSource.getLikeJobPostList()
 
+    fun initLikeJobPostList(jobPostList: List<JobPost>) {
+        dataSource.initLikeJobPostList(jobPostList)
+    }
+
     /* If the name and description are present, create new LikeJobPost and add it to the datasource */
     fun insertLikeJobPost(jobPost: JobPost) {
 
@@ -53,7 +57,7 @@ class LikeJobPostListViewModelFactory(private val context: Context) : ViewModelP
         if (modelClass.isAssignableFrom(LikeJobPostListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return LikeJobPostListViewModel(
-                dataSource = LikeJobPostDataSource.getDataSource(context.resources, context)
+                dataSource = LikeJobPostDataSource.getDataSource(context.resources)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

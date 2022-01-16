@@ -12,7 +12,6 @@ class SearchJobPostListViewModel(val dataSource: SearchJobPostDataSource) : View
         dataSource.initSearchJobPostList(jobPostList)
     }
 
-
     fun saveBookmark(id: Int) {
         val jobPost: JobPost? = dataSource.getSearchJobPostForId(id)
         if (jobPost != null) {
@@ -47,7 +46,7 @@ class SearchJobPostListViewModelFactory(private val context: Context) : ViewMode
         if (modelClass.isAssignableFrom(SearchJobPostListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return SearchJobPostListViewModel(
-                dataSource = SearchJobPostDataSource.getDataSource(context.resources, context)
+                dataSource = SearchJobPostDataSource.getDataSource(context.resources)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

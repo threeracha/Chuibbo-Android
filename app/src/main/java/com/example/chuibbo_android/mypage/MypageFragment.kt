@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.JobPostApi
+import com.example.chuibbo_android.api.ResumePhotoApi
 import com.example.chuibbo_android.api.response.SpringServerResponse
 import com.example.chuibbo_android.home.*
 import com.example.chuibbo_android.preferences.PreferencesFragment
@@ -20,6 +21,7 @@ import com.example.chuibbo_android.auth.SessionManager
 import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.mypage_fragment.view.*
+import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,6 +77,24 @@ class MypageFragment : Fragment() {
             view.resume_photo_count.text = photoAlbumViewModel.getSize().toString()
         })
 
+        runBlocking {
+            ResumePhotoApi.instance(requireContext()).getResumePhotos().enqueue(object :
+                Callback<List<PhotoAlbum>> {
+                override fun onFailure(call: Call<List<PhotoAlbum>>, t: Throwable) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<List<PhotoAlbum>>,
+                    response: Response<List<PhotoAlbum>>
+                ) {
+                    if (response.isSuccessful) {
+                        photoAlbumViewModel.initPhotoAlbumList(response.body()!!)
+                    }
+                }
+            })
+        }
+
         // likeJobPost recyclerview
         val recyclerviewLikeJobPost: RecyclerView = view.recyclerview_like_job_posting
         recyclerviewLikeJobPost.layoutManager = LinearLayoutManager(context)
@@ -91,6 +111,31 @@ class MypageFragment : Fragment() {
             view.like_job_posting_count.text = likeJobPostListViewModel.getSize().toString()
         })
 
+        runBlocking {
+            JobPostApi.instance(requireContext()).getBookmarks().enqueue(object :
+                Callback<SpringServerResponse<List<JobPost>>> {
+                override fun onFailure(call: Call<SpringServerResponse<List<JobPost>>>, t: Throwable) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<SpringServerResponse<List<JobPost>>>,
+                    response: Response<SpringServerResponse<List<JobPost>>>
+                ) {
+                    if (response.isSuccessful) {
+                        when (response.body()?.status) {
+                            "OK" -> {
+                                likeJobPostListViewModel.initLikeJobPostList(response.body()!!.data!!)
+                            }
+                            "ERROR" -> {
+                                // TODO
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
         // TODO: 앨범 & 관심있는 채용공고 data null일 때, default 이미지 적용
 
         activity?.toolbar_title!!.text = "마이페이지"
@@ -105,7 +150,7 @@ class MypageFragment : Fragment() {
         activity?.settings_button!!.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, PreferencesFragment())
-                addToBackStack(null)
+                addToBackStack("mypage")
             }?.commit()
         }
     }
