@@ -19,16 +19,14 @@ import com.example.chuibbo_android.api.JobPostApi
 import com.example.chuibbo_android.api.response.SpringServerResponse
 import com.example.chuibbo_android.mypage.LikeJobPostListViewModel
 import com.example.chuibbo_android.mypage.LikeJobPostListViewModelFactory
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.home_job_posting_more_fragment.view.*
-import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeJobPostMoreFragment : Fragment() {
-
+class SearchJobPostFragment : Fragment() {
     private var page = 1
 
     private val jobPostMoreListViewModel by viewModels<JobPostMoreListViewModel> {
@@ -107,72 +105,11 @@ class HomeJobPostMoreFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, numberOfColumns)
         recyclerView.adapter = jobPostAdapter
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                // TODO: 로딩중 progress bar 삽입
-
-                // 스크롤이 끝에 도달했는지 확인
-                if (!recyclerView.canScrollVertically(1)) {
-                    JobPostApi.instance(requireContext()).getJobPostsMore(++page).enqueue(object :
-                        Callback<SpringServerResponse<List<JobPost>>> {
-                        override fun onFailure(call: Call<SpringServerResponse<List<JobPost>>>, t: Throwable) {
-                            Log.d("retrofit fail", t.message)
-                        }
-
-                        override fun onResponse(
-                            call: Call<SpringServerResponse<List<JobPost>>>,
-                            response: Response<SpringServerResponse<List<JobPost>>>
-                        ) {
-                            if (response.isSuccessful) {
-                                when (response.body()?.status) {
-                                    "OK" -> {
-                                        jobPostMoreListViewModel.insertJobPostMoreList(response.body()?.data!!)
-                                    }
-                                    "ERROR" -> {
-                                        // TODO
-                                    }
-                                }
-                            }
-                        }
-                    })
-                }
-            }
-        })
-
-        // TODO: 당겨서 새로고침 적용
-
-        jobPostMoreListViewModel.jobPostMoreLiveData.observe(viewLifecycleOwner, {
+        searchJobPostListViewModel.searchJobPostLiveData.observe(viewLifecycleOwner, {
             it?.let {
                 jobPostAdapter.submitList(it as MutableList<JobPost>)
             }
         })
-
-        runBlocking {
-            JobPostApi.instance(requireContext()).getJobPostsMore(1).enqueue(object :
-                Callback<SpringServerResponse<List<JobPost>>> {
-                override fun onFailure(call: Call<SpringServerResponse<List<JobPost>>>, t: Throwable) {
-                    Log.d("retrofit fail", t.message)
-                }
-
-                override fun onResponse(
-                    call: Call<SpringServerResponse<List<JobPost>>>,
-                    response: Response<SpringServerResponse<List<JobPost>>>
-                ) {
-                    if (response.isSuccessful) {
-                        when (response.body()?.status) {
-                            "OK" -> {
-                                jobPostMoreListViewModel.initJobPostMoreList(response.body()?.data!!)
-                            }
-                            "ERROR" -> {
-                                // TODO
-                            }
-                        }
-                    }
-                }
-            })
-        }
 
         view.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -190,10 +127,6 @@ class HomeJobPostMoreFragment : Fragment() {
                             when (response.body()?.status) {
                                 "OK" -> {
                                     searchJobPostListViewModel.initSearchJobPostList(response.body()?.data!!)
-                                    activity?.supportFragmentManager?.beginTransaction()?.apply {
-                                        replace(R.id.frameLayout, SearchJobPostFragment())
-                                        addToBackStack("home")
-                                    }?.commit()
                                 }
                                 "ERROR" -> {
                                     // TODO
@@ -210,7 +143,7 @@ class HomeJobPostMoreFragment : Fragment() {
             }
         })
 
-        activity?.toolbar_title!!.text = "취뽀 채용공고"
+        activity?.toolbar_title!!.text = "취뽀 채용공고 검색"
         activity?.back_button!!.visibility = View.VISIBLE
 
         return view
@@ -246,6 +179,7 @@ class HomeJobPostMoreFragment : Fragment() {
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_empty)
+                        searchJobPostListViewModel.deleteBookmark(jobPost.id)
                         jobPostMoreListViewModel.deleteBookmark(jobPost.id)
                         jobPostListViewModel.deleteBookmark(jobPost.id)
                         likeJobPostListViewModel.deleteLikeJobPost(jobPost.id)
@@ -265,6 +199,7 @@ class HomeJobPostMoreFragment : Fragment() {
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_fill)
+                        searchJobPostListViewModel.saveBookmark(jobPost.id)
                         jobPostMoreListViewModel.saveBookmark(jobPost.id)
                         jobPostListViewModel.saveBookmark(jobPost.id)
                         val jobPost = jobPostMoreListViewModel.getJobPostMoreForId(jobPost.id)

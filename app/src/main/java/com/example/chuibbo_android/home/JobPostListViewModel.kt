@@ -8,6 +8,10 @@ class JobPostListViewModel(val dataSource: JobPostDataSource) : ViewModel() {
 
     val jobPostsLiveData = dataSource.getJobPostList()
 
+    fun initJobPostList(jobPostList: List<JobPost>) {
+        dataSource.initJobPostList(jobPostList)
+    }
+
     /* If the name and description are present, create new JobPost and add it to the datasource */
     fun insertJobPost(id: Int?, logoUrl: String, companyName: String?, subject: String?, descriptionUrl: String?, startDate: String?, endDate: String?,
                         area: List<Area>, job: List<Job>, careerType: List<CareerType>, bookmark: Boolean) {
@@ -74,7 +78,7 @@ class JobPostListViewModelFactory(private val context: Context) : ViewModelProvi
         if (modelClass.isAssignableFrom(JobPostListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return JobPostListViewModel(
-                dataSource = JobPostDataSource.getDataSource(context.resources, context)
+                dataSource = JobPostDataSource.getDataSource(context.resources)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -1,48 +1,16 @@
 package com.example.chuibbo_android.mypage
 
-import android.content.Context
 import android.content.res.Resources
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.chuibbo_android.api.JobPostApi
-import com.example.chuibbo_android.api.response.SpringResponse2
 import com.example.chuibbo_android.home.JobPost
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 /* Handles operations on likeJobPostsLiveData and holds details about it. */
-class LikeJobPostDataSource(resources: Resources, context: Context) {
-    private val likeJobPostsLiveData = init(context)
+class LikeJobPostDataSource(resources: Resources) {
+    private val likeJobPostsLiveData = MutableLiveData<List<JobPost>>()
 
-    private fun init(context: Context): MutableLiveData<List<JobPost>> {
-        val data = MutableLiveData<List<JobPost>>()
-
-        JobPostApi.instance(context).getBookmarks().enqueue(object :
-            Callback<SpringResponse2<List<JobPost>>> {
-            override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
-                Log.d("retrofit fail", t.message)
-            }
-
-            override fun onResponse(
-                call: Call<SpringResponse2<List<JobPost>>>,
-                response: Response<SpringResponse2<List<JobPost>>>
-            ) {
-                if (response.isSuccessful) {
-                    when (response.body()?.status) {
-                        "OK" -> {
-                            data.value = response.body()!!.data!!
-                        }
-                        "ERROR" -> {
-                            // TODO
-                        }
-                    }
-                }
-            }
-        })
-
-        return data
+    fun initLikeJobPostList(likeJobPostList: List<JobPost>) {
+        likeJobPostsLiveData.postValue(likeJobPostList)
     }
 
     /* Adds likeJobPost to liveData and posts value. */
@@ -89,9 +57,9 @@ class LikeJobPostDataSource(resources: Resources, context: Context) {
     companion object {
         private var INSTANCE: LikeJobPostDataSource? = null
 
-        fun getDataSource(resources: Resources, context: Context): LikeJobPostDataSource {
+        fun getDataSource(resources: Resources): LikeJobPostDataSource {
             return synchronized(LikeJobPostDataSource::class) {
-                val newInstance = INSTANCE ?: LikeJobPostDataSource(resources, context)
+                val newInstance = INSTANCE ?: LikeJobPostDataSource(resources)
                 INSTANCE = newInstance
                 newInstance
             }

@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
+import com.example.chuibbo_android.api.request.SignupRequest
 import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.login.LoginFragment
 import kotlinx.android.synthetic.main.main_activity.*
@@ -188,13 +189,11 @@ class SignupFragment : Fragment() {
             val email = email_edit_text.text.toString()
             val password = password_edit_text.text.toString()
 
-            var signupInfo = hashMapOf("nickname" to nickname)
-            signupInfo["email"] = email
-            signupInfo["password"] = password
+            val signupRequest = SignupRequest(nickname, email, password)
 
             runBlocking {
                 UserApi.instance(requireContext()).signup(
-                    data = signupInfo
+                    signupRequest
                 ).enqueue(object : Callback<SpringResponse<String>> {
                     override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
                         Log.d("retrofit fail", t.message)

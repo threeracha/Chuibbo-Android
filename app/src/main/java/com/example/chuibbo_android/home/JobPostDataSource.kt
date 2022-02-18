@@ -1,47 +1,15 @@
 package com.example.chuibbo_android.home
 
-import android.content.Context
 import android.content.res.Resources
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.chuibbo_android.api.JobPostApi
-import com.example.chuibbo_android.api.response.SpringResponse2
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 /* Handles operations on jobPostsLiveData and holds details about it. */
-class JobPostDataSource(resources: Resources, context: Context) {
-    private val jobPostsLiveData = init(context)
+class JobPostDataSource(resources: Resources) {
+    private val jobPostsLiveData = MutableLiveData<List<JobPost>>()
 
-    private fun init(context: Context): MutableLiveData<List<JobPost>> {
-        val data = MutableLiveData<List<JobPost>>()
-
-        JobPostApi.instance(context).getJobPosts().enqueue(object :
-            Callback<SpringResponse2<List<JobPost>>> {
-            override fun onFailure(call: Call<SpringResponse2<List<JobPost>>>, t: Throwable) {
-                Log.d("retrofit fail", t.message)
-            }
-
-            override fun onResponse(
-                call: Call<SpringResponse2<List<JobPost>>>,
-                response: Response<SpringResponse2<List<JobPost>>>
-            ) {
-                if (response.isSuccessful) {
-                    when (response.body()?.status) {
-                        "OK" -> {
-                            data.value = response.body()!!.data!!
-                        }
-                        "ERROR" -> {
-                            // TODO
-                        }
-                    }
-                }
-            }
-        })
-
-        return data
+    fun initJobPostList(jobPostList: List<JobPost>) {
+        jobPostsLiveData.postValue(jobPostList)
     }
 
     /* Adds jobPost to liveData and posts value. */
@@ -97,9 +65,9 @@ class JobPostDataSource(resources: Resources, context: Context) {
     companion object {
         private var INSTANCE: JobPostDataSource? = null
 
-        fun getDataSource(resources: Resources, context: Context): JobPostDataSource {
+        fun getDataSource(resources: Resources): JobPostDataSource {
             return synchronized(JobPostDataSource::class) {
-                val newInstance = INSTANCE ?: JobPostDataSource(resources, context)
+                val newInstance = INSTANCE ?: JobPostDataSource(resources)
                 INSTANCE = newInstance
                 newInstance
             }

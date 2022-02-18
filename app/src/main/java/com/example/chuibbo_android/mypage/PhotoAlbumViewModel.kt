@@ -10,6 +10,10 @@ class PhotoAlbumViewModel(val dataSource: PhotoAlbumDataSource) : ViewModel() {
 
     val photoAlbumsLiveData = dataSource.getPhotoAlbumList()
 
+    fun initPhotoAlbumList(photoAlbumList: List<PhotoAlbum>) {
+        dataSource.initPhotoAlbumList(photoAlbumList)
+    }
+
     /* If the name and description are present, create new PhotoAlbum and add it to the datasource */
     fun insertPhotoAlbum(id: Int?, image: String?, date: String?, faceShape: String?, hair: String?, suit: String?) {
         if (id == null || image == null || date == null || faceShape == null || hair == null || suit == null) {
@@ -39,7 +43,7 @@ class PhotoAlbumViewModelFactory(private val context: Context) : ViewModelProvid
         if (modelClass.isAssignableFrom(PhotoAlbumViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return PhotoAlbumViewModel(
-                dataSource = PhotoAlbumDataSource.getDataSource(context.resources, context)
+                dataSource = PhotoAlbumDataSource.getDataSource(context.resources)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -1,31 +1,27 @@
 package com.example.chuibbo_android.utils
 
 import android.app.Activity
-import android.content.*
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.renderscript.ScriptGroup
 import android.util.Log
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
-import androidx.core.content.contentValuesOf
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.setFragmentResult
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.camera.ConfirmFragment
 import java.io.*
-import java.lang.UnsupportedOperationException
 import java.text.SimpleDateFormat
-import java.time.LocalTime
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class Common(
     val fragment: Fragment,
@@ -36,20 +32,31 @@ class Common(
     private val requestCameraActivity = fragment.registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { activityResult ->
-        fragment.setFragmentResult("requestKey", bundleOf("bundleKey" to currentPhotoPath))
+        val bitmap = BitmapFactory.decodeFile(currentPhotoPath)
+        saveBitmapToJpeg(bitmap, "origin")
         val transaction = fragment.requireActivity().supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frameLayout, ConfirmFragment())
-        clearBackStack()
+        transaction.addToBackStack("camera")
         transaction.commit()
     }
 
     private val requestGalleryActivity = fragment.registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { activityResult ->
-        fragment.setFragmentResult("requestKey", bundleOf("bundleKeyUri" to activityResult.data!!.data))
+        lateinit var bitmap: Bitmap
+        if(Build.VERSION.SDK_INT < 28) {
+            bitmap = MediaStore.Images.Media.getBitmap(
+                activity.contentResolver,
+                activityResult.data!!.data
+            )
+        } else {
+            val source = ImageDecoder.createSource(activity.contentResolver, activityResult!!.data!!.data!!)
+            bitmap = ImageDecoder.decodeBitmap(source)
+        }
+        saveBitmapToJpeg(bitmap, "origin")
         val transaction = fragment.requireActivity().supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frameLayout, ConfirmFragment())
-        clearBackStack()
+        transaction.addToBackStack("camera")
         transaction.commit()
     }
 

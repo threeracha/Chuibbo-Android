@@ -1,7 +1,6 @@
 package com.example.chuibbo_android.camera
 
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -9,20 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.ImageApi
-import com.example.chuibbo_android.api.response.ResumePhotoUploadResponse
+import com.example.chuibbo_android.api.response.FlaskServerResponse
 import com.example.chuibbo_android.image.Image
 import com.example.chuibbo_android.image.ImageViewModel
 import com.example.chuibbo_android.option.Option
 import com.example.chuibbo_android.utils.Common
-import com.example.chuibbo_android.utils.URIPathHelper
 import kotlinx.android.synthetic.main.confirm_fragment.*
+import kotlinx.android.synthetic.main.confirm_fragment.btn_confirm
 import kotlinx.android.synthetic.main.face_detection_failfure_dialog_fragment.*
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.coroutines.runBlocking
@@ -45,35 +41,19 @@ class ConfirmFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        var result: String
-        var resultUri: Uri
 
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ImageViewModel::class.java)
 
-        setFragmentResultListener("requestKey") { key, bundle ->
-            // We use a String here, but any type that can be put in a Bundle is supported
-            if (bundle.getString("bundleKey") != null) { // camera
-                filePath = bundle.getString("bundleKey")!!
-                result = bundle.getString("bundleKey")!!
-                BitmapFactory.decodeFile(result)?.also { bitmap ->
-                    img_preview.setImageBitmap(bitmap)
-                }
-            } else if (bundle.getParcelable<Uri>("bundleKeyUri") != null) { // gallery
-                val uriPathHelper = URIPathHelper()
-                filePath = uriPathHelper.getPath(
-                    requireContext(),
-                    bundle.getParcelable<Uri>("bundleKeyUri")!!
-                ).toString()
-                resultUri = bundle.getParcelable("bundleKeyUri")!!
-                img_preview.setImageURI(resultUri)
-            }
-        }
         return inflater.inflate(R.layout.confirm_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val common = Common(this, this.requireActivity())
+
+        filePath = activity?.cacheDir!!.toString() + "/origin.jpg"
+        val result = BitmapFactory.decodeFile(filePath)
+        img_preview!!.setImageBitmap(result)
 
         activity?.toolbar_title!!.text = "사진 선택"
         activity?.back_button!!.visibility = View.VISIBLE
@@ -111,15 +91,15 @@ class ConfirmFragment : Fragment() {
             runBlocking {
                 ImageApi.instance.uploadResumePhoto(
                     filePart,
-                    data = options
-                ).enqueue(object : Callback<ResumePhotoUploadResponse> {
-                    override fun onFailure(call: Call<ResumePhotoUploadResponse>, t: Throwable) {
+                    options
+                ).enqueue(object : Callback<FlaskServerResponse> {
+                    override fun onFailure(call: Call<FlaskServerResponse>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
                     }
 
                     override fun onResponse(
-                        call: Call<ResumePhotoUploadResponse>,
-                        response: Response<ResumePhotoUploadResponse>
+                        call: Call<FlaskServerResponse>,
+                        response: Response<FlaskServerResponse>
                     ) {
                         if (response.isSuccessful) {
                             val result = response.body()?.code
@@ -130,15 +110,13 @@ class ConfirmFragment : Fragment() {
 
                                     activateProgressBar(false) // remove progress bar
 
-                                    val fileName = "result"
-                                    common.saveBitmapToJpeg(bitmapResultImage, fileName)
+                                    common.saveBitmapToJpeg(bitmapResultImage, "result")
 
-                                    val path = activity?.cacheDir!!.toString() + "/" + fileName + ".jpg"
-                                    setFragmentResult("requestSynthesisKey", bundleOf("bundleSynthesisBitmapKey" to bitmapResultImage, "bundleSynthesisPathKey" to path))
                                     Toast.makeText(context, "File Uploaded Successfully...", Toast.LENGTH_LONG).show()
 
                                     val transaction = activity?.supportFragmentManager!!.beginTransaction()
                                     transaction.replace(R.id.frameLayout, SynthesisConfirmFragment())
+                                    transaction.addToBackStack("camera")
                                     transaction.commitAllowingStateLoss()
                                 }
                                 2 -> { // 얼굴 여러명 이상 감지

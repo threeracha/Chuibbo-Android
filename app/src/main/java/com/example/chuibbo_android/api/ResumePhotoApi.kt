@@ -1,7 +1,6 @@
 package com.example.chuibbo_android.api
 
 import android.content.Context
-import com.example.chuibbo_android.api.response.SpringResponse2
 import com.example.chuibbo_android.mypage.PhotoAlbum
 import retrofit2.Call
 import retrofit2.http.GET

@@ -1,9 +1,9 @@
 package com.example.chuibbo_android.api
 
 import android.content.Context
-import com.example.chuibbo_android.api.response.ApiResponse
+import com.example.chuibbo_android.api.request.LoginRequest
+import com.example.chuibbo_android.api.request.SignupRequest
 import com.example.chuibbo_android.api.response.SpringResponse
-import com.example.chuibbo_android.api.response.User
 import com.example.chuibbo_android.api.response.UserResponse
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -14,7 +14,7 @@ interface UserApi {
 
     @POST("/api/v1/user/signup")
     fun signup(
-        @Body data: HashMap<String, String>
+        @Body signupRequest: SignupRequest
     ): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/checkNickname")
@@ -29,39 +29,39 @@ interface UserApi {
 
     @POST("/api/v1/user/login/")
     fun login(
-        @Body data: HashMap<String, String>
+        @Body loginRequest: LoginRequest
     ): Call<UserResponse>
 
     @GET("/api/v1/user/logout")
     fun logout(): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/login/google")
-    fun loginGoogle(): Call<ApiResponse<String>>
+    fun loginGoogle(): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/login/kakao")
     fun loginKakao(
         @PartMap(encoding = "params") data: HashMap<String, RequestBody>
-    ): Call<ApiResponse<String>>
+    ): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/login/naver")
     fun loginNaver(
         @PartMap(encoding = "params") data: HashMap<String, RequestBody>
-    ): Call<ApiResponse<String>>
+    ): Call<SpringResponse<String>>
 
     @GET("/api/v1/user/info")
-    fun userInfo(): Call<SpringResponse<User>>
+    fun userInfo(): Call<SpringResponse<UserResponse>>
 
     @DELETE("/api/v1/user/withdraw")
     fun withdraw(): Call<SpringResponse<String>>
 
     @POST("/api/v1/user/find-password")
     fun findPassword(
-        @Body data: RequestBody,
+        @Body email: RequestBody,
     ): Call<SpringResponse<String>>
 
     @PUT("/api/v1/user/change-password")
     fun changePassword(
-        @Body data: RequestBody,
+        @Body password: RequestBody,
     ): Call<SpringResponse<String>>
 
     companion object {

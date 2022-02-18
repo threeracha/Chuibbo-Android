@@ -8,10 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuibbo_android.R
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
+import com.example.chuibbo_android.utils.Calc
 
 class BookMarkAdapter(private val onClick: (BookMark) -> Unit) :
     ListAdapter<BookMark, BookMarkAdapter.BookMarkViewHolder>(BookMarkDiffCallback){
@@ -37,24 +34,7 @@ class BookMarkAdapter(private val onClick: (BookMark) -> Unit) :
             bookMarkTitleTextView.text = currentBookMark!!.jobPost?.subject
             bookMarkDurationTextView.text = currentBookMark!!.jobPost?.startDate.toString().replace("T", " ") + " ~ " +
                 currentBookMark!!.jobPost?.endDate.toString().replace("T", " ")
-            bookMarkDdayTextView.text = calculateDday(currentBookMark!!.jobPost?.endDate.toString().replace("T", " "))
-        }
-
-        private fun calculateDday(end: String): String {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val endDateTime = LocalDateTime.parse(end.replace("T", " "), formatter)
-            val todayDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
-            var difference = ChronoUnit.DAYS.between(todayDateTime.toLocalDate(), endDateTime.toLocalDate()).toInt() // 날짜만 계산
-
-            if (endDateTime.isAfter(todayDateTime)) {
-                if (endDateTime.year == todayDateTime.year && endDateTime.monthValue == todayDateTime.monthValue
-                    && endDateTime.dayOfMonth == todayDateTime.dayOfMonth) {
-                    return "D-Day"
-                } else {
-                    return "D-$difference"
-                }
-            } else
-                return "마감"
+            bookMarkDdayTextView.text = Calc().calculateDday(currentBookMark!!.jobPost?.endDate.toString())
         }
     }
 

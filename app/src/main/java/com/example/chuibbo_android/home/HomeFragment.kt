@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.JobPostApi
-import com.example.chuibbo_android.api.response.SpringResponse2
+import com.example.chuibbo_android.api.response.SpringServerResponse
 import com.example.chuibbo_android.mypage.LikeJobPostListViewModel
 import com.example.chuibbo_android.mypage.LikeJobPostListViewModelFactory
 import kotlinx.android.synthetic.main.home_fragment.view.*
 import kotlinx.android.synthetic.main.home_job_posting.view.*
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.coroutines.runBlocking
 import me.relex.circleindicator.CircleIndicator3
 import retrofit2.Call
 import retrofit2.Callback
@@ -95,6 +96,34 @@ class HomeFragment : Fragment() {
             }
         })
 
+        runBlocking {
+            JobPostApi.instance(requireContext()).getJobPosts().enqueue(object :
+                Callback<SpringServerResponse<List<JobPost>>> {
+                override fun onFailure(
+                    call: Call<SpringServerResponse<List<JobPost>>>,
+                    t: Throwable
+                ) {
+                    Log.d("retrofit fail", t.message)
+                }
+
+                override fun onResponse(
+                    call: Call<SpringServerResponse<List<JobPost>>>,
+                    response: Response<SpringServerResponse<List<JobPost>>>
+                ) {
+                    if (response.isSuccessful) {
+                        when (response.body()?.status) {
+                            "OK" -> {
+                                jobPostListViewModel.initJobPostList(response.body()?.data!!)
+                            }
+                            "ERROR" -> {
+                                // TODO
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
         activity?.toolbar_title!!.text = "취뽀"
 
         return view
@@ -106,14 +135,14 @@ class HomeFragment : Fragment() {
         view.more.setOnClickListener(View.OnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, HomeJobPostMoreFragment())
-                addToBackStack(null)
+                addToBackStack("home")
             }?.commit()
         })
 
         view.plus.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.frameLayout, HomeJobPostMoreFragment())
-                addToBackStack(null)
+                addToBackStack("home")
             }?.commit()
         }
 
@@ -148,14 +177,14 @@ class HomeFragment : Fragment() {
         // 로그인 되어있을시
         if (itemView.star.drawable.constantState == context?.resources?.getDrawable(R.drawable.ic_star_fill)?.constantState) {
             JobPostApi.instance(requireContext()).deleteBookmark(jobPost!!.id).enqueue(object :
-                Callback<SpringResponse2<String>> {
-                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                Callback<SpringServerResponse<Int>> {
+                override fun onFailure(call: Call<SpringServerResponse<Int>>, t: Throwable) {
                     Log.d("retrofit fail", t.message)
                 }
 
                 override fun onResponse(
-                    call: Call<SpringResponse2<String>>,
-                    response: Response<SpringResponse2<String>>
+                    call: Call<SpringServerResponse<Int>>,
+                    response: Response<SpringServerResponse<Int>>
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_empty)
@@ -167,14 +196,14 @@ class HomeFragment : Fragment() {
             })
         } else {
             JobPostApi.instance(requireContext()).saveBookmark(jobPost!!.id).enqueue(object :
-                Callback<SpringResponse2<String>> {
-                override fun onFailure(call: Call<SpringResponse2<String>>, t: Throwable) {
+                Callback<SpringServerResponse<JobPost>> {
+                override fun onFailure(call: Call<SpringServerResponse<JobPost>>, t: Throwable) {
                     Log.d("retrofit fail", t.message)
                 }
 
                 override fun onResponse(
-                    call: Call<SpringResponse2<String>>,
-                    response: Response<SpringResponse2<String>>
+                    call: Call<SpringServerResponse<JobPost>>,
+                    response: Response<SpringServerResponse<JobPost>>
                 ) {
                     if (response.isSuccessful) {
                         itemView.star.setImageResource(R.drawable.ic_star_fill)

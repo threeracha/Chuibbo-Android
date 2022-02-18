@@ -13,9 +13,10 @@ import androidx.core.text.trimmedLength
 import androidx.fragment.app.Fragment
 import com.example.chuibbo_android.R
 import com.example.chuibbo_android.api.UserApi
+import com.example.chuibbo_android.api.request.LoginRequest
 import com.example.chuibbo_android.api.response.SpringResponse
 import com.example.chuibbo_android.api.response.UserResponse
-import com.example.chuibbo_android.utils.SessionManager
+import com.example.chuibbo_android.auth.SessionManager
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.preferences_password_forget_fragment.*
 import kotlinx.android.synthetic.main.preferences_password_forget_fragment.email_text
@@ -77,7 +78,7 @@ class PreferencesPasswordForgetFragment : Fragment() {
                                 "ERROR" -> {
                                     runBlocking {
                                         UserApi.instance(requireContext()).findPassword(
-                                            data = email
+                                            email = email
                                         ).enqueue(object : Callback<SpringResponse<String>> {
                                             override fun onFailure(call: Call<SpringResponse<String>>, t: Throwable) {
                                                 Log.d("retrofit fail", t.message)
@@ -115,12 +116,11 @@ class PreferencesPasswordForgetFragment : Fragment() {
             val email = email_text.text.toString()
             val password = password_text.text.toString()
 
-            var loginInfo = hashMapOf("email" to email)
-            loginInfo["password"] = password
+            val loginRequest = LoginRequest(email, password)
 
             runBlocking {
                 UserApi.instance(requireContext()).login(
-                    data = loginInfo
+                    loginRequest
                 ).enqueue(object : Callback<UserResponse> {
                     override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                         Log.d("retrofit fail", t.message)
