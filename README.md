@@ -25,7 +25,7 @@
 ![Chuibbo 구성도](https://user-images.githubusercontent.com/43838022/158013757-f4e6a703-7044-46b5-ba21-8714a43f05f2.png)
 
 ## ERD
-<img src="./resources/chuibbo-db.png"/>
+![erd](https://user-images.githubusercontent.com/43838022/144740040-5e03da9d-e5a9-414f-b5eb-d29b58796b6f.png)
 
 ## Spring boot API
 ![Chuibbo Swagger UI](https://user-images.githubusercontent.com/43838022/158013281-63e5602d-d3f3-4596-8f7c-f68540e3297a.png)
