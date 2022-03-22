@@ -8,28 +8,28 @@ import retrofit2.http.*
 
 interface JobPostApi {
 
-    @GET("/api/v1/job_posts")
+    @GET("/api/v1/job-posts")
     fun getJobPosts(): Call<SpringServerResponse<List<JobPost>>>
 
-    @GET("/api/v1/job_posts/more")
+    @GET("/api/v1/job-posts/more")
     fun getJobPostsMore(
         @Query("page") page: Int
     ): Call<SpringServerResponse<List<JobPost>>>
 
-    @GET("/api/v1/job_post/bookmarks")
+    @GET("/api/v1/job-posts/bookmarks")
     fun getBookmarks(): Call<SpringServerResponse<List<JobPost>>>
 
-    @POST("/api/v1/job_post/{job_post_id}/bookmark")
+    @POST("/api/v1/job-posts/{job_post_id}/bookmarks")
     fun saveBookmark(
         @Path("job_post_id") id: Int
     ): Call<SpringServerResponse<JobPost>>
 
-    @DELETE("/api/v1/job_post/{job_post_id}/bookmark")
+    @DELETE("/api/v1/job-posts/{job_post_id}/bookmarks")
     fun deleteBookmark(
         @Path("job_post_id") id: Int
     ): Call<SpringServerResponse<Int>>
 
-    @GET("/api/v1/job_posts/search/query")
+    @GET("/api/v1/job-posts/search")
     fun getSearchJobPosts(
         @Query("query") query: String
     ): Call<SpringServerResponse<List<JobPost>>>

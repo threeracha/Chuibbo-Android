@@ -9,21 +9,21 @@ import retrofit2.http.*
 interface BackgroundApi {
 
     @Multipart
-    @POST("/api/resume_photo/remove_background")
+    @POST("/api/resume-photos/remove-background")
     fun removeBackground(
         @Part(encoding = "multipart") photo: MultipartBody.Part,
         @PartMap(encoding = "params") data: HashMap<String, RequestBody>
     ): Call<FlaskServerResponse>
 
     @Multipart
-    @POST("/api/resume_photo/background_synthesis_solid")
+    @POST("/api/resume-photos/background-synthesis-solid")
     fun backgroundSynthesisSolid(
         @Part(encoding = "multipart") photo: MultipartBody.Part,
         @PartMap(encoding = "params") data: HashMap<String, RequestBody>
     ): Call<FlaskServerResponse>
 
     @Multipart
-    @POST("/api/resume_photo/background_synthesis_gradation")
+    @POST("/api/resume-photos/background-synthesis-gradation")
     fun backgroundSynthesisGradation(
         @Part(encoding = "multipart") photo: MultipartBody.Part,
         @PartMap(encoding = "params") data: HashMap<String, RequestBody>,

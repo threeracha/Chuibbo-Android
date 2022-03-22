@@ -7,7 +7,7 @@ import retrofit2.http.GET
 
 interface ResumePhotoApi {
 
-    @GET("/api/v1/resume-photo/photos")
+    @GET("/api/v1/resume-photos")
     fun getResumePhotos() : Call<List<PhotoAlbum>>
 
     companion object {

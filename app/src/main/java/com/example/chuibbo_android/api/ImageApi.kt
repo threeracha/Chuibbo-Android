@@ -17,7 +17,7 @@ interface ImageApi {
 
     // 취업 사진
     @Multipart
-    @POST("/api/resume_photo/")
+    @POST("/api/resume-photos")
     fun uploadResumePhoto(
         @Part(encoding = "multipart") photo: MultipartBody.Part,
         @PartMap(encoding = "params") data: HashMap<String, RequestBody>
