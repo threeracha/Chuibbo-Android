@@ -26,13 +26,13 @@
 ![erd](https://user-images.githubusercontent.com/43838022/144740040-5e03da9d-e5a9-414f-b5eb-d29b58796b6f.png)
 
 ## Spring boot API
-![Chuibbo Swagger UI](https://user-images.githubusercontent.com/43838022/158013281-63e5602d-d3f3-4596-8f7c-f68540e3297a.png)
+![Chuibbo Swagger UI](https://user-images.githubusercontent.com/43838022/159553817-0e7432d8-ff81-415f-a459-d85c54f4803d.png)
 
 ## Flask API 1
-![Chuibbo-Flask Swagger UI](https://user-images.githubusercontent.com/43838022/158013270-834dca89-b5fe-4c43-92cf-ec5adc5154bb.png)
+![Chuibbo-Flask Swagger UI](https://user-images.githubusercontent.com/43838022/159553839-516cdc2d-073e-4713-88b5-1d2f273c87d9.png)
 
 ## Flask API 2
-![Chuibbo-Flask-Rembg Swagger UI](https://user-images.githubusercontent.com/43838022/158013279-f74efdf4-bd66-450f-8ba3-e3c380f759a6.png)
+![Chuibbo-Flask-Rembg Swagger UI](https://user-images.githubusercontent.com/43838022/159553854-36ef2e65-5f9c-44b2-9113-716b819917f9.png)
 
 ## 모델 test 결과
 <img src="./resources/test.png"/>
